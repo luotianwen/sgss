@@ -108,7 +108,7 @@
 			$("#userInfo .dropdown-menu a").mouseup(function(){
 				return addTab($(this), true);
 			});// </c:if>
-			// 获取通知数目  <c:set var="oaNotifyRemindInterval" value="${fns:getConfig('oa.notify.remind.interval')}"/>
+			/*// 获取通知数目  <c:set var="oaNotifyRemindInterval" value="${fns:getConfig('oa.notify.remind.interval')}"/>
 			function getNotifyNum(){
 				$.get("${ctx}/oa/oaNotify/self/count?t="+new Date().getTime(),function(data){
 					var num = parseFloat(data);
@@ -120,7 +120,7 @@
 				});
 			}
 			getNotifyNum(); //<c:if test="${oaNotifyRemindInterval ne '' && oaNotifyRemindInterval ne '0'}">
-			setInterval(getNotifyNum, ${oaNotifyRemindInterval}); //</c:if>
+			setInterval(getNotifyNum, ${oaNotifyRemindInterval}); //</c:if>*/
 		});
 		// <c:if test="${cookie.tabmode.value eq '1'}"> 添加一个页签
 		function addTab($this, refresh){
@@ -216,7 +216,7 @@
 				</div>
 			</div>
 		    <div id="footer" class="row-fluid">
-	            Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')}<!--  - Powered By <a href="https://github.com/thinkgem/jeesite" target="_blank">JeeSite</a> ${fns:getConfig('version')} -->
+	            Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} ${fns:getConfig('version')}
 			</div>
 		</div>
 	</div>
