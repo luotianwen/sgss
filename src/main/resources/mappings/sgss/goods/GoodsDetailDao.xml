@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.goods.dao.GoodsDetailDao">
+    
+	<sql id="goodsDetailColumns">
+		a.goods_id AS "goods.id",
+		a.details AS "details"
+	</sql>
+	
+	<sql id="goodsDetailJoins">
+	</sql>
+    
+	<select id="getDetailByGoods" resultType="GoodsDetail">
+		SELECT 
+			<include refid="goodsDetailColumns"/>
+		FROM s_goods_detail a
+		<include refid="goodsDetailJoins"/>
+		WHERE a.goods_id = #{goods.id}
+	</select>
+	
+	<select id="findList" resultType="GoodsDetail">
+		SELECT 
+			<include refid="goodsDetailColumns"/>
+		FROM s_goods_detail a
+		<include refid="goodsDetailJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="GoodsDetail">
+		SELECT 
+			<include refid="goodsDetailColumns"/>
+		FROM s_goods_detail a
+		<include refid="goodsDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_goods_detail(
+			goods_id,
+			details
+		) VALUES (
+			#{goods.id},
+			#{details}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_goods_detail SET 	
+			goods_id = #{goods.id},
+			details = #{details}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_goods_detail
+		WHERE goods_id = #{goods.id}
+	</update>
+	
+</mapper>

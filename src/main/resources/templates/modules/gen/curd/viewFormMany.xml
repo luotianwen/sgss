@@ -107,6 +107,10 @@
 			<#elseif c.showType == "fileselect">
 				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="input-xlarge"/>
 				<sys:ckfinder input="${c.simpleJavaField}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
+			<#elseif c.showType == "imageselect">
+				<form:hidden id="${c.simpleJavaField}" path="${c.javaFieldId}" htmlEscape="false"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if> class="input-xlarge"/>
+				<sys:ckfinder input="${c.simpleJavaField}" type="images" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="false"/>
+
 			</#if>
 			<#if c.isNull != "1">
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -180,6 +184,10 @@
 							<#elseif c.showType == "fileselect">
 								<input id="${child.className?uncap_first}List{{idx}}_${c.simpleJavaField}" name="${child.className?uncap_first}List[{{idx}}].${c.simpleJavaField}" type="hidden" value="{{row.${c.javaFieldId}}}"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>/>
 								<sys:ckfinder input="${child.className?uncap_first}List{{idx}}_${c.simpleJavaField}" type="files" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="true"/>
+							<#elseif c.showType == "imageselect">
+								<input id="${child.className?uncap_first}List{{idx}}_${c.simpleJavaField}" name="${child.className?uncap_first}List[{{idx}}].${c.simpleJavaField}" type="hidden" value="{{row.${c.javaFieldId}}}"<#if c.dataLength != "0"> maxlength="${c.dataLength}"</#if>/>
+								<sys:ckfinder input="${child.className?uncap_first}List{{idx}}_${c.simpleJavaField}" type="images" uploadPath="/${moduleName}<#if subModuleName != "">/${subModuleName}</#if>/${className}" selectMultiple="false"/>
+
 							</#if>
 							</td>
 								</#if>

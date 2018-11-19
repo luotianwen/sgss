@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.goods.dao.GoodsPicDao">
+    
+	<sql id="goodsPicColumns">
+		a.id AS "id",
+		a.goods_id AS "goods.id",
+		a.logo AS "logo",
+		a.sort AS "sort"
+	</sql>
+	
+	<sql id="goodsPicJoins">
+		LEFT JOIN s_goods b ON b.id = a.goods_id
+	</sql>
+    
+	<select id="get" resultType="GoodsPic">
+		SELECT 
+			<include refid="goodsPicColumns"/>
+		FROM s_goods_pic a
+		<include refid="goodsPicJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="GoodsPic">
+		SELECT 
+			<include refid="goodsPicColumns"/>
+		FROM s_goods_pic a
+		<include refid="goodsPicJoins"/>
+		<where>
+			
+			<if test="goods != null and goods != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="GoodsPic">
+		SELECT 
+			<include refid="goodsPicColumns"/>
+		FROM s_goods_pic a
+		<include refid="goodsPicJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_goods_pic(
+			id,
+			goods_id,
+			logo,
+			sort
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{logo},
+			#{sort}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_goods_pic SET 	
+			goods_id = #{goods.id},
+			logo = #{logo},
+			sort = #{sort}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_goods_pic
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE goods_id = #{goods.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

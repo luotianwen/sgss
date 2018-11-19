@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.goods.dao.GoodsSkuDao">
+    
+	<sql id="goodsSkuColumns">
+		a.id AS "id",
+		a.goods_id AS "goods.id",
+		a.spec1 AS "spec1",
+		a.spec2 AS "spec2",
+		a.price AS "price",
+		a.sort AS "sort",
+		a.stock AS "stock"
+	</sql>
+	
+	<sql id="goodsSkuJoins">
+		LEFT JOIN s_goods b ON b.id = a.goods_id
+	</sql>
+    
+	<select id="get" resultType="GoodsSku">
+		SELECT 
+			<include refid="goodsSkuColumns"/>
+		FROM s_goods_sku a
+		<include refid="goodsSkuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="GoodsSku">
+		SELECT 
+			<include refid="goodsSkuColumns"/>
+		FROM s_goods_sku a
+		<include refid="goodsSkuJoins"/>
+		<where>
+			
+			<if test="goods!= null and goods != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="GoodsSku">
+		SELECT 
+			<include refid="goodsSkuColumns"/>
+		FROM s_goods_sku a
+		<include refid="goodsSkuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_goods_sku(
+			id,
+			goods_id,
+			spec1,
+			spec2,
+			price,
+			sort,
+			stock
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{spec1},
+			#{spec2},
+			#{price},
+			#{sort},
+			#{stock}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_goods_sku SET 	
+			goods_id = #{goods.id},
+			spec1 = #{spec1},
+			spec2 = #{spec2},
+			price = #{price},
+			sort = #{sort},
+			stock = #{stock}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_goods_sku
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE goods_id = #{goods.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
