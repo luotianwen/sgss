@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.sgss.goods.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
+import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,8 @@ public class GoodsController extends BaseController {
 
 	@Autowired
 	private GoodsService goodsService;
-	
+	@Autowired
+	private BrandService brandService;
 	@ModelAttribute
 	public Goods get(@RequestParam(required=false) String id) {
 		Goods entity = null;
@@ -79,6 +82,8 @@ public class GoodsController extends BaseController {
 		if(StringUtils.isBlank(goods.getSpec2())){
 			goods.setSpec2("尺码");
 		}
+		List<Brand> brands= brandService.findList(new Brand());
+		model.addAttribute("brands", brands);
 		model.addAttribute("goods", goods);
 		return "sgss/goods/goodsForm";
 	}

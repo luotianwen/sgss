@@ -10,7 +10,8 @@
 		a.sort AS "sort",
 		a.market_price AS "marketPrice",
 		a.price AS "price",
-		a.brand_id AS "brandId",
+		a.brand_id AS "brand.id",
+		b.name AS "brand.name",
 		a.state AS "state",
 		a.spec1 AS "spec1",
 		a.spec2 AS "spec2",
@@ -23,6 +24,7 @@
 	</sql>
 	
 	<sql id="goodsJoins">
+		left join s_brand b on b.id=a.brand_id
 	</sql>
     
 	<select id="get" resultType="Goods">
@@ -41,16 +43,13 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE  concat('%',#{name},'%')
 			</if>
 			<if test="artno != null and artno != ''">
 				AND a.artno = #{artno}
 			</if>
-			<if test="brandId != null and brandId != ''">
-				AND a.brand_id = #{brandId}
+			<if test="brand!= null and brand.name!= ''">
+				AND b.name LIKE  concat('%',#{brand.name},'%')
 			</if>
 			<if test="state != null and state != ''">
 				AND a.state = #{state}
@@ -111,7 +110,7 @@
 			#{sort},
 			#{marketPrice},
 			#{price},
-			#{brandId},
+			#{brand.id},
 			#{state},
 			#{spec1},
 			#{spec2},
@@ -132,7 +131,7 @@
 			sort = #{sort},
 			market_price = #{marketPrice},
 			price = #{price},
-			brand_id = #{brandId},
+			brand_id = #{brand.id},
 			state = #{state},
 			spec1 = #{spec1},
 			spec2 = #{spec2},

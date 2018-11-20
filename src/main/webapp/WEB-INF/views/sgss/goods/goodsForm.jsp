@@ -113,7 +113,8 @@
 		<div class="control-group">
 			<label class="control-label">品牌：</label>
 			<div class="controls">
-				<form:input path="brandId" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+            <form:select path="brand.id" items="${brands}" itemLabel="name" itemValue="id" cssClass="input-xlarge" />
+
 			</div>
 		</div>
 		<div class="control-group">

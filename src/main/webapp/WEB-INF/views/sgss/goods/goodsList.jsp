@@ -32,7 +32,7 @@
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>品牌：</label>
-				<form:input path="brandId" htmlEscape="false" maxlength="32" class="input-medium"/>
+				<form:input path="brand.name" htmlEscape="false" maxlength="32" class="input-medium"/>
 			</li>
 			<li><label>上架状态：</label>
 				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
@@ -85,7 +85,7 @@
 					${goods.price}
 				</td>
 				<td>
-					${goods.brandId}
+					${goods.brand.name}
 				</td>
 				<td>
 					${fns:getDictLabel(goods.state, 'yes_no', '')}

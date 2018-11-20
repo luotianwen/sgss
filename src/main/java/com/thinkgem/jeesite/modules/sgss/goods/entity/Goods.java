@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sgss.goods.entity;
 
+import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import org.hibernate.validator.constraints.Length;
 import java.util.List;
 import com.google.common.collect.Lists;
@@ -25,7 +26,7 @@ public class Goods extends DataEntity<Goods> {
 	private Integer sort;		// 序号
 	private String marketPrice;		// 市场售价
 	private String price;		// 本店售价
-	private String brandId;		// 品牌
+	private Brand brand;		// 品牌
 	private String state;		// 上架状态
 	private String spec1;		// 规格1
 	private String spec2;		// 规格2
@@ -116,16 +117,15 @@ public class Goods extends DataEntity<Goods> {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	
-	@Length(min=0, max=32, message="品牌长度必须介于 0 和 32 之间")
-	public String getBrandId() {
-		return brandId;
+
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setBrandId(String brandId) {
-		this.brandId = brandId;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
-	
+
 	@Length(min=0, max=2, message="上架状态长度必须介于 0 和 2 之间")
 	public String getState() {
 		return state;
