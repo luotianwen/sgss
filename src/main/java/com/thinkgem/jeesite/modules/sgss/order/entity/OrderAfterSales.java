@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.entity;
 
+import com.thinkgem.jeesite.modules.sgss.user.entity.Suser;
 import org.hibernate.validator.constraints.Length;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class OrderAfterSales extends DataEntity<OrderAfterSales> {
 	private static final long serialVersionUID = 1L;
 	private String num;		// 序号
 	private String ordernumber;		// 订单编号
-	private User user;		// 用户
+	private Suser user;		// 用户
 	private Date applyTime;		// 申请时间
 	private String type;		// 售后类型
 	private String content;		// 售后内容
@@ -66,11 +67,11 @@ public class OrderAfterSales extends DataEntity<OrderAfterSales> {
 		this.ordernumber = ordernumber;
 	}
 	
-	public User getUser() {
+	public Suser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Suser user) {
 		this.user = user;
 	}
 	

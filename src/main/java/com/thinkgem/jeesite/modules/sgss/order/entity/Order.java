@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.entity;
 
+import com.thinkgem.jeesite.modules.sgss.coupon.entity.Coupon;
+import com.thinkgem.jeesite.modules.sgss.user.entity.Suser;
 import org.hibernate.validator.constraints.Length;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import java.util.Date;
@@ -25,7 +27,7 @@ public class Order extends DataEntity<Order> {
 	private String phone;		// 收货人电话
 	private String consignee;		// 收货人
 	private String address;		// 收货地址
-	private User user;		// 用户
+	private Suser user;		// 用户
 	private Date payTime;		// 付款时间
 	private Date orderTime;		// 下单时间
 	private String state;		// 订单状态
@@ -37,7 +39,7 @@ public class Order extends DataEntity<Order> {
 	private String favorablePrice;		// 优惠价格
 	private String totalPrice;		// 总计
 	private String payType;		// 支付方式
-	private String couponId;		// 优惠券id
+	private Coupon coupon;		// 优惠券id
 	private Date completeTime;		// 完成时间
 	private List<OrderDetail> orderDetailList = Lists.newArrayList();		// 子表列表
 	
@@ -94,11 +96,11 @@ public class Order extends DataEntity<Order> {
 		this.address = address;
 	}
 	
-	public User getUser() {
+	public Suser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(Suser user) {
 		this.user = user;
 	}
 	
@@ -196,16 +198,15 @@ public class Order extends DataEntity<Order> {
 	public void setPayType(String payType) {
 		this.payType = payType;
 	}
-	
-	@Length(min=0, max=32, message="优惠券id长度必须介于 0 和 32 之间")
-	public String getCouponId() {
-		return couponId;
+
+	public Coupon getCoupon() {
+		return coupon;
 	}
 
-	public void setCouponId(String couponId) {
-		this.couponId = couponId;
+	public void setCoupon(Coupon coupon) {
+		this.coupon = coupon;
 	}
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getCompleteTime() {
 		return completeTime;

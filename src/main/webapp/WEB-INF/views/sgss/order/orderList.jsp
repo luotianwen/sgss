@@ -47,17 +47,15 @@
 			<tr>
 				<th>序号</th>
 				<th>订单编号</th>
-				<th>收货人电话</th>
-				<th>收货人</th>
-				<th>付款时间</th>
-				<th>下单时间</th>
+				<th>用户</th>
+				 <th>收货人</th>
 				<th>订单状态</th>
-				<th>发货时间</th>
-				<th>发货单号</th>
-				<th>快递公司</th>
-				<th>总计</th>
 				<th>支付方式</th>
-				<th>更新时间</th>
+				<th>总计</th>
+				<th>快递信息</th>
+				<th>下单时间</th>
+				<th>付款时间</th>
+				<th>发货时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="order:order:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -72,37 +70,36 @@
 					${order.ordernumber}
 				</td>
 				<td>
-					${order.phone}
+						${order.user.name}
 				</td>
 				<td>
-					${order.consignee}
+						${order.consignee} ${order.phone} ${order.address}
+				</td>
+
+
+				<td>
+					${fns:getDictLabel(order.state, 'order_state', '')}
+				</td>
+
+
+				<td>
+					${fns:getDictLabel(order.payType, 'pay_type', '')}
 				</td>
 				<td>
-					<fmt:formatDate value="${order.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+						${order.totalPrice}
+				</td>
+				<td>
+						${order.expressName} ${order.invoiceNo}
 				</td>
 				<td>
 					<fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${fns:getDictLabel(order.state, 'order_state', '')}
+					<fmt:formatDate value="${order.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
+
 				<td>
 					<fmt:formatDate value="${order.deliveryTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
-				<td>
-					${order.invoiceNo}
-				</td>
-				<td>
-					${order.expressName}
-				</td>
-				<td>
-					${order.totalPrice}
-				</td>
-				<td>
-					${fns:getDictLabel(order.payType, 'pay_type', '')}
-				</td>
-				<td>
-					<fmt:formatDate value="${order.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${order.remarks}

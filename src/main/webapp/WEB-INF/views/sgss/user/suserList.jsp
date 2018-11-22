@@ -67,7 +67,7 @@
 					${suser.name}
 				</a></td>
 				<td>
-					${suser.headImg}
+					<img src="${suser.headImg}" style="width: 80px">
 				</td>
 				<td>
 					${suser.integral}

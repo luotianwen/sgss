@@ -99,9 +99,11 @@
 		<div class="control-group">
 			<label class="control-label">用户：</label>
 			<div class="controls">
-				<sys:treeselect id="user" name="user.id" value="${order.user.id}" labelName="user.name" labelValue="${order.user.name}"
+				<form:input path="user.id" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+				<form:input path="user.name" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+			<%--	<sys:treeselect id="user" name="user.id" value="${order.user.id}" labelName="user.name" labelValue="${order.user.name}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
-			</div>
+			--%></div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">付款时间：</label>
@@ -182,9 +184,10 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">优惠券id：</label>
+			<label class="control-label">优惠券：</label>
 			<div class="controls">
-				<form:input path="couponId" htmlEscape="false" maxlength="32" class="input-xlarge "/>
+				<form:hidden path="coupon.id"/>
+				<form:input path="coupon.name" htmlEscape="false" maxlength="32" class="input-xlarge " readonly="true"/>
 			</div>
 		</div>
 		<div class="control-group">

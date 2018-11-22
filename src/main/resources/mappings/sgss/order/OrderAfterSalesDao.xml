@@ -35,7 +35,7 @@
 	</sql>
 	
 	<sql id="orderAfterSalesJoins">
-		LEFT JOIN sys_user u4 ON u4.id = a.user_id
+		LEFT JOIN s_user u4 ON u4.id = a.user_id
 	</sql>
     
 	<select id="get" resultType="OrderAfterSales">

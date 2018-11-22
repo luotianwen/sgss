@@ -21,7 +21,7 @@
 		a.favorable_price AS "favorablePrice",
 		a.total_price AS "totalPrice",
 		a.pay_type AS "payType",
-		a.coupon_id AS "couponId",
+		a.coupon_id AS "coupon.id",
 		a.complete_time AS "completeTime",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -29,11 +29,13 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		u7.name AS "user.name"
+		u7.name AS "user.name",
+		c.name as "coupon.name"
 	</sql>
 	
 	<sql id="orderJoins">
-		LEFT JOIN sys_user u7 ON u7.id = a.user_id
+		LEFT JOIN s_user u7 ON u7.id = a.user_id
+		left  join  s_coupon  c on c.id=a.coupon_id
 	</sql>
     
 	<select id="get" resultType="Order">
@@ -139,7 +141,7 @@
 			#{favorablePrice},
 			#{totalPrice},
 			#{payType},
-			#{couponId},
+			#{coupon.id},
 			#{completeTime},
 			#{createBy.id},
 			#{createDate},
@@ -169,7 +171,7 @@
 			favorable_price = #{favorablePrice},
 			total_price = #{totalPrice},
 			pay_type = #{payType},
-			coupon_id = #{couponId},
+			coupon_id = #{coupon.id},
 			complete_time = #{completeTime},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},

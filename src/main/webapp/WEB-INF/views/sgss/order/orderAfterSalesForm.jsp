@@ -49,8 +49,8 @@
 		<div class="control-group">
 			<label class="control-label">用户：</label>
 			<div class="controls">
-				<sys:treeselect id="user" name="user.id" value="${orderAfterSales.user.id}" labelName="user.name" labelValue="${orderAfterSales.user.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+				<form:input path="user.id" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+				<form:input path="user.name" htmlEscape="false" maxlength="200" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

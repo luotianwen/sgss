@@ -48,7 +48,6 @@
 				<th>申请时间</th>
 				<th>售后类型</th>
 				<th>售后状态</th>
-				<th>更新时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="order:orderAfterSales:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -74,9 +73,7 @@
 				<td>
 					${fns:getDictLabel(orderAfterSales.state, 'aftersales_state', '')}
 				</td>
-				<td>
-					<fmt:formatDate value="${orderAfterSales.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
+
 				<td>
 					${orderAfterSales.remarks}
 				</td>
