@@ -194,7 +194,7 @@
 								<th class="hide"></th>
 								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th>本店售价</th>
+								<th>本店售价<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/><button onclick="generatePrice()"/> </th>
 								<th>序号</th>
 								<th>库存</th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>

@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/order/orderAfterSales/">订单售后列表</a></li>
-		<shiro:hasPermission name="order:orderAfterSales:edit"><li><a href="${ctx}/order/orderAfterSales/form">订单售后添加</a></li></shiro:hasPermission>
+		<%--<shiro:hasPermission name="order:orderAfterSales:edit"><li><a href="${ctx}/order/orderAfterSales/form">订单售后添加</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="orderAfterSales" action="${ctx}/order/orderAfterSales/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -68,9 +68,10 @@
 					<fmt:formatDate value="${orderAfterSales.applyTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+						${orderAfterSales.type}
 					${fns:getDictLabel(orderAfterSales.type, 'aftersales_type', '')}
 				</td>
-				<td>
+				<td>${orderAfterSales.state}
 					${fns:getDictLabel(orderAfterSales.state, 'aftersales_state', '')}
 				</td>
 
@@ -79,6 +80,12 @@
 				</td>
 				<shiro:hasPermission name="order:orderAfterSales:edit"><td>
     				<a href="${ctx}/order/orderAfterSales/form?id=${orderAfterSales.id}">修改</a>
+					<c:if test="${orderAfterSales.type==1&&orderAfterSales.state==10}">
+					 <a href="${ctx}/order/orderAfterSales/form?id=${orderAfterSales.id}">同意退货</a>
+				    </c:if>
+					<c:if test="${orderAfterSales.type==2&&orderAfterSales.state==10}">
+					<a href="${ctx}/order/orderAfterSales/form?id=${orderAfterSales.id}">同意换货</a>
+					</c:if>
 					<a href="${ctx}/order/orderAfterSales/delete?id=${orderAfterSales.id}" onclick="return confirmx('确认要删除该订单售后吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

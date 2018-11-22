@@ -211,8 +211,6 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
-								<th>商品id</th>
-								<th>skuid</th>
 								<th>商品名称</th>
 								<th>货号</th>
 								<th>商品主图</th>
@@ -221,54 +219,54 @@
 								<th>本店售价</th>
 								<th>数量</th>
 								<th>备注信息</th>
-								<shiro:hasPermission name="order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
+								<%--<shiro:hasPermission name="order:order:edit"><th width="10">&nbsp;</th></shiro:hasPermission>--%>
 							</tr>
 						</thead>
 						<tbody id="orderDetailList">
 						</tbody>
-						<shiro:hasPermission name="order:order:edit"><tfoot>
+						<%--<shiro:hasPermission name="order:order:edit"><tfoot>
 							<tr><td colspan="12"><a href="javascript:" onclick="addRow('#orderDetailList', orderDetailRowIdx, orderDetailTpl);orderDetailRowIdx = orderDetailRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
+						</tfoot></shiro:hasPermission>--%>
 					</table>
 					<script type="text/template" id="orderDetailTpl">//<!--
 						<tr id="orderDetailList{{idx}}">
 							<td class="hide">
 								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="orderDetailList{{idx}}_delFlag" name="orderDetailList[{{idx}}].delFlag" type="hidden" value="0"/>
+
+								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+
+								<input id="orderDetailList{{idx}}_goods_id" name="orderDetailList[{{idx}}].goods.id" type="hidden" value="{{row.goods.id}}"/>
+								<input id="orderDetailList{{idx}}_sku_id" name="orderDetailList[{{idx}}].sku.id" type="hidden" value="{{row.sku.id}}"/>
+							</td>
+
+							<td>
+								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" readonly="true" maxlength="200" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_goods" name="orderDetailList[{{idx}}].goods.id" type="text" value="{{row.goods.id}}" maxlength="32" class="input-small "/>
+								<input id="orderDetailList{{idx}}_artno" name="orderDetailList[{{idx}}].artno" type="text" value="{{row.artno}}" readonly="true" maxlength="20" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_sku" name="orderDetailList[{{idx}}].sku.id" type="text" value="{{row.sku.id}}" maxlength="32" class="input-small "/>
+								<input id="orderDetailList{{idx}}_logo" name="orderDetailList[{{idx}}].logo" type="text" value="{{row.logo}}" readonly="true" maxlength="200" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" maxlength="200" class="input-small "/>
+								<input id="orderDetailList{{idx}}_spec1" name="orderDetailList[{{idx}}].spec1" type="text" value="{{row.spec1}}" readonly="true" maxlength="20" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_artno" name="orderDetailList[{{idx}}].artno" type="text" value="{{row.artno}}" maxlength="20" class="input-small "/>
+								<input id="orderDetailList{{idx}}_spec2" name="orderDetailList[{{idx}}].spec2" type="text" value="{{row.spec2}}" readonly="true" maxlength="20" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_logo" name="orderDetailList[{{idx}}].logo" type="text" value="{{row.logo}}" maxlength="200" class="input-small "/>
+								<input id="orderDetailList{{idx}}_price" name="orderDetailList[{{idx}}].price" type="text" value="{{row.price}}" readonly="true" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_spec1" name="orderDetailList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-small "/>
+								<input id="orderDetailList{{idx}}_number" name="orderDetailList[{{idx}}].number" type="text" value="{{row.number}}" readonly="true" maxlength="11" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_spec2" name="orderDetailList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small "/>
+								<textarea id="orderDetailList{{idx}}_remarks" name="orderDetailList[{{idx}}].remarks" rows="2" maxlength="100" readonly="true" class="input-small ">{{row.remarks}}</textarea>
 							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_price" name="orderDetailList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small "/>
-							</td>
-							<td>
-								<input id="orderDetailList{{idx}}_number" name="orderDetailList[{{idx}}].number" type="text" value="{{row.number}}" maxlength="11" class="input-small "/>
-							</td>
-							<td>
-								<textarea id="orderDetailList{{idx}}_remarks" name="orderDetailList[{{idx}}].remarks" rows="4" maxlength="100" class="input-small ">{{row.remarks}}</textarea>
-							</td>
-							<shiro:hasPermission name="order:order:edit"><td class="text-center" width="10">
+							<%--<shiro:hasPermission name="order:order:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#orderDetailList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
+							</td></shiro:hasPermission>--%>
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
