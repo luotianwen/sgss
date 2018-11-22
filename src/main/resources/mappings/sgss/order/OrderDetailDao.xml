@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.order.dao.OrderDetailDao">
+    
+	<sql id="orderDetailColumns">
+		a.id AS "id",
+		a.ordernumber AS "order.ordernumber",
+		a.goods_id AS "goods.id",
+		a.sku_id AS "sku.id",
+		a.name AS "name",
+		a.artno AS "artno",
+		a.logo AS "logo",
+		a.spec1 AS "spec1",
+		a.spec2 AS "spec2",
+		a.price AS "price",
+		a.number AS "number",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="orderDetailJoins">
+		LEFT JOIN s_order b ON b.id = a.ordernumber
+	</sql>
+    
+	<select id="get" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM s_order_detail a
+		<include refid="orderDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM s_order_detail a
+		<include refid="orderDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="order != null and order.ordernumber != null and order.ordernumber != ''">
+				AND a.ordernumber = #{order.ordernumber}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderDetail">
+		SELECT 
+			<include refid="orderDetailColumns"/>
+		FROM s_order_detail a
+		<include refid="orderDetailJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_order_detail(
+			id,
+			ordernumber,
+			goods_id,
+			sku_id,
+			name,
+			artno,
+			logo,
+			spec1,
+			spec2,
+			price,
+			number,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{order.ordernumber},
+			#{goods.id},
+			#{sku.id},
+			#{name},
+			#{artno},
+			#{logo},
+			#{spec1},
+			#{spec2},
+			#{price},
+			#{number},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_order_detail SET 	
+			ordernumber = #{order.ordernumber},
+			goods_id = #{goods.id},
+			sku_id = #{sku.id},
+			name = #{name},
+			artno = #{artno},
+			logo = #{logo},
+			spec1 = #{spec1},
+			spec2 = #{spec2},
+			price = #{price},
+			number = #{number},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_order_detail SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE ordernumber = #{order.ordernumber}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

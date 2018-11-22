@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.order.dao.OrderAfterSalesDao">
+    
+	<sql id="orderAfterSalesColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.ordernumber AS "ordernumber",
+		a.user_id AS "user.id",
+		a.apply_time AS "applyTime",
+		a.type AS "type",
+		a.content AS "content",
+		a.exchange_phone AS "exchangePhone",
+		a.exchange_consignee AS "exchangeConsignee",
+		a.exchange_address AS "exchangeAddress",
+		a.exchange_invoice_no AS "exchangeInvoiceNo",
+		a.exchange_express_name AS "exchangeExpressName",
+		a.exchange_freight AS "exchangeFreight",
+		a.exchange_time AS "exchangeTime",
+		a.return_invoice_no2 AS "returnInvoiceNo2",
+		a.return_express_name2 AS "returnExpressName2",
+		a.return_phone AS "returnPhone",
+		a.return_consignee2 AS "returnConsignee2",
+		a.return_address AS "returnAddress",
+		a.return_time AS "returnTime",
+		a.state AS "state",
+		a.refuse_content AS "refuseContent",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u4.name AS "user.name"
+	</sql>
+	
+	<sql id="orderAfterSalesJoins">
+		LEFT JOIN sys_user u4 ON u4.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="OrderAfterSales">
+		SELECT 
+			<include refid="orderAfterSalesColumns"/>
+		FROM s_order_after_sales a
+		<include refid="orderAfterSalesJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderAfterSales">
+		SELECT 
+			<include refid="orderAfterSalesColumns"/>
+		FROM s_order_after_sales a
+		<include refid="orderAfterSalesJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ordernumber != null and ordernumber != ''">
+				AND a.ordernumber = #{ordernumber}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderAfterSales">
+		SELECT 
+			<include refid="orderAfterSalesColumns"/>
+		FROM s_order_after_sales a
+		<include refid="orderAfterSalesJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_order_after_sales(
+			id,
+			num,
+			ordernumber,
+			user_id,
+			apply_time,
+			type,
+			content,
+			exchange_phone,
+			exchange_consignee,
+			exchange_address,
+			exchange_invoice_no,
+			exchange_express_name,
+			exchange_freight,
+			exchange_time,
+			return_invoice_no2,
+			return_express_name2,
+			return_phone,
+			return_consignee2,
+			return_address,
+			return_time,
+			state,
+			refuse_content,
+			create_by,
+			update_by,
+			create_date,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{num},
+			#{ordernumber},
+			#{user.id},
+			#{applyTime},
+			#{type},
+			#{content},
+			#{exchangePhone},
+			#{exchangeConsignee},
+			#{exchangeAddress},
+			#{exchangeInvoiceNo},
+			#{exchangeExpressName},
+			#{exchangeFreight},
+			#{exchangeTime},
+			#{returnInvoiceNo2},
+			#{returnExpressName2},
+			#{returnPhone},
+			#{returnConsignee2},
+			#{returnAddress},
+			#{returnTime},
+			#{state},
+			#{refuseContent},
+			#{createBy.id},
+			#{updateBy.id},
+			#{createDate},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_order_after_sales SET 	
+			num = #{num},
+			ordernumber = #{ordernumber},
+			user_id = #{user.id},
+			apply_time = #{applyTime},
+			type = #{type},
+			content = #{content},
+			exchange_phone = #{exchangePhone},
+			exchange_consignee = #{exchangeConsignee},
+			exchange_address = #{exchangeAddress},
+			exchange_invoice_no = #{exchangeInvoiceNo},
+			exchange_express_name = #{exchangeExpressName},
+			exchange_freight = #{exchangeFreight},
+			exchange_time = #{exchangeTime},
+			return_invoice_no2 = #{returnInvoiceNo2},
+			return_express_name2 = #{returnExpressName2},
+			return_phone = #{returnPhone},
+			return_consignee2 = #{returnConsignee2},
+			return_address = #{returnAddress},
+			return_time = #{returnTime},
+			state = #{state},
+			refuse_content = #{refuseContent},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_order_after_sales SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

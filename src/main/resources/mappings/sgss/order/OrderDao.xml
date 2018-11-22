@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.order.dao.OrderDao">
+    
+	<sql id="orderColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.ordernumber AS "ordernumber",
+		a.phone AS "phone",
+		a.consignee AS "consignee",
+		a.address AS "address",
+		a.user_id AS "user.id",
+		a.pay_time AS "payTime",
+		a.order_time AS "orderTime",
+		a.state AS "state",
+		a.delivery_time AS "deliveryTime",
+		a.invoice_no AS "invoiceNo",
+		a.express_name AS "expressName",
+		a.goods_price AS "goodsPrice",
+		a.freight AS "freight",
+		a.favorable_price AS "favorablePrice",
+		a.total_price AS "totalPrice",
+		a.pay_type AS "payType",
+		a.coupon_id AS "couponId",
+		a.complete_time AS "completeTime",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u7.name AS "user.name"
+	</sql>
+	
+	<sql id="orderJoins">
+		LEFT JOIN sys_user u7 ON u7.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM s_order a
+		<include refid="orderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM s_order a
+		<include refid="orderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="num != null and num != ''">
+				AND a.num = #{num}
+			</if>
+			<if test="ordernumber != null and ordernumber != ''">
+				AND a.ordernumber = #{ordernumber}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
+			</if>
+			<if test="consignee != null and consignee != ''">
+				AND a.consignee = #{consignee}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Order">
+		SELECT 
+			<include refid="orderColumns"/>
+		FROM s_order a
+		<include refid="orderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_order(
+			id,
+			num,
+			ordernumber,
+			phone,
+			consignee,
+			address,
+			user_id,
+			pay_time,
+			order_time,
+			state,
+			delivery_time,
+			invoice_no,
+			express_name,
+			goods_price,
+			freight,
+			favorable_price,
+			total_price,
+			pay_type,
+			coupon_id,
+			complete_time,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{num},
+			#{ordernumber},
+			#{phone},
+			#{consignee},
+			#{address},
+			#{user.id},
+			#{payTime},
+			#{orderTime},
+			#{state},
+			#{deliveryTime},
+			#{invoiceNo},
+			#{expressName},
+			#{goodsPrice},
+			#{freight},
+			#{favorablePrice},
+			#{totalPrice},
+			#{payType},
+			#{couponId},
+			#{completeTime},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_order SET 	
+			num = #{num},
+			ordernumber = #{ordernumber},
+			phone = #{phone},
+			consignee = #{consignee},
+			address = #{address},
+			user_id = #{user.id},
+			pay_time = #{payTime},
+			order_time = #{orderTime},
+			state = #{state},
+			delivery_time = #{deliveryTime},
+			invoice_no = #{invoiceNo},
+			express_name = #{expressName},
+			goods_price = #{goodsPrice},
+			freight = #{freight},
+			favorable_price = #{favorablePrice},
+			total_price = #{totalPrice},
+			pay_type = #{payType},
+			coupon_id = #{couponId},
+			complete_time = #{completeTime},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
