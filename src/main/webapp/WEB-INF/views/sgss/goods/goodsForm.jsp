@@ -54,6 +54,17 @@
 				$(obj).parent().parent().removeClass("error");
 			}
 		}
+		function generatePrice() {
+			var price=$("#prices").val();
+			if(price.length==0||price==0){
+                top.$.jBox.tip("价格必填","erroe",{persistent:true,opacity:0});
+                return false;
+			}
+			for (var i=0;i<goodsSkuRowIdx;i++){
+              $("#goodsSkuList"+i+"_price").val(price);
+			}
+
+        }
 	</script>
 </head>
 <body>
@@ -137,54 +148,69 @@
 				<sys:ckeditor replace="details" uploadPath="/goods/goods"  />
 			</div>
 		</div>
-			<div class="control-group">
-				<label class="control-label">商品图片：</label>
-				<div class="controls">
-					<table id="contentTable" class="table table-striped table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th class="hide"></th>
-								<th>主图</th>
-								<th>序号</th>
-								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
-							</tr>
-						</thead>
-						<tbody id="goodsPicList">
-						</tbody>
-						<shiro:hasPermission name="goods:goods:edit"><tfoot>
-							<tr><td colspan="4"><a href="javascript:" onclick="addRow('#goodsPicList', goodsPicRowIdx, goodsPicTpl);goodsPicRowIdx = goodsPicRowIdx + 1;" class="btn">新增</a></td></tr>
-						</tfoot></shiro:hasPermission>
-					</table>
-					<script type="text/template" id="goodsPicTpl">//<!--
-						<tr id="goodsPicList{{idx}}">
-							<td class="hide">
-								<input id="goodsPicList{{idx}}_id" name="goodsPicList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="goodsPicList{{idx}}_delFlag" name="goodsPicList[{{idx}}].delFlag" type="hidden" value="0"/>
-							</td>
-							<td>
-								<input id="goodsPicList{{idx}}logo" name="goodsPicList[{{idx}}].logo" type="hidden" value="{{row.logo}}"/>
-								<sys:ckfinder input="goodsPicList{{idx}}logo" type="images" uploadPath="/goods/goods" selectMultiple="false"/>
-							</td>
-							<td>
-								<input id="goodsPicList{{idx}}_sort" name="goodsPicList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>
-							</td>
-							<shiro:hasPermission name="goods:goods:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#goodsPicList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
-						</tr>//-->
-					</script>
-					<script type="text/javascript">
-						var goodsPicRowIdx = 0, goodsPicTpl = $("#goodsPicTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-						$(document).ready(function() {
-							var data = ${fns:toJson(goods.goodsPicList)};
-							for (var i=0; i<data.length; i++){
-								addRow('#goodsPicList', goodsPicRowIdx, goodsPicTpl, data[i]);
-								goodsPicRowIdx = goodsPicRowIdx + 1;
-							}
-						});
-					</script>
-				</div>
+		<div class="control-group">
+			<label class="control-label">图片(多图):</label>
+			<div class="controls">
+				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/goods" selectMultiple="true"/>
+
+
 			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">本店销量：</label>
+			<div class="controls">
+				<form:input path="sales" htmlEscape="false" class="input-xlarge "/>
+			</div>
+		</div>
+		<%--<div class="control-group">
+            <label class="control-label">商品图片：</label>
+            <div class="controls">
+                <table id="contentTable" class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="hide"></th>
+                            <th>主图</th>
+                            <th>序号</th>
+                            <shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
+                        </tr>
+                    </thead>
+                    <tbody id="goodsPicList">
+                    </tbody>
+                    <shiro:hasPermission name="goods:goods:edit"><tfoot>
+                        <tr><td colspan="4"><a href="javascript:" onclick="addRow('#goodsPicList', goodsPicRowIdx, goodsPicTpl);goodsPicRowIdx = goodsPicRowIdx + 1;" class="btn">新增</a></td></tr>
+                    </tfoot></shiro:hasPermission>
+                </table>
+                <script type="text/template" id="goodsPicTpl">//<!--
+                    <tr id="goodsPicList{{idx}}">
+                        <td class="hide">
+                            <input id="goodsPicList{{idx}}_id" name="goodsPicList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+                            <input id="goodsPicList{{idx}}_delFlag" name="goodsPicList[{{idx}}].delFlag" type="hidden" value="0"/>
+                        </td>
+                        <td>
+                            <input id="goodsPicList{{idx}}logo" name="goodsPicList[{{idx}}].logo" type="hidden" value="{{row.logo}}"/>
+                            <sys:ckfinder input="goodsPicList{{idx}}logo" type="images" uploadPath="/goods/goods" selectMultiple="false"/>
+                        </td>
+                        <td>
+                            <input id="goodsPicList{{idx}}_sort" name="goodsPicList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>
+                        </td>
+                        <shiro:hasPermission name="goods:goods:edit"><td class="text-center" width="10">
+                            {{#delBtn}}<span class="close" onclick="delRow(this, '#goodsPicList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+                        </td></shiro:hasPermission>
+                    </tr>//-->
+                </script>
+                <script type="text/javascript">
+                    var goodsPicRowIdx = 0, goodsPicTpl = $("#goodsPicTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
+                    $(document).ready(function() {
+                        var data = ${fns:toJson(goods.goodsPicList)};
+                        for (var i=0; i<data.length; i++){
+                            addRow('#goodsPicList', goodsPicRowIdx, goodsPicTpl, data[i]);
+                            goodsPicRowIdx = goodsPicRowIdx + 1;
+                        }
+                    });
+                </script>
+            </div>
+        </div>--%>
 			<div class="control-group">
 				<label class="control-label">商品sku：</label>
 				<div class="controls">
@@ -194,7 +220,7 @@
 								<th class="hide"></th>
 								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th>本店售价<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/><button onclick="generatePrice()"/> </th>
+								<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="统一价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<th>序号</th>
 								<th>库存</th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
@@ -237,6 +263,7 @@
 						$(document).ready(function() {
 							var data = ${fns:toJson(goods.goodsSkuList)};
 							for (var i=0; i<data.length; i++){
+
 								addRow('#goodsSkuList', goodsSkuRowIdx, goodsSkuTpl, data[i]);
 								goodsSkuRowIdx = goodsSkuRowIdx + 1;
 							}

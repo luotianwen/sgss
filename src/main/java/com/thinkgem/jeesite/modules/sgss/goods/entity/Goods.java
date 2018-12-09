@@ -34,6 +34,24 @@ public class Goods extends DataEntity<Goods> {
 	private List<GoodsPic> goodsPicList = Lists.newArrayList();		// 子表列表
 	private List<GoodsSku> goodsSkuList = Lists.newArrayList();		// 子表列表
 	private GoodsDetail detail;		// 商品详情
+    private String imgs;
+    private int sales;
+
+	public String getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+
+	public int getSales() {
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
 
 	public String getCategoryName() {
 		return categoryName;

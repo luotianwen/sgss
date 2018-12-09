@@ -45,6 +45,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>品牌</th>
 				<th>分类</th>
 				<th>名称</th>
 				<th>货号</th>
@@ -52,7 +53,7 @@
 				<th>序号</th>
 				<th>市场售价</th>
 				<th>本店售价</th>
-				<th>品牌</th>
+				<th>销量</th>
 				<th>上架状态</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
@@ -62,6 +63,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="goods">
 			<tr>
+				<td>
+						${goods.brand.name}
+				</td>
 				<td>
 						${goods.categoryName}
 				</td>
@@ -85,7 +89,7 @@
 					${goods.price}
 				</td>
 				<td>
-					${goods.brand.name}
+						${goods.sales}
 				</td>
 				<td>
 					${fns:getDictLabel(goods.state, 'yes_no', '')}

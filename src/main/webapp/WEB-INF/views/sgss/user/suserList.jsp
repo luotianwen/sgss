@@ -54,8 +54,7 @@
 				<th>手机号</th>
 				<th>昵称</th>
 				<th>状态</th>
-				<th>微信openid</th>
-				<th>更新时间</th>
+				<th>注册时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="user:suser:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -81,11 +80,9 @@
 				<td>
 					${fns:getDictLabel(suser.state, 'yes_no', '')}
 				</td>
+
 				<td>
-					${suser.openid}
-				</td>
-				<td>
-					<fmt:formatDate value="${suser.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+					<fmt:formatDate value="${suser.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${suser.remarks}
