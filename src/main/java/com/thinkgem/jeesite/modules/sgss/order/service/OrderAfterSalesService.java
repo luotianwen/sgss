@@ -66,7 +66,7 @@ public class OrderAfterSalesService extends CrudService<OrderAfterSalesDao, Orde
 	}
 
 	public void returnMoney(OrderAfterSales simpleOrderAfter) {
-		simpleOrderAfter.setReturnAmount(simpleOrderAfter.getReturnAmount()*100);
+		//simpleOrderAfter.setReturnAmount(simpleOrderAfter.getReturnAmount()*100);
 		OrderAfterSales simpleOrderAfter2=this.get(simpleOrderAfter.getId());
 		OkHttpClient okHttpClient = new OkHttpClient();
 		RequestBody requestBody = new FormBody.Builder()

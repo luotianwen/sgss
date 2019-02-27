@@ -88,7 +88,7 @@
                         return false;
                     }
                     resetTip(); //loading();
-                    var url =  "${ctx}/order/orderAfterSales/returnMoney?id="+id+"&returnAmount=" + encodeURIComponent(returnMoney2) ;
+                    var url =  "${ctx}/order/orderAfterSales/returnMoney?id="+id+"&returnAmount=" + returnMoney2*100 ;
                     $.ajax({
                         type : "post",
                         async : false,
