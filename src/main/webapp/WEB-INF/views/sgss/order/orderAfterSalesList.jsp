@@ -79,7 +79,7 @@
             layer.open({
                 type: 1,
                 shadeClose: true,
-                content:"<div  class='form-search' style=' text-align:center;'>退款金额：<input type='text' id='returnMoney2'  />元",
+                content:"<div   >退款金额：<input type='text' id='returnMoney2'  />元</div>",
                 btn: ['确定', '取消']
                 , yes: function (index, f) {
                     var returnMoney2=$("#returnMoney2").val();
@@ -88,7 +88,7 @@
                         return false;
                     }
                     resetTip(); //loading();
-                    var url =  "${ctx}/order/orderAfterSales/returnMoney?id="+id+"&returnAmount=" + returnMoney2*100 ;
+                    var url =  "${ctx}/order/orderAfterSales/returnMoney?id="+id+"&returnAmount=" + (returnMoney2*100) ;
                     $.ajax({
                         type : "post",
                         async : false,
@@ -290,9 +290,10 @@
 					<c:if test="${orderAfterSales.state==30}">
 						<a   href="javascript:void(0)" onclick="return de('${orderAfterSales.id}')">换货单号</a>
 					</c:if>
-						<a   href="javascript:void(0)" onclick="return returnMoney('${orderAfterSales.id}')">退款</a>
+
 					<a href="${ctx}/order/orderAfterSales/delete?id=${orderAfterSales.id}" onclick="return confirmx('确认要删除该订单售后吗？', this.href)">删除</a>
 					</c:if>
+					<a   href="javascript:void(0)" onclick="return returnMoney('${orderAfterSales.id}')">退款</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>
