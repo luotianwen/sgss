@@ -132,7 +132,7 @@
 	<update id="delete">
 		UPDATE s_category SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
+		WHERE id = #{id}
 	</update>
 	
 </mapper>

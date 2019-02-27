@@ -14,5 +14,6 @@ import com.thinkgem.jeesite.modules.sgss.order.entity.Order;
  */
 @MyBatisDao
 public interface OrderDao extends CrudDao<Order> {
-	
+
+    void fast(Order order);
 }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -60,7 +61,19 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 		return "sgss/order/orderForm";
 	}
+	@RequiresPermissions("order:order:edit")
+	@RequestMapping(value = "fast")
+	@ResponseBody
+	public String fast(Order order, Model model, RedirectAttributes redirectAttributes) throws Exception {
+		if (!beanValidator(model, order)){
+			return "error";
+		}
+		orderService.fast(order);
 
+		return "ok";
+		//addMessage(redirectAttributes, "保存下单管理成功");
+		//return "redirect:"+Global.getAdminPath()+"/simpleorder/simpleOrder/?repage";
+	}
 	@RequiresPermissions("order:order:edit")
 	@RequestMapping(value = "save")
 	public String save(Order order, Model model, RedirectAttributes redirectAttributes) {

@@ -30,7 +30,9 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
 		u7.name AS "user.name",
-		c.name as "coupon.name"
+		c.name as "coupon.name",
+		a.outTradeNo as outTradeNo,
+		a.transactionid as transactionid
 	</sql>
 	
 	<sql id="orderJoins">
@@ -62,6 +64,12 @@
 			<if test="phone != null and phone != ''">
 				AND a.phone = #{phone}
 			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="invoiceNo != null and invoiceNo != ''">
+				AND a.invoiceNo = #{invoiceNo}
+			</if>
 			<if test="consignee != null and consignee != ''">
 				AND a.consignee = #{consignee}
 			</if>
@@ -71,7 +79,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -89,7 +97,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -154,18 +162,12 @@
 	
 	<update id="update">
 		UPDATE s_order SET 	
-			num = #{num},
-			ordernumber = #{ordernumber},
+
 			phone = #{phone},
 			consignee = #{consignee},
 			address = #{address},
-			user_id = #{user.id},
-			pay_time = #{payTime},
 			order_time = #{orderTime},
 			state = #{state},
-			delivery_time = #{deliveryTime},
-			invoice_no = #{invoiceNo},
-			express_name = #{expressName},
 			goods_price = #{goodsPrice},
 			freight = #{freight},
 			favorable_price = #{favorablePrice},
@@ -178,7 +180,16 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+	<update id="fast">
+		UPDATE s_order SET
+			delivery_time = now(),
+		state = '30',
+		invoice_no = #{invoiceNo},
+		freight = #{freight},
+			express_name = #{expressName},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
 	<update id="delete">
 		UPDATE s_order SET 
 			del_flag = #{DEL_FLAG_DELETE}

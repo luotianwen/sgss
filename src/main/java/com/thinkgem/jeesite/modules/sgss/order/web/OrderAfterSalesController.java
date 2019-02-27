@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -71,7 +72,42 @@ public class OrderAfterSalesController extends BaseController {
 		addMessage(redirectAttributes, "保存订单售后成功");
 		return "redirect:"+Global.getAdminPath()+"/order/orderAfterSales/?repage";
 	}
-	
+
+	@RequiresPermissions("order:orderAfterSales:edit")
+	@RequestMapping(value = "fast")
+	@ResponseBody
+	public String fast(OrderAfterSales simpleOrderAfter, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, simpleOrderAfter)){
+			return "error";
+		}
+		orderAfterSalesService.fast(simpleOrderAfter);
+
+		return "ok";
+	}
+
+	@RequiresPermissions("order:orderAfterSales:edit")
+	@RequestMapping(value = "returnMoney")
+	@ResponseBody
+	public String returnMoney(OrderAfterSales simpleOrderAfter, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, simpleOrderAfter)){
+			return "error";
+		}
+
+		orderAfterSalesService.returnMoney(simpleOrderAfter);
+
+		return "ok";
+	}
+	@RequiresPermissions("order:orderAfterSales:edit")
+	@RequestMapping(value = "backaddress")
+	@ResponseBody
+	public String backaddress(OrderAfterSales simpleOrderAfter, Model model, RedirectAttributes redirectAttributes) {
+		if (!beanValidator(model, simpleOrderAfter)){
+			return "error";
+		}
+		orderAfterSalesService.backaddress(simpleOrderAfter);
+
+		return "ok";
+	}
 	@RequiresPermissions("order:orderAfterSales:edit")
 	@RequestMapping(value = "delete")
 	public String delete(OrderAfterSales orderAfterSales, RedirectAttributes redirectAttributes) {

@@ -14,11 +14,11 @@
 			$("#searchForm").submit();
         	return false;
         }
-       function de(){
+       function de(id){
            layer.open({
                type: 1,
                shadeClose: true,
-               content:$("#"),
+               content:"<div  class='form-search' style='padding:20px;text-align:center;'>快递公司：<input type='text' id='backcourier2' name='backcourier'/> </br>快递单号：<input type='text' id='backnumber2' name='backnumber'/></br>快递费用：<input type='text' id='backmoney2' name='backmoney'/></div>",
                btn: ['确定', '取消']
                , yes: function (index, f) {
                    var backcourier=$("#backcourier2").val();
@@ -37,7 +37,7 @@
                        return false;
                    }
                    resetTip(); //loading();
-                   var url = href + "&courier=" + encodeURIComponent(backcourier) + "&delivernumber=" + encodeURIComponent(backnumber) + "&delivermoney=" + encodeURIComponent(backmoney);
+                   var url =  "${ctx}/order/order/fast?id="+id+"&expressName=" + encodeURIComponent(backcourier) + "&invoiceNo=" + encodeURIComponent(backnumber) + "&freight=" + encodeURIComponent(backmoney);
                    $.ajax({
                        type : "post",
                        async : false,
@@ -72,7 +72,7 @@
        };
 	</script>
 </head>
-<div id="" class='form-search' style='padding:20px;text-align:center;'>快递公司：<input type='text' id='backcourier2' name='backcourier'/> </br>快递单号：<input type='text' id='backnumber2' name='backnumber'/></br>快递费用：<input type='text' id='backmoney2' name='backmoney'/></div>
+
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/order/order/">订单管理列表</a></li>
@@ -91,8 +91,17 @@
 			<li><label>收货人电话：</label>
 				<form:input path="phone" htmlEscape="false" maxlength="11" class="input-medium"/>
 			</li>
+			<li><label>快递单号：</label>
+				<form:input path="invoiceNo" htmlEscape="false" maxlength="11" class="input-medium"/>
+			</li>
 			<li><label>收货人：</label>
 				<form:input path="consignee" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
+			<li><label>状态：</label>
+				<form:select path="state" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('order_state')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -113,6 +122,7 @@
 				<th>下单时间</th>
 				<th>付款时间</th>
 				<th>发货时间</th>
+				<th>支付交易号</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="order:order:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -146,7 +156,7 @@
 						${order.totalPrice}
 				</td>
 				<td>
-						${order.expressName} ${order.invoiceNo}
+						${order.expressName} ${order.invoiceNo} ${order.freight}
 				</td>
 				<td>
 					<fmt:formatDate value="${order.orderTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -159,11 +169,18 @@
 					<fmt:formatDate value="${order.deliveryTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
+						${order.outTradeNo}
+				</td>
+				<td>
 					${order.remarks}
 				</td>
 				<shiro:hasPermission name="order:order:edit"><td>
     				<a href="${ctx}/order/order/form?id=${order.id}">修改</a>
-                    <a href="javascript:void(0);" onclick="de()">发货</a>
+					<c:if test="${order.state==20}">
+                    <a href="javascript:void(0);" onclick="de('${order.id}')">发货</a>
+					</c:if>
+
+
 					<a href="${ctx}/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

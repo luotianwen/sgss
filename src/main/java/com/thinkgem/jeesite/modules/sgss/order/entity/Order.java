@@ -41,6 +41,16 @@ public class Order extends DataEntity<Order> {
 	private String payType;		// 支付方式
 	private Coupon coupon;		// 优惠券id
 	private Date completeTime;		// 完成时间
+	private String outTradeNo;
+
+	public String getOutTradeNo() {
+		return outTradeNo;
+	}
+
+	public void setOutTradeNo(String outTradeNo) {
+		this.outTradeNo = outTradeNo;
+	}
+
 	private List<OrderDetail> orderDetailList = Lists.newArrayList();		// 子表列表
 	
 	public Order() {

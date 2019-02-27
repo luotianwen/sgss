@@ -54,7 +54,7 @@
 		<webserver.port>8181</webserver.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
-		
+
 	</properties>
 	
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
@@ -390,7 +390,11 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 		<!-- LOGGING end -->
-		
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.10.0</version>
+		</dependency>
 		<!-- GENERAL UTILS begin -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

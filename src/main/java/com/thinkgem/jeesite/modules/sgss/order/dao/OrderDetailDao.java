@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.sgss.order.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.sgss.order.entity.Order;
 import com.thinkgem.jeesite.modules.sgss.order.entity.OrderDetail;
 
 /**
@@ -14,5 +15,5 @@ import com.thinkgem.jeesite.modules.sgss.order.entity.OrderDetail;
  */
 @MyBatisDao
 public interface OrderDetailDao extends CrudDao<OrderDetail> {
-	
+
 }

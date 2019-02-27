@@ -70,5 +70,8 @@ public class OrderService extends CrudService<OrderDao, Order> {
 		super.delete(order);
 		orderDetailDao.delete(new OrderDetail(order));
 	}
-	
+	@Transactional(readOnly = false)
+    public void fast(Order order) {
+		dao.fast(order);
+    }
 }

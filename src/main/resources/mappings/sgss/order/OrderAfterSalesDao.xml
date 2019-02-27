@@ -17,10 +17,10 @@
 		a.exchange_express_name AS "exchangeExpressName",
 		a.exchange_freight AS "exchangeFreight",
 		a.exchange_time AS "exchangeTime",
-		a.return_invoice_no2 AS "returnInvoiceNo2",
-		a.return_express_name2 AS "returnExpressName2",
+		a.return_invoice_no AS "returnInvoiceNo",
+		a.return_express_name AS "returnExpressName",
 		a.return_phone AS "returnPhone",
-		a.return_consignee2 AS "returnConsignee2",
+		a.return_consignee AS "returnConsignee",
 		a.return_address AS "returnAddress",
 		a.return_time AS "returnTime",
 		a.state AS "state",
@@ -31,7 +31,12 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		u4.name AS "user.name"
+		u4.name AS "user.name",
+		a.refund_id AS refundId,
+		a.out_refund_no AS outRefundNo,
+		a.refund_time AS refundTime,
+		a.refund_state AS refundState,
+		a.return_amount AS returnAmount
 	</sql>
 	
 	<sql id="orderAfterSalesJoins">
@@ -57,15 +62,19 @@
 				AND a.ordernumber = #{ordernumber}
 			</if>
 			<if test="state != null and state != ''">
-				AND a.state = #{state}
+			AND a.state = #{state}
+		</if>
+			<if test="refundState != null and refundState != ''">
+				AND a.refund_state = #{refundState}
 			</if>
+
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -83,7 +92,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.create_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -104,10 +113,10 @@
 			exchange_express_name,
 			exchange_freight,
 			exchange_time,
-			return_invoice_no2,
-			return_express_name2,
+			return_invoice_no,
+			return_express_name,
 			return_phone,
-			return_consignee2,
+			return_consignee,
 			return_address,
 			return_time,
 			state,
@@ -133,10 +142,10 @@
 			#{exchangeExpressName},
 			#{exchangeFreight},
 			#{exchangeTime},
-			#{returnInvoiceNo2},
-			#{returnExpressName2},
+			#{returnInvoiceNo},
+			#{returnExpressName},
 			#{returnPhone},
-			#{returnConsignee2},
+			#{returnConsignee},
 			#{returnAddress},
 			#{returnTime},
 			#{state},
@@ -165,10 +174,10 @@
 			exchange_express_name = #{exchangeExpressName},
 			exchange_freight = #{exchangeFreight},
 			exchange_time = #{exchangeTime},
-			return_invoice_no2 = #{returnInvoiceNo2},
-			return_express_name2 = #{returnExpressName2},
+			return_invoice_no = #{returnInvoiceNo},
+			return_express_name = #{returnExpressName},
 			return_phone = #{returnPhone},
-			return_consignee2 = #{returnConsignee2},
+			return_consignee = #{returnConsignee},
 			return_address = #{returnAddress},
 			return_time = #{returnTime},
 			state = #{state},
@@ -178,7 +187,33 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="backaddress">
+		UPDATE s_order_after_sales SET
+			return_phone = #{returnPhone},
+			return_consignee = #{returnConsignee},
+			return_address = #{returnAddress},
+			update_date=now()
+			WHERE id = #{id}
+	</update>
+
+	<update id="fast">
+		UPDATE s_order_after_sales SET
+			exchange_invoice_no = #{exchangeInvoiceNo},
+			exchange_express_name = #{exchangeExpressName},
+			exchange_freight = #{exchangeFreight},
+			state=60
+			WHERE id = #{id}
+	</update>
+
+	<update id="updateState">
+		UPDATE s_order_after_sales SET
+			state = #{state}
+			WHERE id = #{id}
+	</update>
+
+
+
 	<update id="delete">
 		UPDATE s_order_after_sales SET 
 			del_flag = #{DEL_FLAG_DELETE}

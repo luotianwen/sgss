@@ -14,5 +14,10 @@ import com.thinkgem.jeesite.modules.sgss.order.entity.OrderAfterSales;
  */
 @MyBatisDao
 public interface OrderAfterSalesDao extends CrudDao<OrderAfterSales> {
-	
+
+    void backaddress(OrderAfterSales simpleOrderAfter);
+
+    void updateState(OrderAfterSales orderAfterSales2);
+
+    void fast(OrderAfterSales simpleOrderAfter);
 }

@@ -3,8 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.thinkgem.jeesite.common.config.Global;
+import okhttp3.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +46,47 @@ public class OrderAfterSalesService extends CrudService<OrderAfterSalesDao, Orde
 	public void delete(OrderAfterSales orderAfterSales) {
 		super.delete(orderAfterSales);
 	}
-	
+	@Transactional(readOnly = false)
+    public void backaddress(OrderAfterSales simpleOrderAfter) {
+		OrderAfterSales orderAfterSales2=this.get(simpleOrderAfter.getId());
+		if(orderAfterSales2.getType().equals("1"))
+		{
+			orderAfterSales2.setState("20");
+		}
+		if(orderAfterSales2.getType().equals("2"))
+		{
+			orderAfterSales2.setState("30");
+		}
+		dao.updateState(orderAfterSales2);
+		dao.backaddress(simpleOrderAfter);
+    }
+	@Transactional(readOnly = false)
+	public void fast(OrderAfterSales simpleOrderAfter) {
+		dao.fast(simpleOrderAfter);
+	}
+
+	public void returnMoney(OrderAfterSales simpleOrderAfter) {
+		simpleOrderAfter.setReturnAmount(simpleOrderAfter.getReturnAmount()*100);
+		OrderAfterSales simpleOrderAfter2=this.get(simpleOrderAfter.getId());
+		OkHttpClient okHttpClient = new OkHttpClient();
+		RequestBody requestBody = new FormBody.Builder()
+				.add("flag", "yoyound123")
+				.add("orderNumber",simpleOrderAfter2.getOrdernumber())
+				.add("refundFee",simpleOrderAfter.getReturnAmount()+"")
+				.build();
+
+		Request request = new Request.Builder()
+				.url(Global.getConfig("refundUrl"))
+				.post(requestBody)
+				.build();
+
+		okHttpClient.newCall(request).enqueue(new Callback() {
+			public void onFailure(Call call, IOException e) {
+			}
+
+			public void onResponse(Call call, Response response) throws IOException {
+
+			}
+		});
+	}
 }

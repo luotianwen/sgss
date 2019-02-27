@@ -123,13 +123,13 @@
 		<div class="control-group">
 			<label class="control-label">退货单号：</label>
 			<div class="controls">
-				<form:input path="returnInvoiceNo2" htmlEscape="false" maxlength="50" class="input-xlarge "/>
+				<form:input path="returnInvoiceNo" htmlEscape="false" maxlength="50" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">退货快递公司：</label>
 			<div class="controls">
-				<form:input path="returnExpressName2" htmlEscape="false" maxlength="20" class="input-xlarge "/>
+				<form:input path="returnExpressName" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -141,7 +141,7 @@
 		<div class="control-group">
 			<label class="control-label">退货收货人：</label>
 			<div class="controls">
-				<form:input path="returnConsignee2" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<form:input path="returnConsignee" htmlEscape="false" maxlength="100" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -179,6 +179,34 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="100" class="input-xxlarge "/>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">退款状态：</label>
+			<div class="controls">
+				<form:select path="refundState" class="input-xlarge ">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">退款单号：</label>
+			<div class="controls">
+				<form:input path="refundId" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">退款流水号：</label>
+			<div class="controls">
+				<form:input path="outRefundNo" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">退款时间：</label>
+			<div class="controls">
+				<form:input path="refundTime" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+			</div>
+		</div>
+
 		<div class="form-actions">
 			<shiro:hasPermission name="order:orderAfterSales:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
