@@ -42,8 +42,17 @@ public class Order extends DataEntity<Order> {
 	private Coupon coupon;		// 优惠券id
 	private Date completeTime;		// 完成时间
 	private String outTradeNo;
+    private String refundState;		// 售后状态
 
-	public String getOutTradeNo() {
+    public String getRefundState() {
+        return refundState;
+    }
+
+    public void setRefundState(String refundState) {
+        this.refundState = refundState;
+    }
+
+    public String getOutTradeNo() {
 		return outTradeNo;
 	}
 

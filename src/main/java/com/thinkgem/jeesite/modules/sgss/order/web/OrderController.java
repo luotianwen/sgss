@@ -84,7 +84,14 @@ public class OrderController extends BaseController {
 		addMessage(redirectAttributes, "保存订单管理成功");
 		return "redirect:"+Global.getAdminPath()+"/order/order/?repage";
 	}
-	
+    @RequiresPermissions("order:order:edit")
+    @RequestMapping(value = "after")
+    public String after(Order order, Model model, RedirectAttributes redirectAttributes) {
+        orderService.after(order);
+        addMessage(redirectAttributes, "申请订单售后成功");
+        return "redirect:"+Global.getAdminPath()+"/order/order/?repage";
+    }
+
 	@RequiresPermissions("order:order:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Order order, RedirectAttributes redirectAttributes) {

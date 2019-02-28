@@ -99,7 +99,7 @@
 		<div class="control-group">
 			<label class="control-label">用户：</label>
 			<div class="controls">
-				<form:input path="user.id" htmlEscape="false" maxlength="200" class="input-xlarge "/>
+				<%--<form:input path="user.id" htmlEscape="false" maxlength="200" class="input-xlarge "/>--%>
 				<form:input path="user.name" htmlEscape="false" maxlength="200" class="input-xlarge "/>
 			<%--	<sys:treeselect id="user" name="user.id" value="${order.user.id}" labelName="user.name" labelValue="${order.user.name}"
 					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
@@ -233,21 +233,19 @@
 							<td class="hide">
 								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
 								<input id="orderDetailList{{idx}}_delFlag" name="orderDetailList[{{idx}}].delFlag" type="hidden" value="0"/>
-
-								<input id="orderDetailList{{idx}}_id" name="orderDetailList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-
 								<input id="orderDetailList{{idx}}_goods_id" name="orderDetailList[{{idx}}].goods.id" type="hidden" value="{{row.goods.id}}"/>
 								<input id="orderDetailList{{idx}}_sku_id" name="orderDetailList[{{idx}}].sku.id" type="hidden" value="{{row.sku.id}}"/>
 							</td>
 
-							<td>
-								<input id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" type="text" value="{{row.name}}" readonly="true" maxlength="200" class="input-small "/>
+							<td tilte="{{row.name}}">
+							<textarea tilte="{{row.name}}" id="orderDetailList{{idx}}_name" name="orderDetailList[{{idx}}].name" rows="2" maxlength="100" readonly="true" class="input-large ">{{row.name}}</textarea>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_artno" name="orderDetailList[{{idx}}].artno" type="text" value="{{row.artno}}" readonly="true" maxlength="20" class="input-small "/>
 							</td>
 							<td>
-								<input id="orderDetailList{{idx}}_logo" name="orderDetailList[{{idx}}].logo" type="text" value="{{row.logo}}" readonly="true" maxlength="200" class="input-small "/>
+							 <input id="orderDetailList{{idx}}logo" name="orderDetailList[{{idx}}].logo" type="hidden" value="{{row.logo}}"/>
+                            <sys:ckfinder input="orderDetailList{{idx}}logo" type="images" uploadPath="/goods/goods" selectMultiple="false" readonly="true" maxWidth="60" maxHeight="60"/>
 							</td>
 							<td>
 								<input id="orderDetailList{{idx}}_spec1" name="orderDetailList[{{idx}}].spec1" type="text" value="{{row.spec1}}" readonly="true" maxlength="20" class="input-small "/>

@@ -180,8 +180,14 @@
                     <a href="javascript:void(0);" onclick="de('${order.id}')">发货</a>
 					</c:if>
 
-
-					<a href="${ctx}/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
+                    <c:if test="${order.refundState==1}">
+					    <a href="${ctx}/order/orderAfterSales/?ordernumber=${order.ordernumber}" >售后信息</a>
+                        <a href="${ctx}/order/orderAfterSalesLog/?ordernumber=${order.ordernumber}">退款信息</a>
+                    </c:if>
+                    <c:if test="${order.refundState==0}">
+                    <a href="${ctx}/order/order/after?id=${order.id}" onclick="return confirmx('确认要申请售后吗？', this.href)">申请售后</a>
+                    </c:if>
+                    <a href="${ctx}/order/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

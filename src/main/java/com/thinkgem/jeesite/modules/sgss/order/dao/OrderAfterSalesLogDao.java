@@ -5,17 +5,14 @@ package com.thinkgem.jeesite.modules.sgss.order.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.sgss.order.entity.Order;
+import com.thinkgem.jeesite.modules.sgss.order.entity.OrderAfterSalesLog;
 
 /**
- * 订单管理DAO接口
+ * 售后退款日志DAO接口
  * @author martins
- * @version 2018-11-22
+ * @version 2019-02-28
  */
 @MyBatisDao
-public interface OrderDao extends CrudDao<Order> {
-
-    void fast(Order order);
-
-    void after(Order order);
+public interface OrderAfterSalesLogDao extends CrudDao<OrderAfterSalesLog> {
+	
 }

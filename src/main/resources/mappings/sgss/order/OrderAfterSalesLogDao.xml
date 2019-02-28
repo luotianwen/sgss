@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.order.dao.OrderAfterSalesLogDao">
+    
+	<sql id="orderAfterSalesLogColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.ordernumber AS "ordernumber",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.return_amount AS "returnAmount",
+		a.refund_id AS "refundId",
+		a.out_refund_no AS "outRefundNo"
+	</sql>
+	
+	<sql id="orderAfterSalesLogJoins">
+	</sql>
+    
+	<select id="get" resultType="OrderAfterSalesLog">
+		SELECT 
+			<include refid="orderAfterSalesLogColumns"/>
+		FROM s_order_after_sales_log a
+		<include refid="orderAfterSalesLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderAfterSalesLog">
+		SELECT 
+			<include refid="orderAfterSalesLogColumns"/>
+		FROM s_order_after_sales_log a
+		<include refid="orderAfterSalesLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="ordernumber != null and ordernumber != ''">
+				AND a.ordernumber = #{ordernumber}
+			</if>
+			<if test="refundId != null and refundId != ''">
+				AND a.refund_id = #{refundId}
+			</if>
+			<if test="outRefundNo != null and outRefundNo != ''">
+				AND a.out_refund_no = #{outRefundNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderAfterSalesLog">
+		SELECT 
+			<include refid="orderAfterSalesLogColumns"/>
+		FROM s_order_after_sales_log a
+		<include refid="orderAfterSalesLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_order_after_sales_log(
+			id,
+			num,
+			ordernumber,
+			create_by,
+			update_by,
+			create_date,
+			update_date,
+			remarks,
+			del_flag,
+			return_amount,
+			refund_id,
+			out_refund_no
+		) VALUES (
+			#{id},
+			#{num},
+			#{ordernumber},
+			#{createBy.id},
+			#{updateBy.id},
+			#{createDate},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{returnAmount},
+			#{refundId},
+			#{outRefundNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_order_after_sales_log SET 	
+			num = #{num},
+			ordernumber = #{ordernumber},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			return_amount = #{returnAmount},
+			refund_id = #{refundId},
+			out_refund_no = #{outRefundNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_order_after_sales_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -32,7 +32,8 @@
 		u7.name AS "user.name",
 		c.name as "coupon.name",
 		a.outTradeNo as outTradeNo,
-		a.transactionid as transactionid
+		a.transactionid as transactionid,
+		a.refund_state as refundState
 	</sql>
 	
 	<sql id="orderJoins">
@@ -188,6 +189,12 @@
 		freight = #{freight},
 			express_name = #{expressName},
 		update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+
+    <update id="after">
+		UPDATE s_order SET
+			refund_state = 1
 		WHERE id = #{id}
 	</update>
 	<update id="delete">

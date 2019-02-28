@@ -294,6 +294,8 @@
 					<a href="${ctx}/order/orderAfterSales/delete?id=${orderAfterSales.id}" onclick="return confirmx('确认要删除该订单售后吗？', this.href)">删除</a>
 					</c:if>
 					<a   href="javascript:void(0)" onclick="return returnMoney('${orderAfterSales.id}')">退款</a>
+					<a href="${ctx}/order/order/?ordernumber=${orderAfterSales.ordernumber}">订单信息</a>
+                    <a href="${ctx}/order/orderAfterSalesLog/?ordernumber=${orderAfterSales.ordernumber}">退款信息</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

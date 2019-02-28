@@ -3,8 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.sgss.order.entity.OrderAfterSales;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,4 +76,20 @@ public class OrderService extends CrudService<OrderDao, Order> {
     public void fast(Order order) {
 		dao.fast(order);
     }
+    @Transactional(readOnly = false)
+    public void after(Order order) {
+        dao.after(order);
+        Order order2=this.get(order.getId());
+
+        OrderAfterSales orderAfterSales=new OrderAfterSales();
+        orderAfterSales.setOrdernumber(order2.getOrdernumber());
+        orderAfterSales.setApplyTime(new Date());
+        orderAfterSales.setType("1");
+        orderAfterSales.setUser(order2.getUser());
+        orderAfterSales.setState("10");
+        orderAfterSalesService.save(orderAfterSales);
+    }
+
+    @Autowired
+    private OrderAfterSalesService orderAfterSalesService;
 }
