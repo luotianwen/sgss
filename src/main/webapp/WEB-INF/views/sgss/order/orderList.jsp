@@ -123,6 +123,7 @@
 				<th>付款时间</th>
 				<th>发货时间</th>
 				<th>支付交易号</th>
+				<th>是否售后</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="order:order:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -170,6 +171,10 @@
 				</td>
 				<td>
 						${order.outTradeNo}
+				</td>
+				<td>
+
+						${fns:getDictLabel(order.refundState, 'yes_no', '')}
 				</td>
 				<td>
 					${order.remarks}

@@ -281,8 +281,9 @@
 					${orderAfterSales.remarks}
 				</td>
 				<shiro:hasPermission name="order:orderAfterSales:edit"><td>
+					<a href="${ctx}/order/orderAfterSales/form?id=${orderAfterSales.id}">修改</a>
 					<c:if test="${orderAfterSales.refundState==0}">
-    				<a href="${ctx}/order/orderAfterSales/form?id=${orderAfterSales.id}">修改</a>
+
 					<c:if test="${orderAfterSales.state==10}">
 						<a href="javascript:void(0)"
 						   onclick="return promptx('${orderAfterSales.id}')">同意</a>
