@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.weixin.dao.WeixinDao">
+    
+	<sql id="weixinColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.url AS "url",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="weixinJoins">
+	</sql>
+    
+	<select id="get" resultType="Weixin">
+		SELECT 
+			<include refid="weixinColumns"/>
+		FROM s_weixin a
+		<include refid="weixinJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Weixin">
+		SELECT 
+			<include refid="weixinColumns"/>
+		FROM s_weixin a
+		<include refid="weixinJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Weixin">
+		SELECT 
+			<include refid="weixinColumns"/>
+		FROM s_weixin a
+		<include refid="weixinJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_weixin(
+			id,
+			name,
+			url,
+			create_date
+		) VALUES (
+			#{id},
+			#{name},
+			#{url},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_weixin SET 	
+			name = #{name},
+			url = #{url}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_weixin
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

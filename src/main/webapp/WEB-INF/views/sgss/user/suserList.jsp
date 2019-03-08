@@ -56,6 +56,7 @@
 				<th>状态</th>
 				<th>注册时间</th>
 				<th>备注信息</th>
+				<th>代理</th>
 				<shiro:hasPermission name="user:suser:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -86,6 +87,9 @@
 				</td>
 				<td>
 					${suser.remarks}
+				</td>
+				<td>
+						${suser.agent.name}
 				</td>
 				<shiro:hasPermission name="user:suser:edit"><td>
     				<a href="${ctx}/user/suser/form?id=${suser.id}">修改</a>

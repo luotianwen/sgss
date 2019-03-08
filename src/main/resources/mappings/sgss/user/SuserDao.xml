@@ -16,10 +16,13 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		g.name as "agent.name",
+		g.id as "agent.id"
 	</sql>
 	
 	<sql id="suserJoins">
+        left join s_user g on g.id=a.agentId
 	</sql>
     
 	<select id="get" resultType="Suser">

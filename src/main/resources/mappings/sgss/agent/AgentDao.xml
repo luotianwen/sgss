@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.agent.dao.AgentDao">
+    
+	<sql id="agentColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.sex AS "sex",
+		a.phone AS "phone",
+		a.email AS "email",
+		a.weixin AS "weixin",
+		a.mobile AS "mobile",
+		a.money AS "money",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.login_name AS "loginName",
+		a.password AS "password",
+		a.state AS "state",
+		a.discountid AS "discountid",
+		a.apay AS "apay",
+		a.address AS "address",
+		a.userid AS "userid",
+		d.discount AS "discount",
+		d.name AS "discountName",
+		u.nickname as "nickname"
+	</sql>
+	
+	<sql id="agentJoins">
+		left join s_discount d on d.id=a.discountid
+		left join s_user u on u.id=a.userid
+	</sql>
+    
+	<select id="get" resultType="Agent">
+		SELECT 
+			<include refid="agentColumns"/>
+		FROM s_agent a
+		<include refid="agentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Agent">
+		SELECT 
+			<include refid="agentColumns"/>
+		FROM s_agent a
+		<include refid="agentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				AND a.mobile = #{mobile}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="userid != null and userid != ''">
+				AND a.userid = #{userid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Agent">
+		SELECT 
+			<include refid="agentColumns"/>
+		FROM s_agent a
+		<include refid="agentJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_agent(
+			id,
+			name,
+			sex,
+			phone,
+			email,
+			weixin,
+			mobile,
+			money,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			login_name,
+			password,
+			state,
+			discountid,
+			apay,
+			address,
+			userid
+		) VALUES (
+			#{id},
+			#{name},
+			#{sex},
+			#{phone},
+			#{email},
+			#{weixin},
+			#{mobile},
+			#{money},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{loginName},
+			#{password},
+			#{state},
+			#{discountid},
+			#{apay},
+			#{address},
+			#{userid}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_agent SET 	
+			name = #{name},
+			sex = #{sex},
+			phone = #{phone},
+			email = #{email},
+			weixin = #{weixin},
+			mobile = #{mobile},
+			money = #{money},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			login_name = #{loginName},
+			password = #{password},
+			state = #{state},
+			discountid = #{discountid},
+			apay = #{apay},
+			address = #{address},
+			userid = #{userid}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_agent SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

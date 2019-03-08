@@ -22,9 +22,17 @@ public class Suser extends DataEntity<Suser> {
 	private String nickname;		// 昵称
 	private String state;		// 状态
 	private String openid;		// 微信openid
-	
+	private Suser  agent;
 	public Suser() {
 		super();
+	}
+
+	public Suser getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Suser agent) {
+		this.agent = agent;
 	}
 
 	public Suser(String id){
