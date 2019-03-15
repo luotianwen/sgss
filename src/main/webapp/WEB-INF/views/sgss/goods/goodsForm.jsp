@@ -54,6 +54,18 @@
 				$(obj).parent().parent().removeClass("error");
 			}
 		}
+
+        function generatemarketprices() {
+            var price=$("#marketprices").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("市场价格必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_marketPrice").val(price);
+            }
+
+        }
 		function generatePrice() {
 			var price=$("#prices").val();
 			if(price.length==0||price==0){
@@ -221,6 +233,8 @@
 								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="统一价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+								<th>市场价<input id="marketprices" name="marketprices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="统一市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+
 								<th>序号</th>
 								<th>库存</th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
@@ -246,6 +260,9 @@
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small "/>
+							</td>
+							<td>
+								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small "/>
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_sort" name="goodsSkuList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>

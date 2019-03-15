@@ -33,14 +33,24 @@
 		c.name as "coupon.name",
 		a.outTradeNo as outTradeNo,
 		a.transactionid as transactionid,
-		a.refund_state as refundState
+		a.refund_state as refundState,
+		a.isAgent,
+		g.name as "agent.name"
 	</sql>
 	
 	<sql id="orderJoins">
 		LEFT JOIN s_user u7 ON u7.id = a.user_id
+		LEFT JOIN s_agent g ON g.id = a.agentId
 		left  join  s_coupon  c on c.id=a.coupon_id
 	</sql>
-    
+
+	<select id="getByOrderNumber" resultType="Order">
+		SELECT
+		<include refid="orderColumns"/>
+		FROM s_order a
+		<include refid="orderJoins"/>
+		WHERE a.ordernumber=#{ordernumber}
+	</select>
 	<select id="get" resultType="Order">
 		SELECT 
 			<include refid="orderColumns"/>

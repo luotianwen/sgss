@@ -21,7 +21,16 @@ public class GoodsSku extends DataEntity<GoodsSku> {
 	private String price;		// 本店售价
 	private Integer sort;		// 序号
 	private String stock;		// 库存
-	
+	private String marketPrice; //市场价
+
+	public String getMarketPrice() {
+		return marketPrice;
+	}
+
+	public void setMarketPrice(String marketPrice) {
+		this.marketPrice = marketPrice;
+	}
+
 	public GoodsSku() {
 		super();
 	}

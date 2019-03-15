@@ -18,14 +18,32 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private Order order;		// 订单编号 父类
 	private String goods;		// 商品id
 	private String sku;		// skuid
-	private String name;		// 商品名称
+	private String name;		// 商品名称P
 	private String artno;		// 货号
 	private String logo;		// 商品主图
 	private String spec1;		// 规格1
 	private String spec2;		// 规格2
 	private String price;		// 本店售价
 	private String number;		// 数量
-	
+    private double discount;
+	private double agentMoney;
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
+	public double getAgentMoney() {
+		return agentMoney;
+	}
+
+	public void setAgentMoney(double agentMoney) {
+		this.agentMoney = agentMoney;
+	}
+
 	public OrderDetail() {
 		super();
 	}

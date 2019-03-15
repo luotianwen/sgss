@@ -92,4 +92,10 @@ public class OrderService extends CrudService<OrderDao, Order> {
 
     @Autowired
     private OrderAfterSalesService orderAfterSalesService;
+
+    public Order getByOrderNumber(String ordernumber) {
+		Order order =dao.getByOrderNumber(ordernumber);
+		order.setOrderDetailList(orderDetailDao.findList(new OrderDetail(order)));
+		return order;
+    }
 }

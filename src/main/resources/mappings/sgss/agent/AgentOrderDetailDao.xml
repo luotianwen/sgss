@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.agent.dao.AgentOrderDetailDao">
+    
+	<sql id="agentOrderDetailColumns">
+		a.id AS "id",
+		a.ordernumber AS "ordernumber",
+		a.money AS "money",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate",
+		a.agentorderid AS "agentorder.id"
+	</sql>
+	
+	<sql id="agentOrderDetailJoins">
+		LEFT JOIN s_agent_order b ON b.id = a.agentorderid
+	</sql>
+    
+	<select id="get" resultType="AgentOrderDetail">
+		SELECT 
+			<include refid="agentOrderDetailColumns"/>
+		FROM s_agent_order_detail a
+		<include refid="agentOrderDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AgentOrderDetail">
+		SELECT 
+			<include refid="agentOrderDetailColumns"/>
+		FROM s_agent_order_detail a
+		<include refid="agentOrderDetailJoins"/>
+		<where>
+			
+			<if test="agentorder != null and agentorder.id != null and agentorder.id != ''">
+				AND a.agentorderid = #{agentorder.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AgentOrderDetail">
+		SELECT 
+			<include refid="agentOrderDetailColumns"/>
+		FROM s_agent_order_detail a
+		<include refid="agentOrderDetailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_agent_order_detail(
+			id,
+			ordernumber,
+			money,
+			create_date,
+			update_date,
+			agentorderid
+		) VALUES (
+			#{id},
+			#{ordernumber},
+			#{money},
+			#{createDate},
+			#{updateDate},
+			#{agentorder.id}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_agent_order_detail SET 	
+			ordernumber = #{ordernumber},
+			money = #{money},
+			update_date = #{updateDate},
+			agentorderid = #{agentorder.id}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_agent_order_detail
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE agentorderid = #{agentorder.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

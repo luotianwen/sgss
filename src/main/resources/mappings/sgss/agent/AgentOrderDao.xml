@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.agent.dao.AgentOrderDao">
+    
+	<sql id="agentOrderColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.state AS "state",
+		a.money AS "money",
+		a.agentid AS "agent.id",
+		g.name AS "agent.name",
+		a.create_date AS "createDate",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="agentOrderJoins">
+		left join s_agent g on g.id=a.agentid
+	</sql>
+    
+	<select id="get" resultType="AgentOrder">
+		SELECT 
+			<include refid="agentOrderColumns"/>
+		FROM s_agent_order a
+		<include refid="agentOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="AgentOrder">
+		SELECT 
+			<include refid="agentOrderColumns"/>
+		FROM s_agent_order a
+		<include refid="agentOrderJoins"/>
+		<where>
+			
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="agent!= null and agent.id != ''">
+				AND a.agentid = #{agent.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="beginUpdateDate != null and endUpdateDate != null and beginUpdateDate != '' and endUpdateDate != ''">
+				AND a.update_date BETWEEN #{beginUpdateDate} AND #{endUpdateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="AgentOrder">
+		SELECT 
+			<include refid="agentOrderColumns"/>
+		FROM s_agent_order a
+		<include refid="agentOrderJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_agent_order(
+			id,
+			num,
+			state,
+			money,
+			agentid,
+			create_date,
+			update_date
+		) VALUES (
+			#{id},
+			#{num},
+			#{state},
+			#{money},
+			#{createDate},
+			#{updateDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_agent_order SET 	
+			num = #{num},
+			state = #{state},
+			money = #{money},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_agent_order
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

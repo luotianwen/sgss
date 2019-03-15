@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.entity;
 
+import com.thinkgem.jeesite.modules.sgss.agent.entity.Agent;
 import com.thinkgem.jeesite.modules.sgss.coupon.entity.Coupon;
 import com.thinkgem.jeesite.modules.sgss.user.entity.Suser;
 import org.hibernate.validator.constraints.Length;
@@ -43,8 +44,26 @@ public class Order extends DataEntity<Order> {
 	private Date completeTime;		// 完成时间
 	private String outTradeNo;
     private String refundState;		// 售后状态
+	private Agent agent;
+	private String isAgent;
 
-    public String getRefundState() {
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+
+	public String getIsAgent() {
+		return isAgent;
+	}
+
+	public void setIsAgent(String isAgent) {
+		this.isAgent = isAgent;
+	}
+
+	public String getRefundState() {
         return refundState;
     }
 

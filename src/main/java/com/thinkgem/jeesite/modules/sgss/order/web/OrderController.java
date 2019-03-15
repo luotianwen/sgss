@@ -56,6 +56,13 @@ public class OrderController extends BaseController {
 	}
 
 	@RequiresPermissions("order:order:view")
+	@RequestMapping(value = "view")
+	public String view(Order order, Model model) {
+		order=orderService.getByOrderNumber(order.getOrdernumber());
+		model.addAttribute("order", order);
+		return "sgss/order/orderView";
+	}
+	@RequiresPermissions("order:order:view")
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);

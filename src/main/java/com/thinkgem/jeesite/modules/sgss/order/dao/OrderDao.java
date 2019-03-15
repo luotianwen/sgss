@@ -18,4 +18,6 @@ public interface OrderDao extends CrudDao<Order> {
     void fast(Order order);
 
     void after(Order order);
+
+    Order getByOrderNumber(String ordernumber);
 }
