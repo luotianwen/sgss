@@ -54,7 +54,17 @@
 				$(obj).parent().parent().removeClass("error");
 			}
 		}
+        function generatestocks() {
+            var price=$("#stocks").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("库存必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_stock").val(price);
+            }
 
+        }
         function generatemarketprices() {
             var price=$("#marketprices").val();
             if(price.length==0||price==0){
@@ -102,7 +112,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">货号：</label>
+			<label class="control-label">货号(先填货号在选图)：</label>
 			<div class="controls">
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-xlarge "/>
 			</div>
@@ -111,7 +121,7 @@
 			<label class="control-label">主图：</label>
 			<div class="controls">
 				<form:hidden id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="logo" type="images" uploadPath="/goods/goods" selectMultiple="false"/>
+				<sys:ckfinder input="logo" type="images" uploadPath="/goods/main" selectMultiple="false" attrno="artno"/>
 
 			</div>
 		</div>
@@ -156,16 +166,16 @@
 		<div class="control-group">
 			<label class="control-label">详情:</label>
 			<div class="controls">
-				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge"/>
+				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge" cssStyle="width: 50%"/>
 				<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
-				<sys:umeditor replace="details"  />
+				<sys:umeditor replace="details"   />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">图片(多图):</label>
 			<div class="controls">
 				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/goods" selectMultiple="true"  />
+				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/more" selectMultiple="true"  attrno="artno" />
 
 
 			</div>
@@ -233,11 +243,11 @@
 								<th class="hide"></th>
 								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="统一价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-								<th>市场价<input id="marketprices" name="marketprices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="统一市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+								<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+								<th>市场价<input id="marketprices" name="marketprices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 
 								<th>序号</th>
-								<th>库存</th>
+								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
@@ -254,22 +264,22 @@
 								<input id="goodsSkuList{{idx}}_delFlag" name="goodsSkuList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_spec1" name="goodsSkuList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-small "/>
+								<input id="goodsSkuList{{idx}}_spec1" name="goodsSkuList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-small valid"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small "/>
+								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small valid"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small "/>
+								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small valid"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small "/>
+								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small valid"/>
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_sort" name="goodsSkuList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-small "/>
+								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-small valid"/>
 							</td>
 							<shiro:hasPermission name="goods:goods:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#goodsSkuList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
