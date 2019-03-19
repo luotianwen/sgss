@@ -156,15 +156,16 @@
 		<div class="control-group">
 			<label class="control-label">详情:</label>
 			<div class="controls">
-				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4" maxlength="200" class="input-xxlarge"/>
-				<sys:ckeditor replace="details" uploadPath="/goods/goods"  />
+				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge"/>
+				<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
+				<sys:umeditor replace="details"  />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">图片(多图):</label>
 			<div class="controls">
 				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/goods" selectMultiple="true"/>
+				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/goods" selectMultiple="true"  />
 
 
 			</div>

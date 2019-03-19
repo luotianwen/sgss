@@ -44,7 +44,6 @@
 		
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
-		<oracle.driver.version>10.2.0.4.0</oracle.driver.version>
 		<mssql.driver.version>1.3.1</mssql.driver.version>
 	    
 		<!-- environment setting -->
@@ -192,13 +191,21 @@
 			<version>${mysql.driver.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
+
+		<!--<dependency>
+			<groupId>com.baidu</groupId>
+			<artifactId>ueditor</artifactId>
+			<version>mini</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ueditor-mini.jar</systemPath>
+		</dependency>-->
+		<!--<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>${oracle.driver.version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
