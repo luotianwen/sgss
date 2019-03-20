@@ -186,6 +186,21 @@
 				<form:input path="sales" htmlEscape="false" class="input-xlarge "/>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">规格1：</label>
+			<div class="controls">
+				<input id="gg1" class="input-xlarge " type="text">以英文逗号隔开(红色,黑色,白色)
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">规格2：</label>
+			<div class="controls">
+				<input id="gg2" class="input-xlarge " type="text">以英文逗号隔开(S,M,L)<input   class="btn btn-primary" type="button" value="生成sku" onclick="generateSku()">
+			</div>
+		</div>
+			<div class="control-group">
+
+		</div>
 		<%--<div class="control-group">
             <label class="control-label">商品图片：</label>
             <div class="controls">
@@ -246,7 +261,7 @@
 								<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<th>市场价<input id="marketprices" name="marketprices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 
-								<th>序号</th>
+								<%--<th>序号</th>--%>
 								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
@@ -275,9 +290,9 @@
 							<td>
 								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small valid"/>
 							</td>
-							<td>
+							<%--<td>
 								<input id="goodsSkuList{{idx}}_sort" name="goodsSkuList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>
-							</td>
+							</td>--%>
 							<td>
 								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-small valid"/>
 							</td>
@@ -296,6 +311,20 @@
 								goodsSkuRowIdx = goodsSkuRowIdx + 1;
 							}
 						});
+                        function generateSku(){
+                            var _gg1=$("#gg1").val().split(",");
+                            var _gg2=$("#gg2").val().split(",");
+                            for (var _gg11 in _gg1){
+                                for (var _gg22 in _gg2){
+                                    data={};
+                                    data.spec1=_gg1[_gg11];
+                                    data.spec2=_gg2[_gg22];
+                                    data.sort=goodsSkuRowIdx;
+                                    addRow('#goodsSkuList', goodsSkuRowIdx, goodsSkuTpl,data );
+                                    goodsSkuRowIdx = goodsSkuRowIdx + 1;
+                                }
+                            }
+						}
 					</script>
 				</div>
 			</div>

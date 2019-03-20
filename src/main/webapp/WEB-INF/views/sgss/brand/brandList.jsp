@@ -24,6 +24,7 @@
 	<form:form id="searchForm" modelAttribute="brand" action="${ctx}/brand/brand/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
@@ -41,10 +42,9 @@
 			<tr>
 				<th>名称</th>
 				<th>主图</th>
-				<th>序号</th>
+				<th class="sort-column sort">序号</th>
 				<th>状态</th>
 				<th>更新时间</th>
-				<th>备注信息</th>
 				<shiro:hasPermission name="brand:brand:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -66,9 +66,7 @@
 				<td>
 					<fmt:formatDate value="${brand.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<td>
-					${brand.remarks}
-				</td>
+
 				<shiro:hasPermission name="brand:brand:edit"><td>
     				<a href="${ctx}/brand/brand/form?id=${brand.id}">修改</a>
 					<a href="${ctx}/brand/brand/delete?id=${brand.id}" onclick="return confirmx('确认要删除该品牌表吗？', this.href)">删除</a>
