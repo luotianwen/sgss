@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.jd.dao.JdDao">
+    
+	<sql id="jdColumns">
+		a.id AS "id",
+		a.url AS "url",
+		a.state AS "state",
+		a.create_date AS "createDate"
+	</sql>
+	
+	<sql id="jdJoins">
+	</sql>
+    
+	<select id="get" resultType="Jd">
+		SELECT 
+			<include refid="jdColumns"/>
+		FROM s_jd a
+		<include refid="jdJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Jd">
+		SELECT 
+			<include refid="jdColumns"/>
+		FROM s_jd a
+		<include refid="jdJoins"/>
+		<where>
+			
+			<if test="url != null and url != ''">
+				AND a.url = #{url}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Jd">
+		SELECT 
+			<include refid="jdColumns"/>
+		FROM s_jd a
+		<include refid="jdJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_jd(
+			id,
+			url,
+			state,
+			create_date
+		) VALUES (
+			#{id},
+			#{url},
+			#{state},
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_jd SET 	
+			url = #{url}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_jd
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

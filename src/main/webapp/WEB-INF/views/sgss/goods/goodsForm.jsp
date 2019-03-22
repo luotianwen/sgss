@@ -101,7 +101,7 @@
 			<label class="control-label">分类：</label>
 			<div class="controls">
 				<sys:treeselect id="categoryId" name="categoryId" value="${goods.categoryId}" labelName="categoryName" labelValue="${goods.categoryName}"
-								title="分类" url="/category/scategory/treeData"  checked="true" cssClass="" allowClear="true"  />
+								title="分类" url="/category/scategory/treeData"  checked="true"  notAllowSelectParent="true" cssClass="" allowClear="true"  />
 
 			</div>
 		</div>
@@ -175,7 +175,7 @@
 			<label class="control-label">图片(多图):</label>
 			<div class="controls">
 				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/more" selectMultiple="true"  attrno="artno" />
+				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/main" selectMultiple="true"  attrno="artno" />
 
 
 			</div>
