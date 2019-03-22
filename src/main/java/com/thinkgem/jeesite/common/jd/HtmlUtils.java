@@ -1,8 +1,8 @@
 package com.thinkgem.jeesite.common.jd;
 
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-import sun.org.mozilla.javascript.internal.NativeObject;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -95,13 +95,13 @@ public class HtmlUtils {
                 pics.add(http+ node.getAttributeByName(attr));
             }*/
             engine.eval(content);
-            NativeObject pageConfig= (NativeObject) engine.get("pageConfig");//获取js中对象
+            ScriptObjectMirror pageConfig=(ScriptObjectMirror) engine.get("pageConfig");
            /* Gson gson=new Gson();
             System.out.println(gson.toJson(pageConfig));
             org.json.JSONObject container = new org.json.JSONObject(gson.toJson(pageConfig));*/
            // System.out.println(pageConfig.);
-            NativeObject product = (NativeObject) pageConfig.get ("product", null);
-              desc = (String) product.get ("desc", null);
+            ScriptObjectMirror product = (ScriptObjectMirror) pageConfig.get ("product");
+              desc = (String) product.get ("desc");
             //Object obj=engine.get("pageConfig.product.desc");//获取js中对象
              //System.out.println(desc);
         } catch (Exception e) {

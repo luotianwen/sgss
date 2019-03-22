@@ -37,8 +37,8 @@
 		<thead>
 			<tr>
 				<th>京东编号</th>
-				<th>状态</th>
 				<th>时间</th>
+				<th>状态</th>
 				<shiro:hasPermission name="jd:jd:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
