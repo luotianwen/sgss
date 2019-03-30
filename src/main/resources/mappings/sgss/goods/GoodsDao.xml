@@ -22,11 +22,15 @@
 		a.remarks AS "remarks",
 		a.imgs AS "imgs",
 		a.sales AS "sales",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		s.name AS "supplier.name",
+		s.id AS "supplier.id",
+		a.pass AS "pass"
 	</sql>
 	
 	<sql id="goodsJoins">
 		left join s_brand b on b.id=a.brand_id
+		left  join  s_supplier  s on s.id=a.supplier_id
 	</sql>
     
 	<select id="get" resultType="Goods">
@@ -36,7 +40,29 @@
 		<include refid="goodsJoins"/>
 		WHERE a.id = #{id}
 	</select>
-	
+	<select id="findByArtno" resultType="Goods">
+		SELECT
+		s.name AS "supplier.name",
+		s.id AS "supplier.id",
+		a.name AS "name",
+		a.artno AS "artno",
+		a.logo AS "logo",
+		a.market_price AS "marketPrice",
+		a.price AS "price",
+		sku.spec1 AS "spec1",
+		sku.spec2 AS "spec2",
+		sku.id as "id",
+		sku.settlement_price AS "settlementPrice"
+		FROM s_goods a
+		<include refid="goodsJoins"/>
+		left join s_goods_sku sku on a.id =sku.goods_id
+		WHERE a.artno = #{artno}
+		and a.pass='1'
+		and a.state='1'
+		and (sku.spec1=#{spec1} or sku.spec2=#{spec1} )
+		and a.del_flag = #{DEL_FLAG_NORMAL}
+	</select>
+
 	<select id="findList" resultType="Goods">
 		SELECT 
 			<include refid="goodsColumns"/>
@@ -47,14 +73,23 @@
 			<if test="name != null and name != ''">
 				AND a.name LIKE  concat('%',#{name},'%')
 			</if>
+			<if test="pass != null and pass != ''">
+				AND a.pass = #{pass}
+			</if>
 			<if test="artno != null and artno != ''">
 				AND a.artno = #{artno}
 			</if>
 			<if test="brand!= null and brand.name!= ''">
 				AND b.name LIKE  concat('%',#{brand.name},'%')
 			</if>
+			<if test="supplier != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
 			<if test="state != null and state != ''">
 				AND a.state = #{state}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
 		</where>
 		<choose>
@@ -105,7 +140,9 @@
 			remarks,
 			imgs,
 			sales,
-			del_flag
+			del_flag,
+			 supplier_id,
+			 pass
 		) VALUES (
 			#{id},
 			#{name},
@@ -125,7 +162,9 @@
 			#{remarks},
 			#{imgs},
 			#{sales},
-			#{delFlag}
+			#{delFlag},
+			#{supplier.id},
+			#{pass}
 		)
 	</insert>
 	
@@ -145,7 +184,9 @@
 			sales = #{sales},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			supplier_id=#{supplier.id},
+			pass=#{pass}
 		WHERE id = #{id}
 	</update>
 	

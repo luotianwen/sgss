@@ -4,7 +4,10 @@
 package com.thinkgem.jeesite.modules.sgss.goods.entity;
 
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
+import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
 import java.util.List;
 import com.google.common.collect.Lists;
 
@@ -24,8 +27,9 @@ public class Goods extends DataEntity<Goods> {
 	private String artno;		// 货号
 	private String logo;		// 主图
 	private Integer sort;		// 序号
-	private String marketPrice;		// 市场售价
-	private String price;		// 本店售价
+	private double marketPrice;		// 市场售价
+	private double price;		// 本店售价
+	private double settlementPrice;//供货价
 	private Brand brand;		// 品牌
 	private String state;		// 上架状态
 	private String spec1;		// 规格1
@@ -36,6 +40,50 @@ public class Goods extends DataEntity<Goods> {
 	private GoodsDetail detail;		// 商品详情
     private String imgs;
     private int sales;
+	private Supplier supplier;
+	private Date beginCreateDate;		// 开始 创建时间
+	private Date endCreateDate;		// 结束 创建时间
+	private String pass;
+
+	public double getSettlementPrice() {
+		return settlementPrice;
+	}
+
+	public void setSettlementPrice(double settlementPrice) {
+		this.settlementPrice = settlementPrice;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 
 	public String getImgs() {
 		return imgs;
@@ -120,19 +168,19 @@ public class Goods extends DataEntity<Goods> {
 		this.sort = sort;
 	}
 	
-	public String getMarketPrice() {
+	public double getMarketPrice() {
 		return marketPrice;
 	}
 
-	public void setMarketPrice(String marketPrice) {
+	public void setMarketPrice(double marketPrice) {
 		this.marketPrice = marketPrice;
 	}
 	
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

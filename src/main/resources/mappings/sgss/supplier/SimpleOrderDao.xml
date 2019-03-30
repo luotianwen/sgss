@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.supplier.dao.SimpleOrderDao">
+    
+	<sql id="simpleOrderColumns">
+		a.sourcetype AS "sourcetype",
+		a.supplier_id AS "supplierId",
+		a.id AS "id",
+		a.no AS "no",
+		a.orderid AS "orderid",
+		a.tradeid AS "tradeid",
+		a.articleno AS "articleno",
+		a.num AS "num",
+		a.money AS "money",
+		a.afterstate AS "afterstate",
+		a.type AS "type",
+		a.price AS "price",
+		a.state AS "state",
+		a.courier AS "courier",
+		a.delivernumber AS "delivernumber",
+		a.delivermoney AS "delivermoney",
+		a.consignee AS "consignee",
+		a.phone AS "phone",
+		a.address AS "address",
+		a.colour AS "colour",
+		a.spec AS "spec",
+		a.totalmoney AS "totalmoney",
+		a.isaccount AS "isaccount",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.settlement_price AS "settlementPrice",
+		a.profit AS "profit",
+		s.name AS "supplier.name",
+		s.id AS "supplier.id"
+	</sql>
+	
+	<sql id="simpleOrderJoins">
+		left  join  s_supplier  s on s.id=a.supplier_id
+	</sql>
+    
+	<select id="get" resultType="SimpleOrder">
+		SELECT 
+			<include refid="simpleOrderColumns"/>
+		FROM s_simple_order a
+		<include refid="simpleOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SimpleOrder">
+		SELECT 
+			<include refid="simpleOrderColumns"/>
+		FROM s_simple_order a
+		<include refid="simpleOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="sourcetype != null and sourcetype != ''">
+				AND a.sourcetype = #{sourcetype}
+			</if>
+			<if test="supplier !=null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="no != null and no != ''">
+				AND a.no = #{no}
+			</if>
+			<if test="orderid != null and orderid != ''">
+				AND a.orderid = #{orderid}
+			</if>
+			<if test="tradeid != null and tradeid != ''">
+				AND a.tradeid = #{tradeid}
+			</if>
+			<if test="articleno != null and articleno != ''">
+				AND a.articleno = #{articleno}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="courier != null and courier != ''">
+				AND a.courier = #{courier}
+			</if>
+			<if test="delivernumber != null and delivernumber != ''">
+				AND a.delivernumber = #{delivernumber}
+			</if>
+			<if test="consignee != null and consignee != ''">
+				AND a.consignee = #{consignee}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SimpleOrder">
+		SELECT 
+			<include refid="simpleOrderColumns"/>
+		FROM s_simple_order a
+		<include refid="simpleOrderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_simple_order(
+			sourcetype,
+			supplier_id,
+			id,
+			orderid,
+			tradeid,
+			articleno,
+			num,
+			money,
+			afterstate,
+			type,
+			price,
+			state,
+			courier,
+			delivernumber,
+			delivermoney,
+			consignee,
+			phone,
+			address,
+			colour,
+			spec,
+			totalmoney,
+			isaccount,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			settlement_price,
+			profit
+		) VALUES (
+			#{sourcetype},
+			#{supplier.id},
+			#{id},
+			#{orderid},
+			#{tradeid},
+			#{articleno},
+			#{num},
+			#{money},
+			#{afterstate},
+			#{type},
+			#{price},
+			#{state},
+			#{courier},
+			#{delivernumber},
+			#{delivermoney},
+			#{consignee},
+			#{phone},
+			#{address},
+			#{colour},
+			#{spec},
+			#{totalmoney},
+			#{isaccount},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{settlementPrice},
+			#{profit}
+		)
+	</insert>
+
+	<update id="noSku">
+			UPDATE s_simple_order SET
+			 state='6'
+			WHERE id = #{id}
+	</update>
+	<update id="fast">
+		UPDATE s_simple_order SET
+		state = '3',
+		courier = #{courier},
+		delivernumber = #{delivernumber},
+		delivermoney = #{delivermoney},
+		totalmoney = #{totalmoney},
+		update_date = #{updateDate}
+		WHERE id = #{id}
+		and state='1'
+	</update>
+	<update id="aftersave">
+		UPDATE s_simple_order SET
+		afterstate = '4'
+		WHERE orderid = #{orderid}
+	</update>
+	<update id="aftersaveok">
+		UPDATE s_simple_order SET
+		afterstate = '5'
+		WHERE orderid = #{orderid}
+	</update>
+	<update id="aftersavepass">
+		UPDATE s_simple_order SET
+		afterstate = '7'
+		WHERE orderid = #{orderid}
+	</update>
+	<update id="dispatchSave">
+			UPDATE s_simple_order SET
+			supplier_id = #{supplier.id},
+			settlement_price = #{settlementPrice},
+			profit = #{profit}
+			WHERE id = #{id}
+	</update>
+	<update id="update">
+		UPDATE s_simple_order SET 	
+			sourcetype = #{sourcetype},
+			supplier_id = #{supplier.id},
+			orderid = #{orderid},
+			tradeid = #{tradeid},
+			articleno = #{articleno},
+			num = #{num},
+			money = #{money},
+			afterstate = #{afterstate},
+			type = #{type},
+			price = #{price},
+			state = #{state},
+			courier = #{courier},
+			delivernumber = #{delivernumber},
+			delivermoney = #{delivermoney},
+			consignee = #{consignee},
+			phone = #{phone},
+			address = #{address},
+			colour = #{colour},
+			spec = #{spec},
+			totalmoney = #{totalmoney},
+			isaccount = #{isaccount},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			settlement_price = #{settlementPrice},
+			profit = #{profit}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE s_simple_order SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

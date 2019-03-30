@@ -18,21 +18,33 @@ public class GoodsSku extends DataEntity<GoodsSku> {
 	private Goods goods;		// 商品 父类
 	private String spec1;		// 规格1
 	private String spec2;		// 规格2
-	private String price;		// 本店售价
+	private double price;		// 本店售价
 	private Integer sort;		// 序号
-	private String stock;		// 库存
-	private String marketPrice; //市场价
-
-	public String getMarketPrice() {
-		return marketPrice;
-	}
-
-	public void setMarketPrice(String marketPrice) {
-		this.marketPrice = marketPrice;
-	}
-
+	private int stock;		// 库存
+	private double marketPrice; //市场价
+	private double settlementPrice; //供货价
+	private double profit; //市场价
+	private double discount; //折扣
+	private double settlementDiscount; //结算折扣
+	private double profitDiscount;
 	public GoodsSku() {
 		super();
+	}
+
+	public double getProfitDiscount() {
+		return profitDiscount;
+	}
+
+	public void setProfitDiscount(double profitDiscount) {
+		this.profitDiscount = profitDiscount;
+	}
+
+	public double getSettlementDiscount() {
+		return settlementDiscount;
+	}
+
+	public void setSettlementDiscount(double settlementDiscount) {
+		this.settlementDiscount = settlementDiscount;
 	}
 
 	public GoodsSku(String id){
@@ -68,15 +80,7 @@ public class GoodsSku extends DataEntity<GoodsSku> {
 	public void setSpec2(String spec2) {
 		this.spec2 = spec2;
 	}
-	
-	public String getPrice() {
-		return price;
-	}
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
-	
 	public Integer getSort() {
 		return sort;
 	}
@@ -84,14 +88,52 @@ public class GoodsSku extends DataEntity<GoodsSku> {
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
-	
-	@Length(min=0, max=11, message="库存长度必须介于 0 和 11 之间")
-	public String getStock() {
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getStock() {
 		return stock;
 	}
 
-	public void setStock(String stock) {
+	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	
+
+	public double getMarketPrice() {
+		return marketPrice;
+	}
+
+	public void setMarketPrice(double marketPrice) {
+		this.marketPrice = marketPrice;
+	}
+
+	public double getSettlementPrice() {
+		return settlementPrice;
+	}
+
+	public void setSettlementPrice(double settlementPrice) {
+		this.settlementPrice = settlementPrice;
+	}
+
+	public double getProfit() {
+		return profit;
+	}
+
+	public void setProfit(double profit) {
+		this.profit = profit;
+	}
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
 }

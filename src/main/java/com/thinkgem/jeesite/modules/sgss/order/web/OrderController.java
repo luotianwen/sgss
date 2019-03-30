@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.sgss.order.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
+import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sgss.order.entity.Order;
 import com.thinkgem.jeesite.modules.sgss.order.service.OrderService;
 
+import java.util.List;
+
 /**
  * 订单管理Controller
  * @author martins
@@ -34,7 +38,8 @@ public class OrderController extends BaseController {
 
 	@Autowired
 	private OrderService orderService;
-	
+	@Autowired
+	private SupplierService supplierService;
 	@ModelAttribute
 	public Order get(@RequestParam(required=false) String id) {
 		Order entity = null;
@@ -66,6 +71,8 @@ public class OrderController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(Order order, Model model) {
 		model.addAttribute("order", order);
+		List<Supplier> suppliers= supplierService.findList(new Supplier());
+		model.addAttribute("suppliers", suppliers);
 		return "sgss/order/orderForm";
 	}
 	@RequiresPermissions("order:order:edit")

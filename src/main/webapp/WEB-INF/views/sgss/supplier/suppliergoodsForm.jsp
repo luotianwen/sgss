@@ -76,31 +76,6 @@
             }
 
         }
-
-        function changeSettlementPrice(i) {
-            var price=$("#goodsSkuList"+i+"_settlementPrice").val();
-            if(price.length==0||price==0){
-                top.$.jBox.tip("结算价格必填","erroe",{persistent:true,opacity:0});
-                return false;
-            }
-                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
-                $("#goodsSkuList"+i+"_discount").val(price/_marketPrice*10);
-
-        }
-        function generatesettlementPrices() {
-            var price=$("#settlementPrices").val();
-            if(price.length==0||price==0){
-                top.$.jBox.tip("结算价格必填","erroe",{persistent:true,opacity:0});
-                return false;
-            }
-            for (var i=0;i<goodsSkuRowIdx;i++){
-                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
-                var _price=$("#goodsSkuList"+i+"_price").val();
-                $("#goodsSkuList"+i+"_settlementPrice").val(price);
-                $("#goodsSkuList"+i+"_discount").val(price/_marketPrice*10);
-            }
-
-        }
 		function generatePrice() {
 			var price=$("#prices").val();
 			if(price.length==0||price==0){
@@ -116,24 +91,19 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/goods/goods/">商品管理列表</a></li>
-		<li class="active"><a href="${ctx}/goods/goods/form?id=${goods.id}">商品管理<shiro:hasPermission name="goods:goods:edit">${not empty goods.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="goods:goods:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/goods/suppliergoods/">商品管理列表</a></li>
+		<li class="active"><a href="${ctx}/goods/suppliergoods/form?id=${goods.id}">商品管理<shiro:hasPermission name="goods:suppliergoods:edit">${not empty goods.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="goods:suppliergoods:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="goods" action="${ctx}/goods/goods/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="goods" action="${ctx}/goods/suppliergoods/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
-		<div class="control-group">
-			<label class="control-label">供应商：</label>
-			<div class="controls">
-				<form:select path="supplier.id" items="${suppliers}" itemLabel="name" itemValue="id" cssClass="input-xlarge" />
 
-			 	</div>
-		</div>
+		<input type="hidden" id="pass"  name="pass" value="0">
 		 <div class="control-group">
 			<label class="control-label">分类：</label>
 			<div class="controls">
 				<sys:treeselect id="categoryId" name="categoryId" value="${goods.categoryId}" labelName="categoryName" labelValue="${goods.categoryName}"
-								title="分类" url="/category/scategory/treeData"  checked="true"  notAllowSelectParent="true" dataMsgRequired="必须选择" cssClass="required" allowClear="true"  />
+							 	title="分类" url="/category/scategory/treeData"  checked="true"  notAllowSelectParent="true"  cssClass="required" dataMsgRequired="必须选择"  allowClear="true"  />
 
 			</div>
 		</div>
@@ -152,7 +122,7 @@
 		<div class="control-group">
 			<label class="control-label">主图：</label>
 			<div class="controls">
-				<form:hidden id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+				<form:hidden id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
 				<sys:ckfinder input="logo" type="images" uploadPath="/goods/main" selectMultiple="false" attrno="artno"/>
 
 			</div>
@@ -163,18 +133,13 @@
 				<form:input path="sort" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
 			</div>
 		</div>
-		<%--<div class="control-group">
+		<div class="control-group">
 			<label class="control-label">市场售价：</label>
 			<div class="controls">
-				<form:input path="marketPrice" htmlEscape="false" class="input-xlarge "/>
+				<form:input path="marketPrice" htmlEscape="false" class="input-xlarge required"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">本店售价：</label>
-			<div class="controls">
-				<form:input path="price" htmlEscape="false" class="input-xlarge "/>
-			</div>
-		</div>--%>
+
 		<div class="control-group">
 			<label class="control-label">品牌：</label>
 			<div class="controls">
@@ -185,13 +150,7 @@
 		<div class="control-group">
 			<label class="control-label">上架状态：</label>
 			<div class="controls">
-				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">审核状态：</label>
-			<div class="controls">
-				<form:radiobuttons path="pass" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -203,7 +162,7 @@
 		<div class="control-group">
 			<label class="control-label">详情:</label>
 			<div class="controls">
-				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge" cssStyle="width: 50%"/>
+				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge required" cssStyle="width: 50%"/>
 				<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
 				<sys:umeditor replace="details"   />
 			</div>
@@ -217,12 +176,7 @@
 
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">本店销量：</label>
-			<div class="controls">
-				<form:input path="sales" htmlEscape="false" class="input-xlarge required"/>
-			</div>
-		</div>
+
 		<div class="control-group">
 			<label class="control-label">规格1：</label>
 			<div class="controls">
@@ -248,10 +202,8 @@
 								<th class="hide"></th>
 								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
 								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th>本店售价<input id="prices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-								<th>市场价<input id="marketprices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-								<th>结算价<input id="settlementPrices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-								<th>折扣</th>
+								<%--<th>本店售价<input id="prices" name="prices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  &lt;%&ndash;<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> &ndash;%&gt;</th>
+								--%><th>市场价<input id="marketprices" name="marketprices" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 
 								<%--<th>序号</th>--%>
 								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
@@ -260,7 +212,7 @@
 						</thead>
 						<tbody id="goodsSkuList">
 						</tbody>
-						<shiro:hasPermission name="goods:goods:edit"><tfoot>
+						<shiro:hasPermission name="goods:suppliergoods:edit"><tfoot>
 							<tr><td colspan="7"><a href="javascript:" onclick="addRow('#goodsSkuList', goodsSkuRowIdx, goodsSkuTpl);goodsSkuRowIdx = goodsSkuRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
@@ -276,26 +228,19 @@
 							<td>
 								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small required"/>
 							</td>
+							<%--<td>
+								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small valid"/>
+							</td>--%>
 							<td>
-								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small digits required"/>
 							</td>
-							<td>
-								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small required"/>
-							</td>
-							<td>
-								<input id="goodsSkuList{{idx}}_settlementPrice" name="goodsSkuList[{{idx}}].settlementPrice" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementPrice}}" class="input-small required"/>
-							</td>
-							<td>
-								<input id="goodsSkuList{{idx}}_discount" name="goodsSkuList[{{idx}}].discount" type="text" value="{{row.discount}}" class="input-small required"/>
-							</td>
-
 							<%--<td>
 								<input id="goodsSkuList{{idx}}_sort" name="goodsSkuList[{{idx}}].sort" type="text" value="{{row.sort}}" maxlength="20" class="input-small  digits"/>
 							</td>--%>
 							<td>
 								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-small required"/>
 							</td>
-							<shiro:hasPermission name="goods:goods:edit"><td class="text-center" width="10">
+							<shiro:hasPermission name="goods:suppliergoods:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#goodsSkuList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
@@ -328,7 +273,7 @@
 				</div>
 			</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="goods:goods:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="goods:suppliergoods:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

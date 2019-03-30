@@ -1,21 +1,19 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.sgss.goods.dao;
+package com.thinkgem.jeesite.modules.sgss.supplier.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.sgss.goods.entity.Goods;
-
-import java.util.List;
+import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 
 /**
- * 商品管理DAO接口
+ * 供应商管理DAO接口
  * @author martins
- * @version 2018-11-19
+ * @version 2019-03-26
  */
 @MyBatisDao
-public interface GoodsDao extends CrudDao<Goods> {
+public interface SupplierDao extends CrudDao<Supplier> {
 
-    List<Goods> findByArtno(Goods g);
+    Supplier getUserId(String id);
 }

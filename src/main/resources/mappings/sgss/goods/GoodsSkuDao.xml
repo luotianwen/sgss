@@ -10,7 +10,12 @@
 		a.price AS "price",
 		a.sort AS "sort",
 		a.stock AS "stock",
-		a.market_price AS "marketPrice"
+		a.market_price AS "marketPrice",
+		a.settlement_price AS "settlementPrice",
+		a.profit AS "profit",
+		a.discount AS "discount",
+		a.profit_discount AS "profitDiscount",
+		a.settlement_discount AS "settlementDiscount"
 	</sql>
 	
 	<sql id="goodsSkuJoins">
@@ -71,7 +76,11 @@
 			price,
 			sort,
 			stock,
-			market_price
+			market_price,
+			settlement_price,
+			profit,
+			discount,
+			settlement_discount
 		) VALUES (
 			#{id},
 			#{goods.id},
@@ -80,7 +89,11 @@
 			#{price},
 			#{sort},
 			#{stock},
-			#{marketPrice}
+			#{marketPrice},
+			#{settlementPrice},
+			#{profit},
+			#{discount},
+			#{settlementDiscount}
 		)
 	</insert>
 	
@@ -92,7 +105,14 @@
 			price = #{price},
 			sort = #{sort},
 			stock = #{stock},
-			market_price=#{marketPrice}
+			market_price=#{marketPrice},
+		<if test="settlementPrice!= null and settlementPrice != '' and settlementPrice != 0 ">
+			settlement_price=#{settlementPrice},
+			profit=#{profit},
+			discount=#{discount},
+			profit_discount=#{profitDiscount},
+			settlement_discount=#{settlementDiscount}
+		</if>
 		WHERE id = #{id}
 	</update>
 	

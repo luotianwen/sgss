@@ -5,6 +5,7 @@ package com.thinkgem.jeesite.modules.sgss.order.entity;
 
 import com.thinkgem.jeesite.modules.sgss.agent.entity.Agent;
 import com.thinkgem.jeesite.modules.sgss.coupon.entity.Coupon;
+import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.user.entity.Suser;
 import org.hibernate.validator.constraints.Length;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -46,6 +47,25 @@ public class Order extends DataEntity<Order> {
     private String refundState;		// 售后状态
 	private Agent agent;
 	private String isAgent;
+	private Date beginCreateDate;		// 开始 创建时间
+	private Date endCreateDate;		// 结束 创建时间
+
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
+
 
 	public Agent getAgent() {
 		return agent;

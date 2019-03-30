@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sgss.order.entity;
 
+import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -27,6 +28,14 @@ public class OrderDetail extends DataEntity<OrderDetail> {
 	private String number;		// 数量
     private double discount;
 	private double agentMoney;
+	private Supplier supplier;
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 
 	public double getDiscount() {
 		return discount;

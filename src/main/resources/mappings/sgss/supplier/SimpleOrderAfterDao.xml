@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.supplier.dao.SimpleOrderAfterDao">
+    
+	<sql id="simpleOrderAfterColumns">
+		a.type AS "type",
+		a.supplier_id AS "supplierId",
+		a.id AS "id",
+		a.no AS "no",
+		a.orderid AS "orderid",
+		a.articleno AS "articleno",
+		a.address AS "address",
+		a.consignee AS "consignee",
+		a.phone AS "phone",
+		a.afterstate AS "afterstate",
+		a.state AS "state",
+		a.backaddress AS "backaddress",
+		a.backcourier AS "backcourier",
+		a.backnumber AS "backnumber",
+		a.courier AS "courier",
+		a.delivernumber AS "delivernumber",
+		a.backmoney AS "backmoney",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		s.name AS "supplier.name",
+		s.id AS "supplier.id"
+	</sql>
+	
+	<sql id="simpleOrderAfterJoins">
+		left  join  s_supplier  s on s.id=a.supplier_id
+	</sql>
+    
+	<select id="get" resultType="SimpleOrderAfter">
+		SELECT 
+			<include refid="simpleOrderAfterColumns"/>
+		FROM s_simple_order_after a
+		<include refid="simpleOrderAfterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SimpleOrderAfter">
+		SELECT 
+			<include refid="simpleOrderAfterColumns"/>
+		FROM s_simple_order_after a
+		<include refid="simpleOrderAfterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
+			<if test="orderid != null and orderid != ''">
+				AND a.orderid = #{orderid}
+			</if>
+			<if test="articleno != null and articleno != ''">
+				AND a.articleno = #{articleno}
+			</if>
+			<if test="consignee != null and consignee != ''">
+				AND a.consignee = #{consignee}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
+			</if>
+			<if test="state != null and state != ''">
+				AND a.state = #{state}
+			</if>
+			<if test="delivernumberOk != null and delivernumberOk != ''">
+				AND a.delivernumberOk = #{delivernumberOk}
+			</if>
+			<if test="backnumberOk != null and backnumberOk != ''">
+				AND a.backnumberOk = #{backnumberOk}
+			</if>
+
+			<if test="backnumber != null and backnumber != ''">
+				AND a.backnumber = #{backnumber}
+			</if>
+			<if test="delivernumber != null and delivernumber != ''">
+				AND a.delivernumber = #{delivernumber}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SimpleOrderAfter">
+		SELECT 
+			<include refid="simpleOrderAfterColumns"/>
+		FROM s_simple_order_after a
+		<include refid="simpleOrderAfterJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_simple_order_after(
+			type,
+			supplier_id,
+			id,
+			orderid,
+			articleno,
+			address,
+			consignee,
+			phone,
+			afterstate,
+			state,
+			backaddress,
+			backcourier,
+			backnumber,
+			courier,
+			delivernumber,
+			backmoney,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{type},
+			#{supplier.id},
+			#{id},
+			#{orderid},
+			#{articleno},
+			#{address},
+			#{consignee},
+			#{phone},
+			#{afterstate},
+			#{state},
+			#{backaddress},
+			#{backcourier},
+			#{backnumber},
+			#{courier},
+			#{delivernumber},
+			#{backmoney},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_simple_order_after SET 	
+			type = #{type},
+			supplier_id = #{supplier.id},
+			orderid = #{orderid},
+			articleno = #{articleno},
+			address = #{address},
+			consignee = #{consignee},
+			phone = #{phone},
+			afterstate = #{afterstate},
+			state = #{state},
+			backaddress = #{backaddress},
+			backcourier = #{backcourier},
+			backnumber = #{backnumber},
+			courier = #{courier},
+			delivernumber = #{delivernumber},
+			backmoney = #{backmoney},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	<update id="courier">
+		UPDATE s_simple_order_after SET
+			 courier = #{courier},
+			 delivernumberOk='1',
+			delivernumber = #{delivernumber},
+			update_date = now()
+		WHERE id = #{id}
+	</update>
+
+	<update id="backaddress">
+		UPDATE s_simple_order_after SET
+			backaddress = #{backaddress}
+		WHERE id = #{id}
+	</update>
+	<update id="backcourier">
+		UPDATE s_simple_order_after SET
+			backcourier = #{backcourier},
+			backnumber = #{backnumber},
+			backmoney = #{backmoney},
+			backnumberOk='1',
+			state = 1
+		WHERE id = #{id}
+	</update>
+	<update id="updateCourierOk">
+		UPDATE s_simple_order_after SET
+			state = 1
+		WHERE id = #{id}
+	</update>
+	<update id="delete">
+		UPDATE s_simple_order_after SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

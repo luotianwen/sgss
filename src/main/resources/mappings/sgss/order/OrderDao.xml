@@ -42,6 +42,7 @@
 		LEFT JOIN s_user u7 ON u7.id = a.user_id
 		LEFT JOIN s_agent g ON g.id = a.agentId
 		left  join  s_coupon  c on c.id=a.coupon_id
+
 	</sql>
 
 	<select id="getByOrderNumber" resultType="Order">
@@ -69,6 +70,7 @@
 			<if test="num != null and num != ''">
 				AND a.num = #{num}
 			</if>
+
 			<if test="ordernumber != null and ordernumber != ''">
 				AND a.ordernumber = #{ordernumber}
 			</if>
@@ -83,6 +85,9 @@
 			</if>
 			<if test="consignee != null and consignee != ''">
 				AND a.consignee = #{consignee}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
 			</if>
 		</where>
 		<choose>

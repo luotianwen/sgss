@@ -153,4 +153,76 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 	public List<GoodsCategory> findGoodsCategoryList(GoodsCategory goodsCategory) {
 		return goodsCategoryDao.findList(goodsCategory);
 	}
+
+	@Transactional(readOnly = false)
+	public void savePass(Goods goods) {
+		super.save(goods);
+		GoodsCategory goodsCategory=new GoodsCategory(goods);
+		goodsCategoryDao.delete(goodsCategory);
+		if(StringUtils.isNotBlank(goods.getCategoryId())){
+			String cids[]=goods.getCategoryId().split(",");
+			for (String c:cids
+			) {
+				GoodsCategory gCategory=new GoodsCategory(goods);
+				gCategory.setCategory(new Scategory(c));
+				goodsCategory.preInsert();
+				goodsCategoryDao.insert(gCategory);
+			}
+		}
+
+		for (GoodsPic goodsPic : goods.getGoodsPicList()){
+			if (goodsPic.getId() == null){
+				continue;
+			}
+			if (GoodsPic.DEL_FLAG_NORMAL.equals(goodsPic.getDelFlag())){
+				if (StringUtils.isBlank(goodsPic.getId())){
+					goodsPic.setGoods(goods);
+					goodsPic.preInsert();
+					goodsPicDao.insert(goodsPic);
+				}else{
+					goodsPic.preUpdate();
+					goodsPicDao.update(goodsPic);
+				}
+			}else{
+				goodsPicDao.delete(goodsPic);
+			}
+		}
+		for (GoodsSku goodsSku : goods.getGoodsSkuList()){
+			goods.setMarketPrice(goodsSku.getMarketPrice());
+			goods.setPrice(goodsSku.getPrice());
+			if (goodsSku.getId() == null){
+				continue;
+			}
+			goodsSku.setProfit(goodsSku.getPrice()-goodsSku.getSettlementPrice());
+			goodsSku.setDiscount(goodsSku.getSettlementPrice()/goodsSku.getMarketPrice()*10);
+			goodsSku.setSettlementDiscount(goodsSku.getSettlementPrice()/goodsSku.getPrice()*10);
+			goodsSku.setProfitDiscount(goodsSku.getProfit()/goodsSku.getPrice()*100);
+			if (GoodsSku.DEL_FLAG_NORMAL.equals(goodsSku.getDelFlag())){
+				if (StringUtils.isBlank(goodsSku.getId())){
+					goodsSku.setGoods(goods);
+					goodsSku.preInsert();
+					goodsSkuDao.insert(goodsSku);
+				}else{
+					goodsSku.preUpdate();
+					goodsSkuDao.update(goodsSku);
+				}
+			}else{
+				goodsSkuDao.delete(goodsSku);
+			}
+		}
+
+		if (goods.getDetail()!=null){
+			GoodsDetail g=goods.getDetail();
+			g.setGoods(goods);
+			goods.getDetail().setDetails(StringEscapeUtils.unescapeHtml4(g.getDetails()));
+			goodsDetailDao.delete(g);
+			goodsDetailDao.insert(g);
+		}
+
+	}
+
+	public List<Goods> findByArtno(Goods g) {
+
+		return dao.findByArtno(g);
+	}
 }

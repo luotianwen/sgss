@@ -1,16 +1,21 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.thinkgem.jeesite.modules.sgss.goods.web;
+package com.thinkgem.jeesite.modules.sgss.supplier.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
+import com.thinkgem.jeesite.modules.sgss.goods.entity.Goods;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
+import com.thinkgem.jeesite.modules.sgss.goods.service.GoodsService;
 import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.sgss.goods.entity.Goods;
-import com.thinkgem.jeesite.modules.sgss.goods.service.GoodsService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -35,8 +35,8 @@ import java.util.List;
  * @version 2018-11-19
  */
 @Controller
-@RequestMapping(value = "${adminPath}/goods/goods")
-public class GoodsController extends BaseController {
+@RequestMapping(value = "${adminPath}/goods/suppliergoods")
+public class SupplierGoodsController extends BaseController {
 
 	@Autowired
 	private GoodsService goodsService;
@@ -56,9 +56,15 @@ public class GoodsController extends BaseController {
 		return entity;
 	}
 	
-	@RequiresPermissions("goods:goods:view")
+	@RequiresPermissions("goods:suppliergoods:view")
 	@RequestMapping(value = {"list", ""})
-	public String list(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
+	public String list(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+		User user = UserUtils.getUser();
+		Supplier supplier = supplierService.getUserId(user.getId());
+		if(null==supplier){
+			throw new Exception("不是供应商");
+		}
+		goods.setSupplier(supplier);
 		Page<Goods> page = goodsService.findPage(new Page<Goods>(request, response), goods);
 		StringBuffer categoryName=new StringBuffer();
 		for (Goods g:page.getList()
@@ -74,53 +80,47 @@ public class GoodsController extends BaseController {
 			g.setCategoryName(categoryName.toString());
 		}
 		model.addAttribute("page", page);
-		return "sgss/goods/goodsList";
+		return "sgss/supplier/suppliergoodsList";
 	}
 
-	@RequiresPermissions("goods:goods:view")
-	@RequestMapping(value = "view")
-	public String view(Goods goods, RedirectAttributes redirectAttributes) {
-
-		return "sgss/goods/goodsView";
-	}
-	@RequiresPermissions("goods:goods:view")
+	@RequiresPermissions("goods:suppliergoods:view")
 	@RequestMapping(value = "form")
-	public String form(Goods goods, Model model) {
+	public String form(Goods goods, Model model) throws Exception {
 		if(StringUtils.isBlank(goods.getSpec1())){
 			goods.setSpec1("颜色");
 		}
 		if(StringUtils.isBlank(goods.getSpec2())){
 			goods.setSpec2("尺码");
 		}
+		goods.setState("0");
 		List<Brand> brands= brandService.findList(new Brand());
-		List<Supplier> suppliers= supplierService.findList(new Supplier());
-		model.addAttribute("suppliers", suppliers);
+		User user = UserUtils.getUser();
+		Supplier supplier = supplierService.getUserId(user.getId());
+		if(null==supplier){
+			throw new Exception("不是供应商");
+		}
+		goods.setSupplier(supplier);
 		model.addAttribute("brands", brands);
 		model.addAttribute("goods", goods);
-		return "sgss/goods/goodsForm";
+		return "sgss/supplier/suppliergoodsForm";
 	}
 
-	@RequiresPermissions("goods:goods:edit")
+	@RequiresPermissions("goods:suppliergoods:edit")
 	@RequestMapping(value = "save")
-	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) {
+	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		if (!beanValidator(model, goods)){
 			return form(goods, model);
 		}
-		if(null==goods.getGoodsSkuList()||goods.getGoodsSkuList().size()==0){
-			addMessage(model,  new String[]{"sku必须有"} );
-			return form(goods, model);
+		User user = UserUtils.getUser();
+		Supplier supplier = supplierService.getUserId(user.getId());
+		if(null==supplier){
+			throw new Exception("不是供应商");
 		}
-		goodsService.savePass(goods);
+		goods.setSupplier(supplier);
+		goodsService.save(goods);
 		addMessage(redirectAttributes, "保存商品管理成功");
-		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+		return "redirect:"+Global.getAdminPath()+"/goods/suppliergoods/?repage";
 	}
-	
-	@RequiresPermissions("goods:goods:edit")
-	@RequestMapping(value = "delete")
-	public String delete(Goods goods, RedirectAttributes redirectAttributes) {
-		goodsService.delete(goods);
-		addMessage(redirectAttributes, "删除商品管理成功");
-		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
-	}
+
 
 }

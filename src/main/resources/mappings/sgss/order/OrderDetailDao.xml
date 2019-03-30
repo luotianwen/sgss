@@ -21,11 +21,14 @@
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
 		a.discount AS "discount",
-		a.agentMoney AS "agentMoney"
+		a.agentMoney AS "agentMoney",
+		s.name AS "supplier.name",
+		s.id AS "supplier.id"
 	</sql>
 	
 	<sql id="orderDetailJoins">
 		LEFT JOIN s_order b ON b.id = a.ordernumber
+		left  join  s_supplier  s on s.id=a.supplier_id
 	</sql>
     
 	<select id="get" resultType="OrderDetail">
@@ -46,11 +49,11 @@
 			<if test="order != null and order.ordernumber != null and order.ordernumber != ''">
 				AND a.ordernumber = #{order.ordernumber}
 			</if>
+			<if test="supplier != null and supplier.id != ''">
+				AND a.supplier_id = #{supplier.id}
+			</if>
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE  concat('%',#{name},'%')
 			</if>
 		</where>
 		<choose>

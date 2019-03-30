@@ -181,6 +181,7 @@
 				</td>
 				<shiro:hasPermission name="order:order:edit"><td>
     				<a href="${ctx}/order/order/form?id=${order.id}">修改</a>
+					<a href="${ctx}/order/order/view?id=${order.id}">查看</a>
 					<c:if test="${order.state==20}">
                     <a href="javascript:void(0);" onclick="de('${order.id}')">发货</a>
 					</c:if>
