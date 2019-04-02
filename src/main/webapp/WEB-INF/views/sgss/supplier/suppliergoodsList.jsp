@@ -6,8 +6,49 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+            $(":checkbox[name='goodsIds']").click(function () {
+                $("#checkId").attr('checked', $(":checkbox[name='goodsIds']").length == $(":checkbox[name='goodsIds']:checked").length);
+            });
+            $(":checkbox[name='checkId']").click(function () {
+                checkAll(this, 'goodsIds');
+            });
 		});
+        function checkup() {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要上架的数据");
+            } else {
+                confirmx('确定要上架已选中的数据吗？', repairUp);
+            }
+
+        }
+        function checkdown() {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要下架的数据");
+            } else {
+                confirmx('确定要下架已选中的数据吗？', repairDown);
+            }
+
+        }
+        function repairUp(){
+            repairUpOrDown(1);
+        }
+        function repairDown(){
+            repairUpOrDown(0);
+        }
+        function repairUpOrDown(iiii) {
+
+            var ids = [];
+            $("input[name='goodsIds']:checked").each(function () {
+                ids.push($(this).val());
+            });
+            var delIds = ids.join(",");
+            var oldAction = $("#searchForm").attr("action");
+            $("#searchForm").attr("action", "${ctx}/goods/suppliergoods/upordown?remarks=" + delIds+"&tstate="+iiii);
+            $("#searchForm").submit();
+            $("#searchForm").attr("action", oldAction);
+        }
 		function page(n,s){
 			$("#pageNo").val(n);
 			$("#pageSize").val(s);
@@ -51,6 +92,10 @@
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
+
+			<li class="btns">
+				<a href="javascript:void(0)" onclick="checkdown()" class="btn btn-primary">下架</a>
+				<a href="javascript:void(0)" onclick="checkup()" class="btn btn-primary">上架</a>
 			<li class="clearfix"></li>
 		</ul>
 	</form:form>
@@ -58,12 +103,12 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-
+				<th><input type=checkbox name="checkId" id="checkId">选择</th>
 				<th>品牌</th>
 				<th>供应商</th>
 				<th>分类</th>
 				<th>名称</th>
-				<th>货号</th>
+				<th class="sort-column artno">货号</th>
 				<th>主图</th>
 				<th>序号</th>
 				<th>市场售价</th>
@@ -76,6 +121,7 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="goods">
 			<tr>
+				<td><input type="checkbox" name="goodsIds" value="${goods.id}"/>${goods.num}</td>
 				<td>
 						${goods.brand.name}
 				</td>
@@ -115,6 +161,8 @@
 				</td>
 				<shiro:hasPermission name="goods:suppliergoods:edit"><td>
     				<a href="${ctx}/goods/suppliergoods/form?id=${goods.id}">修改</a>
+					<a href="${ctx}/goods/suppliergoods/copy?id=${goods.id}" onclick="return confirmx('确认要复制该商品管理吗？', this.href)">复制</a>
+
 				<%--	<a href="${ctx}/goods/suppliergoods/delete?id=${goods.id}" onclick="return confirmx('确认要删除该商品管理吗？', this.href)">删除</a>--%>
 				</td></shiro:hasPermission>
 			</tr>

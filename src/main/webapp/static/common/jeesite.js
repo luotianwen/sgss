@@ -70,7 +70,10 @@ function windowOpen(url, name, width, height){
 function resetTip(){
 	top.$.jBox.tip.mess = null;
 }
-
+function checkAll(e, itemName){
+    var flag=e.checked;
+    $(":checkbox[name="+itemName+"]").attr('checked',flag);
+}
 // 关闭提示框
 function closeTip(){
 	top.$.jBox.closeTip();

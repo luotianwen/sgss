@@ -4,6 +4,7 @@
     
 	<sql id="goodsColumns">
 		a.id AS "id",
+		a.num AS "num",
 		a.name AS "name",
 		a.artno AS "artno",
 		a.logo AS "logo",
@@ -82,7 +83,7 @@
 			<if test="brand!= null and brand.name!= ''">
 				AND b.name LIKE  concat('%',#{brand.name},'%')
 			</if>
-			<if test="supplier != null and supplier.id != ''">
+			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
 			</if>
 			<if test="state != null and state != ''">
@@ -97,7 +98,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.update_date DESC
+				ORDER BY a.num DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -195,5 +196,23 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<update id="upordown">
+	UPDATE s_goods SET
+	state = #{state}
+	WHERE id in
+		<foreach collection="remarks.split(',')" index="index" item="item" open="(" separator="," close=")">
+		#{item}
+	   </foreach>
+
+	</update>
+
+	<update id="passornot">
+		UPDATE s_goods SET
+		pass = #{pass}
+		WHERE id in
+		<foreach collection="remarks.split(',')" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+	</update>
 </mapper>

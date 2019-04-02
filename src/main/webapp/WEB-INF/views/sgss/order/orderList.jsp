@@ -81,6 +81,7 @@
 	<form:form id="searchForm" modelAttribute="order" action="${ctx}/order/order/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>序号：</label>
 				<form:input path="num" htmlEscape="false" maxlength="11" class="input-medium"/>
@@ -115,13 +116,13 @@
 				<th>订单编号</th>
 				<th>用户</th>
 				 <th>收货人</th>
-				<th>订单状态</th>
+				<th class="sort-column state">订单状态</th>
 				<th>支付方式</th>
 				<th>总计</th>
 				<th>快递信息</th>
-				<th>下单时间</th>
-				<th>付款时间</th>
-				<th>发货时间</th>
+				<th class="sort-column orderTime" >下单时间</th>
+				<th class="sort-column payTime">付款时间</th>
+				<th class="sort-column deliveryTime" >发货时间</th>
 				<th>支付交易号</th>
 				<th>是否售后</th>
 				<th>备注信息</th>

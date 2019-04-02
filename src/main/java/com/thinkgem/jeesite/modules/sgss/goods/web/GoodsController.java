@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
+import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsSku;
 import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -83,23 +84,44 @@ public class GoodsController extends BaseController {
 
 		return "sgss/goods/goodsView";
 	}
-	@RequiresPermissions("goods:goods:view")
-	@RequestMapping(value = "form")
-	public String form(Goods goods, Model model) {
-		if(StringUtils.isBlank(goods.getSpec1())){
-			goods.setSpec1("颜色");
-		}
-		if(StringUtils.isBlank(goods.getSpec2())){
-			goods.setSpec2("尺码");
-		}
-		List<Brand> brands= brandService.findList(new Brand());
-		List<Supplier> suppliers= supplierService.findList(new Supplier());
-		model.addAttribute("suppliers", suppliers);
-		model.addAttribute("brands", brands);
-		model.addAttribute("goods", goods);
-		return "sgss/goods/goodsForm";
-	}
 
+
+	@RequiresPermissions("goods:goods:view")
+    @RequestMapping(value = "form")
+    public String form(Goods goods, Model model) {
+        if(StringUtils.isBlank(goods.getSpec1())){
+            goods.setSpec1("颜色");
+        }
+        if(StringUtils.isBlank(goods.getSpec2())){
+            goods.setSpec2("尺码");
+        }
+        List<Brand> brands= brandService.findList(new Brand());
+        List<Supplier> suppliers= supplierService.findList(new Supplier());
+        model.addAttribute("suppliers", suppliers);
+        model.addAttribute("brands", brands);
+        model.addAttribute("goods", goods);
+        return "sgss/goods/goodsForm";
+    }
+    @RequiresPermissions("goods:goods:view")
+    @RequestMapping(value = "copy")
+    public String copy(Goods goods, Model model) {
+        if(StringUtils.isBlank(goods.getSpec1())){
+            goods.setSpec1("颜色");
+        }
+        if(StringUtils.isBlank(goods.getSpec2())){
+            goods.setSpec2("尺码");
+        }
+        List<Brand> brands= brandService.findList(new Brand());
+        List<Supplier> suppliers= supplierService.findList(new Supplier());
+        goods.setId(null);
+        for(GoodsSku sku:goods.getGoodsSkuList()){
+            sku.setId(null);
+        }
+        model.addAttribute("suppliers", suppliers);
+        model.addAttribute("brands", brands);
+        model.addAttribute("goods", goods);
+        return "sgss/goods/goodsForm";
+    }
 	@RequiresPermissions("goods:goods:edit")
 	@RequestMapping(value = "save")
 	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) {
@@ -122,5 +144,24 @@ public class GoodsController extends BaseController {
 		addMessage(redirectAttributes, "删除商品管理成功");
 		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
 	}
-
+    @RequiresPermissions("goods:goods:edit")
+    @RequestMapping(value = "upordown")
+    public String upordown(String remarks,String tstate,RedirectAttributes redirectAttributes) {
+	    Goods goods=new Goods();
+	    goods.setRemarks(remarks);
+        goods.setState(tstate);
+        goodsService.upordown(goods);
+        addMessage(redirectAttributes, "操作商品管理成功");
+        return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+    }
+    @RequiresPermissions("goods:goods:edit")
+    @RequestMapping(value = "passornot")
+    public String passornot(String remarks,String tpass, RedirectAttributes redirectAttributes) {
+        Goods goods=new Goods();
+        goods.setRemarks(remarks);
+        goods.setPass(tpass);
+        goodsService.passornot(goods);
+        addMessage(redirectAttributes, "操作商品管理成功");
+        return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+    }
 }

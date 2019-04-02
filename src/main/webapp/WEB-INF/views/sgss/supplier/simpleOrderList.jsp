@@ -89,6 +89,7 @@
 	<form:form id="searchForm" modelAttribute="simpleOrder" action="${ctx}/supplier/simpleOrder/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>订单来源：</label>
 				<form:select path="sourcetype" class="input-medium">
@@ -168,23 +169,23 @@
 			<tr>
 				<th>序号</th>
 				<th>订单来源</th>
-				<th>供应商</th>
+				<th >供应商</th>
 				<th>订单id</th>
 				<th>三方订单编号</th>
-				<th>货号</th>
+				<th class="sort-column articleno">货号</th>
 				<th>数量</th>
 				<th>售价</th>
 				<th>快递费用</th>
 				<th>总价</th>
-				<th>类别</th>
+				<th class="sort-column type">类别</th>
 				<th>售后</th>
 				<th>状态</th>
 				<th>收件人</th>
 				<th>快递信息</th>
 
 				<th>是否对账</th>
-				<th>创建时间</th>
-				<th>发货时间</th>
+				<th  class="sort-column createDate">创建时间</th>
+				<th  class="sort-column updateDate">发货时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="supplier:simpleOrder:edit"><th>操作</th></shiro:hasPermission>
 			</tr>

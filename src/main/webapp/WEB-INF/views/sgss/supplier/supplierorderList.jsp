@@ -97,6 +97,7 @@
 <form:form id="searchForm" modelAttribute="simpleOrder" action="${ctx}/supplier/simpleOrder/" method="post" class="breadcrumb form-search">
 	<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 	<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+    <sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 	<ul class="ul-form">
 
 		<li><label>序号：</label>
@@ -143,13 +144,13 @@
 							  htmlEscape="false"/>
 			</form:select>
 		</li>
-		<li><label>是否对账：</label>
+		<%--<li><label>是否对账：</label>
 			<form:select path="isaccount" class="input-medium">
 				<form:option value="" label="全部"/>
 				<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value"
 							  htmlEscape="false"/>
 			</form:select>
-		</li>
+		</li>--%>
 		<li><label>创建时间：</label>
 			<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 				   value="<fmt:formatDate value="${simpleOrder.beginCreateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -179,7 +180,7 @@
 		<th>收件人</th>
 		<th>快递信息</th>
 
-		<th>是否对账</th>
+		<%--<th>是否对账</th>--%>
 		<th>创建时间</th>
 		<th>发货时间</th>
 		<th>备注信息</th>
@@ -241,9 +242,9 @@
 
 
 
-			<td>
+			<%--<td>
 					${fns:getDictLabel(simpleOrder.isaccount, 'yes_no', '')}
-			</td>
+			</td>--%>
 			<td>
 				<fmt:formatDate value="${simpleOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 			</td>

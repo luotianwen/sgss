@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Goods extends DataEntity<Goods> {
 	
 	private static final long serialVersionUID = 1L;
+	private String num;		// 名称
 	private String name;		// 名称
 	private String categoryName;		// 分类名称
 	private String categoryId;		// 分类id
@@ -44,6 +45,14 @@ public class Goods extends DataEntity<Goods> {
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
 	private String pass;
+
+	public String getNum() {
+		return num;
+	}
+
+	public void setNum(String num) {
+		this.num = num;
+	}
 
 	public double getSettlementPrice() {
 		return settlementPrice;

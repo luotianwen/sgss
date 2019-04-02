@@ -156,6 +156,10 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 
 	@Transactional(readOnly = false)
 	public void savePass(Goods goods) {
+		for (GoodsSku goodsSku : goods.getGoodsSkuList()) {
+			goods.setMarketPrice(goodsSku.getMarketPrice());
+			goods.setPrice(goodsSku.getPrice());
+		}
 		super.save(goods);
 		GoodsCategory goodsCategory=new GoodsCategory(goods);
 		goodsCategoryDao.delete(goodsCategory);
@@ -224,5 +228,13 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 	public List<Goods> findByArtno(Goods g) {
 
 		return dao.findByArtno(g);
+	}
+    @Transactional(readOnly = false)
+    public void upordown(Goods goods) {
+		dao.upordown(goods);
+    }
+	@Transactional(readOnly = false)
+	public void passornot(Goods goods) {
+		dao.passornot(goods);
 	}
 }

@@ -11,6 +11,7 @@ import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.Goods;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
+import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsSku;
 import com.thinkgem.jeesite.modules.sgss.goods.service.GoodsService;
 import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
@@ -84,6 +85,26 @@ public class SupplierGoodsController extends BaseController {
 	}
 
 	@RequiresPermissions("goods:suppliergoods:view")
+	@RequestMapping(value = "copy")
+	public String copy(Goods goods, Model model) {
+		if(StringUtils.isBlank(goods.getSpec1())){
+			goods.setSpec1("颜色");
+		}
+		if(StringUtils.isBlank(goods.getSpec2())){
+			goods.setSpec2("尺码");
+		}
+		List<Brand> brands= brandService.findList(new Brand());
+		List<Supplier> suppliers= supplierService.findList(new Supplier());
+		goods.setId(null);
+		for(GoodsSku sku:goods.getGoodsSkuList()){
+			sku.setId(null);
+		}
+		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("brands", brands);
+		model.addAttribute("goods", goods);
+		return "sgss/supplier/suppliergoodsForm";
+	}
+	@RequiresPermissions("goods:suppliergoods:view")
 	@RequestMapping(value = "form")
 	public String form(Goods goods, Model model) throws Exception {
 		if(StringUtils.isBlank(goods.getSpec1())){
@@ -104,7 +125,21 @@ public class SupplierGoodsController extends BaseController {
 		model.addAttribute("goods", goods);
 		return "sgss/supplier/suppliergoodsForm";
 	}
-
+	@RequiresPermissions("goods:suppliergoods:edit")
+	@RequestMapping(value = "upordown")
+	public String upordown(String remarks,String tstate,RedirectAttributes redirectAttributes) throws Exception {
+		User user = UserUtils.getUser();
+		Supplier supplier = supplierService.getUserId(user.getId());
+		if(null==supplier){
+			throw new Exception("不是供应商");
+		}
+		Goods goods=new Goods();
+		goods.setRemarks(remarks);
+		goods.setState(tstate);
+		goodsService.upordown(goods);
+		addMessage(redirectAttributes, "操作商品管理成功");
+		return "redirect:"+Global.getAdminPath()+"/goods/suppliergoods/?repage";
+	}
 	@RequiresPermissions("goods:suppliergoods:edit")
 	@RequestMapping(value = "save")
 	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) throws Exception {

@@ -93,6 +93,7 @@
 	<form:form id="searchForm" modelAttribute="simpleOrderAfter" action="${ctx}/supplier/simpleOrderAfter/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+		<sys:tableSort id="orderBy" name="orderBy" value="${page.orderBy}" callback="page();"/>
 		<ul class="ul-form">
 			<li><label>售后类型：</label>
 				<form:select path="type" class="input-medium">
