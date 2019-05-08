@@ -203,9 +203,9 @@
 		<div class="control-group">
 			<label class="control-label">详情:</label>
 			<div class="controls">
-				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge" cssStyle="width: 50%"/>
+				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge" cssStyle="width:55%;height:400px;"/>
 				<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
-				<sys:umeditor replace="details"   />
+				<sys:ueditor replace="details"   />
 			</div>
 		</div>
 		<div class="control-group">
