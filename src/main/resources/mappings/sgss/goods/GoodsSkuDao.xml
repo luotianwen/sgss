@@ -105,8 +105,9 @@
 			price = #{price},
 			sort = #{sort},
 			stock = #{stock},
-			market_price=#{marketPrice},
+			market_price=#{marketPrice}
 		<if test="settlementPrice!= null and settlementPrice != '' and settlementPrice != 0 ">
+			,
 			settlement_price=#{settlementPrice},
 			profit=#{profit},
 			discount=#{discount},

@@ -4,13 +4,12 @@
     
 	<sql id="goodsCategoryColumns">
 		a.goods_id AS "goods.id",
-		b.name AS "goods.name",
 		c.name AS "category.name",
 		a.category_id AS "category.id"
 	</sql>
 	
 	<sql id="goodsCategoryJoins">
-		LEFT JOIN s_goods b ON b.id = a.goods_id
+
 		LEFT JOIN s_category c ON c.id = a.category_id
 	</sql>
     

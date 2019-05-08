@@ -30,8 +30,8 @@
 	</sql>
 	
 	<sql id="goodsJoins">
-		left join s_brand b on b.id=a.brand_id
-		left  join  s_supplier  s on s.id=a.supplier_id
+		left join s_brand b on b.id=a.brand_id and b.del_flag =0
+		left  join  s_supplier  s on s.id=a.supplier_id and s.del_flag =0
 	</sql>
     
 	<select id="get" resultType="Goods">
