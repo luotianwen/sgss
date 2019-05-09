@@ -12,7 +12,7 @@
 		a.market_price AS "marketPrice",
 		a.price AS "price",
 		a.brand_id AS "brand.id",
-		b.name AS "brand.name",
+
 		a.state AS "state",
 		a.spec1 AS "spec1",
 		a.spec2 AS "spec2",
@@ -24,14 +24,12 @@
 		a.imgs AS "imgs",
 		a.sales AS "sales",
 		a.del_flag AS "delFlag",
-		s.name AS "supplier.name",
-		s.id AS "supplier.id",
+		a.supplier_id AS "supplier.id",
 		a.pass AS "pass"
 	</sql>
 	
 	<sql id="goodsJoins">
-		left join s_brand b on b.id=a.brand_id and b.del_flag =0
-		left  join  s_supplier  s on s.id=a.supplier_id and s.del_flag =0
+
 	</sql>
     
 	<select id="get" resultType="Goods">
@@ -43,8 +41,8 @@
 	</select>
 	<select id="findByArtno" resultType="Goods">
 		SELECT
-		s.name AS "supplier.name",
-		s.id AS "supplier.id",
+
+		a.supplier_id AS "supplier.id",
 		a.name AS "name",
 		a.artno AS "artno",
 		a.logo AS "logo",
@@ -55,7 +53,7 @@
 		sku.id as "id",
 		sku.settlement_price AS "settlementPrice"
 		FROM s_goods a
-		<include refid="goodsJoins"/>
+
 		left join s_goods_sku sku on a.id =sku.goods_id
 		WHERE a.artno = #{artno}
 		and a.pass='1'
@@ -80,8 +78,8 @@
 			<if test="artno != null and artno != ''">
 				AND a.artno = #{artno}
 			</if>
-			<if test="brand!= null and brand.name!= ''">
-				AND b.name LIKE  concat('%',#{brand.name},'%')
+			<if test="brand != null and brand.id != null and brand.id != ''">
+				AND a.brand_id = #{brand.id}
 			</if>
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
