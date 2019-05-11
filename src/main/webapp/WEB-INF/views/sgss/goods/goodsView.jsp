@@ -250,11 +250,14 @@
                                     disabled="true"/></th>
                     <th>本店售价</th>
                     <th>市场价</th>
+
+                    <shiro:hasPermission name="goods:goods:settlement">
                     <th>结算价</th>
                     <th>折扣</th>
                     <th>结算折扣</th>
                     <th>毛利</th>
                     <th>毛利率</th>
+                    </shiro:hasPermission>
                     <th>库存</th>
                 </tr>
                 </thead>
@@ -280,6 +283,7 @@
 							<td>
 								<input   disabled="true" type="text" value="{{row.marketPrice}}" class="input-small required"/>
 							</td>
+							<shiro:hasPermission name="goods:goods:settlement">
 							<td>
 								<input  disabled="true"  type="text" value="{{row.settlementPrice}}" class="input-small required"/>
 							</td>
@@ -295,6 +299,7 @@
 <td>
 								<input   type="text" disabled="true" value="{{row.profitDiscount}}%" class="input-small required"/>
 							</td>
+							</shiro:hasPermission>
 							<td>
 								<input  disabled="true" value="{{row.stock}}" maxlength="11" class="input-small required"/>
 							</td>

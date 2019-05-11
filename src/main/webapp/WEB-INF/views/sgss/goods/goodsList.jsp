@@ -140,8 +140,10 @@
 			<li class="btns">
 				<a href="javascript:void(0)" onclick="checkdown()" class="btn btn-primary">下架</a>
 				<a href="javascript:void(0)" onclick="checkup()" class="btn btn-primary">上架</a>
+				<shiro:hasPermission name="goods:goods:pass">
 				<a href="javascript:void(0)" onclick="checkpass()" class="btn btn-primary">通过</a>
 				<a href="javascript:void(0)" onclick="checknopass()" class="btn btn-primary">不通过</a>
+				</shiro:hasPermission>
 				<a href="/悠氧添加商品.docx"   class="btn btn-warning">下载文档</a>
 			</li>
 
