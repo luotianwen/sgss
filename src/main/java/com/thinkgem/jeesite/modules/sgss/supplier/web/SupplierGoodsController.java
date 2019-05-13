@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -67,19 +68,52 @@ public class SupplierGoodsController extends BaseController {
 		}
 		goods.setSupplier(supplier);
 		Page<Goods> page = goodsService.findPage(new Page<Goods>(request, response), goods);
+		HttpSession s=request.getSession();
 		StringBuffer categoryName=new StringBuffer();
 		for (Goods g:page.getList()
-			 ) {
-			List<GoodsCategory> goodsCategoryList=goodsService.findGoodsCategoryList(new GoodsCategory(g));
-		    categoryName.setLength(0);
-			for (GoodsCategory c:goodsCategoryList
-			) {
-				if(null!=c.getCategory()) {
-					categoryName.append(c.getCategory().getName()).append(",");
-				}
+		) {
+			Brand b=(Brand)s.getAttribute("b"+g.getBrand().getId());
+			if(b==null){
+				b=brandService.get(g.getBrand().getId());
+				s.setAttribute("b"+g.getBrand().getId(),b);
 			}
-			g.setCategoryName(categoryName.toString());
+			g.setBrand(b);
+			Supplier su=(Supplier)s.getAttribute("s"+g.getSupplier().getId());
+			if(su==null){
+				su=supplierService.get(g.getSupplier().getId());
+				s.setAttribute("s"+g.getSupplier().getId(),su);
+			}
+			g.setBrand(b);
+			g.setSupplier(su);
+			String cn=(String)s.getAttribute("cs"+g.getId());
+			if(StringUtils.isEmpty(cn)) {
+				List<GoodsCategory> goodsCategoryList = goodsService.findGoodsCategoryList(new GoodsCategory(g));
+				categoryName.setLength(0);
+				for (GoodsCategory c : goodsCategoryList
+				) {
+					if (null != c.getCategory()) {
+						categoryName.append(c.getCategory().getName()).append(",");
+					}
+				}
+				cn=categoryName.toString();
+				s.setAttribute("cs"+g.getId(),cn);
+			}
+			g.setCategoryName(cn);
 		}
+		List<Brand> brandss=(List<Brand>)s.getAttribute("brands");
+		if(brandss==null){
+			brandss= brandService.findList(new Brand());
+			s.setAttribute("brands",brandss);
+		}
+
+		List<Supplier> supplierss=(List<Supplier>)s.getAttribute("brands");
+		if(supplierss==null){
+			supplierss= supplierService.findList(new Supplier());
+			s.setAttribute("supplierss",supplierss);
+		}
+		model.addAttribute("suppliers", supplierss);
+		model.addAttribute("brands", brandss);
+
 		model.addAttribute("page", page);
 		return "sgss/supplier/suppliergoodsList";
 	}

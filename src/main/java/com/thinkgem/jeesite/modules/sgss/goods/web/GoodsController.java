@@ -62,6 +62,9 @@ public class GoodsController extends BaseController {
 	@RequiresPermissions("goods:goods:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
+
+
+
 		Page<Goods> page = goodsService.findPage(new Page<Goods>(request, response), goods);
 		HttpSession s=request.getSession();
 		StringBuffer categoryName=new StringBuffer();
@@ -95,6 +98,20 @@ public class GoodsController extends BaseController {
 			}
 			g.setCategoryName(cn);
 		}
+		List<Brand> brandss=(List<Brand>)s.getAttribute("brands");
+		if(brandss==null){
+			 brandss= brandService.findList(new Brand());
+			s.setAttribute("brands",brandss);
+		}
+
+		List<Supplier> supplierss=(List<Supplier>)s.getAttribute("brands");
+		if(supplierss==null){
+			supplierss= supplierService.findList(new Supplier());
+			s.setAttribute("supplierss",supplierss);
+		}
+		model.addAttribute("suppliers", supplierss);
+		model.addAttribute("brands", brandss);
+
 		model.addAttribute("page", page);
 		return "sgss/goods/goodsList";
 	}

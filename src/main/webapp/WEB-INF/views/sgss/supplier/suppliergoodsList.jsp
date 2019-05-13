@@ -74,9 +74,11 @@
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
 			<li><label>品牌：</label>
-				<form:input path="brand.name" htmlEscape="false" maxlength="32" class="input-medium"/>
+				<form:select path="brand.id" class="input-medium">
+					<form:option value="" label="全部"/>
+					<form:options items="${brands}" itemLabel="name" itemValue="id"  htmlEscape="false"/>
+				</form:select>
 			</li>
-
 			<li><label>上架状态：</label>
 				<form:select path="state" class="input-medium">
 					<form:option value="" label="全部"/>
