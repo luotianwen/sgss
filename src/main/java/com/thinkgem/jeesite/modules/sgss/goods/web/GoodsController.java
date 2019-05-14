@@ -126,7 +126,7 @@ public class GoodsController extends BaseController {
 
 	@RequiresPermissions("goods:goods:view")
     @RequestMapping(value = "form")
-    public String form(Goods goods, Model model) {
+    public String form(Goods goods, Model model,HttpSession session) {
         if(StringUtils.isBlank(goods.getSpec1())){
             goods.setSpec1("颜色");
         }
@@ -137,6 +137,23 @@ public class GoodsController extends BaseController {
         List<Supplier> suppliers= supplierService.findList(new Supplier());
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("brands", brands);
+
+		Supplier s=(Supplier)session.getAttribute("saveSupplier");
+		if(null!=s){
+			goods.setSupplier(s);
+		}
+		Brand b=(Brand)session.getAttribute("saveBrand");
+		if(null!=b){
+			goods.setBrand(b);
+		}
+		String  cid=(String)session.getAttribute("saveCategoryId");
+		if(null!=cid){
+			goods.setCategoryId(cid);
+		}
+		String  cname=(String)session.getAttribute("saveCategoryName");
+		if(null!=cname){
+			goods.setCategoryName(cname);
+		}
         model.addAttribute("goods", goods);
         return "sgss/goods/goodsForm";
     }
@@ -162,15 +179,20 @@ public class GoodsController extends BaseController {
     }
 	@RequiresPermissions("goods:goods:edit")
 	@RequestMapping(value = "save")
-	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) {
+	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) {
 		if (!beanValidator(model, goods)){
-			return form(goods, model);
+			return form(goods, model,session);
 		}
 		if(null==goods.getGoodsSkuList()||goods.getGoodsSkuList().size()==0){
 			addMessage(model,  new String[]{"sku必须有"} );
-			return form(goods, model);
+			return form(goods, model,session);
 		}
 		goodsService.savePass(goods);
+
+		session.setAttribute("saveSupplier",goods.getSupplier());
+		session.setAttribute("saveBrand",goods.getBrand());
+		session.setAttribute("saveCategoryId",goods.getCategoryId());
+		session.setAttribute("saveCategoryName",goods.getCategoryName());
 		addMessage(redirectAttributes, "保存商品管理成功");
 		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
 	}
