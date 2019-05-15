@@ -162,9 +162,9 @@
 		<div class="control-group">
 			<label class="control-label">详情:</label>
 			<div class="controls">
-				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge required" cssStyle="width: 50%"/>
-				<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
-				<sys:umeditor replace="details"   />
+				<form:textarea id="details" htmlEscape="true" path="detail.details" rows="4"  class="input-xxlarge" cssStyle="width:55%;height:400px;"/>
+					<%--<sys:ckeditor replace="details" uploadPath="/goods/goods"    />--%>
+				<sys:ueditor replace="details"   />
 			</div>
 		</div>
 		<div class="control-group">
@@ -226,7 +226,7 @@
 								<input id="goodsSkuList{{idx}}_spec1" name="goodsSkuList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-small required"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small "/>
 							</td>
 							<%--<td>
 								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small valid"/>

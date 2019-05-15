@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sgss.supplier.web;
 
+import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -122,11 +123,9 @@ public class SupplierGoodsController extends BaseController {
 	@RequestMapping(value = "copy")
 	public String copy(Goods goods, Model model) {
 		if(StringUtils.isBlank(goods.getSpec1())){
-			goods.setSpec1("颜色");
+			goods.setSpec1("尺码");
 		}
-		if(StringUtils.isBlank(goods.getSpec2())){
-			goods.setSpec2("尺码");
-		}
+
 		List<Brand> brands= brandService.findList(new Brand());
 		List<Supplier> suppliers= supplierService.findList(new Supplier());
 		goods.setId(null);
@@ -140,12 +139,28 @@ public class SupplierGoodsController extends BaseController {
 	}
 	@RequiresPermissions("goods:suppliergoods:view")
 	@RequestMapping(value = "form")
-	public String form(Goods goods, Model model) throws Exception {
-		if(StringUtils.isBlank(goods.getSpec1())){
-			goods.setSpec1("颜色");
-		}
-		if(StringUtils.isBlank(goods.getSpec2())){
-			goods.setSpec2("尺码");
+	public String form(Goods goods, Model model,HttpSession session) throws Exception {
+		if(StringUtils.isBlank(goods.getId())) {
+			if(StringUtils.isBlank(goods.getSpec1())){
+				goods.setSpec1("尺码");
+			}
+
+			Supplier s = (Supplier) session.getAttribute("saveSupplier");
+			if (null != s) {
+				goods.setSupplier(s);
+			}
+			Brand b = (Brand) session.getAttribute("saveBrand");
+			if (null != b) {
+				goods.setBrand(b);
+			}
+			String cid = (String) session.getAttribute("saveCategoryId");
+			if (null != cid) {
+				goods.setCategoryId(cid);
+			}
+			String cname = (String) session.getAttribute("saveCategoryName");
+			if (null != cname) {
+				goods.setCategoryName(cname);
+			}
 		}
 		goods.setState("0");
 		List<Brand> brands= brandService.findList(new Brand());
@@ -176,17 +191,35 @@ public class SupplierGoodsController extends BaseController {
 	}
 	@RequiresPermissions("goods:suppliergoods:edit")
 	@RequestMapping(value = "save")
-	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) throws Exception {
+	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) throws Exception {
+
 		if (!beanValidator(model, goods)){
-			return form(goods, model);
+			return form(goods, model,session);
+		}
+		if(null==goods.getGoodsSkuList()||goods.getGoodsSkuList().size()==0){
+			addMessage(model, "sku必须填");
+			return form(goods, model,session);
+		}
+		if(StringUtils.isBlank(goods.getDetail().getDetails())){
+			addMessage(model, "详情必须填");
+			return form(goods, model,session);
+		}
+		if(StringUtils.isBlank(goods.getBrand().getId())){
+			addMessage(model, "品牌必须填");
+			return form(goods, model,session);
 		}
 		User user = UserUtils.getUser();
 		Supplier supplier = supplierService.getUserId(user.getId());
 		if(null==supplier){
 			throw new Exception("不是供应商");
 		}
+
 		goods.setSupplier(supplier);
 		goodsService.save(goods);
+		session.setAttribute("saveSupplier",goods.getSupplier());
+		session.setAttribute("saveBrand",goods.getBrand());
+		session.setAttribute("saveCategoryId",goods.getCategoryId());
+		session.setAttribute("saveCategoryName",goods.getCategoryName());
 		addMessage(redirectAttributes, "保存商品管理成功");
 		return "redirect:"+Global.getAdminPath()+"/goods/suppliergoods/?repage";
 	}

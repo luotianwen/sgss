@@ -127,32 +127,32 @@ public class GoodsController extends BaseController {
 	@RequiresPermissions("goods:goods:view")
     @RequestMapping(value = "form")
     public String form(Goods goods, Model model,HttpSession session) {
-        if(StringUtils.isBlank(goods.getSpec1())){
-            goods.setSpec1("颜色");
-        }
-        if(StringUtils.isBlank(goods.getSpec2())){
-            goods.setSpec2("尺码");
-        }
+
         List<Brand> brands= brandService.findList(new Brand());
         List<Supplier> suppliers= supplierService.findList(new Supplier());
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("brands", brands);
+        if(StringUtils.isBlank(goods.getId())) {
+			if(StringUtils.isBlank(goods.getSpec1())){
+				goods.setSpec1("尺码");
+			}
 
-		Supplier s=(Supplier)session.getAttribute("saveSupplier");
-		if(null!=s){
-			goods.setSupplier(s);
-		}
-		Brand b=(Brand)session.getAttribute("saveBrand");
-		if(null!=b){
-			goods.setBrand(b);
-		}
-		String  cid=(String)session.getAttribute("saveCategoryId");
-		if(null!=cid){
-			goods.setCategoryId(cid);
-		}
-		String  cname=(String)session.getAttribute("saveCategoryName");
-		if(null!=cname){
-			goods.setCategoryName(cname);
+			Supplier s = (Supplier) session.getAttribute("saveSupplier");
+			if (null != s) {
+				goods.setSupplier(s);
+			}
+			Brand b = (Brand) session.getAttribute("saveBrand");
+			if (null != b) {
+				goods.setBrand(b);
+			}
+			String cid = (String) session.getAttribute("saveCategoryId");
+			if (null != cid) {
+				goods.setCategoryId(cid);
+			}
+			String cname = (String) session.getAttribute("saveCategoryName");
+			if (null != cname) {
+				goods.setCategoryName(cname);
+			}
 		}
         model.addAttribute("goods", goods);
         return "sgss/goods/goodsForm";
@@ -183,8 +183,17 @@ public class GoodsController extends BaseController {
 		if (!beanValidator(model, goods)){
 			return form(goods, model,session);
 		}
+
 		if(null==goods.getGoodsSkuList()||goods.getGoodsSkuList().size()==0){
-			addMessage(model,  new String[]{"sku必须有"} );
+			addMessage(model, "sku必须填");
+			return form(goods, model,session);
+		}
+		if(StringUtils.isBlank(goods.getDetail().getDetails())){
+			addMessage(model, "详情必须填");
+			return form(goods, model,session);
+		}
+		if(StringUtils.isBlank(goods.getBrand().getId())){
+			addMessage(model, "品牌必须填");
 			return form(goods, model,session);
 		}
 		goodsService.savePass(goods);

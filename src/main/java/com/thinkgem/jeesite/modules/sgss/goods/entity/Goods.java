@@ -12,6 +12,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * 商品管理Entity
@@ -94,14 +95,6 @@ public class Goods extends DataEntity<Goods> {
 		this.supplier = supplier;
 	}
 
-	public String getImgs() {
-		return imgs;
-	}
-
-	public void setImgs(String imgs) {
-		this.imgs = imgs;
-	}
-
 	public int getSales() {
 		return sales;
 	}
@@ -117,7 +110,7 @@ public class Goods extends DataEntity<Goods> {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-
+	@Length(min=1, max=1000, message="分类必须选择")
 	public String getCategoryId() {
 		return categoryId;
 	}
@@ -125,7 +118,6 @@ public class Goods extends DataEntity<Goods> {
 	public GoodsDetail getDetail() {
 		return detail;
 	}
-
 	public void setDetail(GoodsDetail detail) {
 		this.detail = detail;
 	}
@@ -142,7 +134,7 @@ public class Goods extends DataEntity<Goods> {
 		super(id);
 	}
 
-	@Length(min=0, max=100, message="名称长度必须介于 0 和 100 之间")
+	@Length(min=1, max=100, message="名称必须填")
 	public String getName() {
 		return name;
 	}
@@ -151,7 +143,7 @@ public class Goods extends DataEntity<Goods> {
 		this.name = name;
 	}
 	
-	@Length(min=0, max=20, message="货号长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="货号长度必须填")
 	public String getArtno() {
 		return artno;
 	}
@@ -160,7 +152,7 @@ public class Goods extends DataEntity<Goods> {
 		this.artno = artno;
 	}
 	
-	@Length(min=0, max=200, message="主图长度必须介于 0 和 200 之间")
+	@Length(min=1, max=2000, message="主图上传")
 	public String getLogo() {
 		return logo;
 	}
@@ -210,7 +202,7 @@ public class Goods extends DataEntity<Goods> {
 		this.state = state;
 	}
 	
-	@Length(min=0, max=20, message="规格1长度必须介于 0 和 20 之间")
+	@Length(min=1, max=20, message="规格1必须填")
 	public String getSpec1() {
 		return spec1;
 	}
@@ -219,7 +211,7 @@ public class Goods extends DataEntity<Goods> {
 		this.spec1 = spec1;
 	}
 	
-	@Length(min=0, max=20, message="规格2长度必须介于 0 和 20 之间")
+
 	public String getSpec2() {
 		return spec2;
 	}
@@ -227,7 +219,15 @@ public class Goods extends DataEntity<Goods> {
 	public void setSpec2(String spec2) {
 		this.spec2 = spec2;
 	}
-	
+	@Length(min=1, max=2000, message="多图必须填")
+	public String getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+
 	public List<GoodsCategory> getGoodsCategoryList() {
 		return goodsCategoryList;
 	}
