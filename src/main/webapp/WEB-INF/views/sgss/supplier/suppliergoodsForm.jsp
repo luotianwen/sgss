@@ -122,11 +122,20 @@
 		<div class="control-group">
 			<label class="control-label">主图：</label>
 			<div class="controls">
-				<form:hidden id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+				<form:hidden id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xlarge "/>
 				<sys:ckfinder input="logo" type="images" uploadPath="/goods/main" selectMultiple="false" attrno="artno"/>
 
 			</div>
 		</div>
+        <div class="control-group">
+            <label class="control-label">图片(多图):</label>
+            <div class="controls">
+                <form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+                <sys:ckfinder input="imgs" type="images" uploadPath="/goods/main" selectMultiple="true"  attrno="artno" />
+
+
+            </div>
+        </div>
 		<div class="control-group">
 			<label class="control-label">序号：</label>
 			<div class="controls">
@@ -167,15 +176,7 @@
 				<sys:ueditor replace="details"   />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">图片(多图):</label>
-			<div class="controls">
-				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/main" selectMultiple="true"  attrno="artno" />
 
-
-			</div>
-		</div>
 
 		<div class="control-group">
 			<label class="control-label">规格1：</label>

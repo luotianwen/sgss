@@ -104,7 +104,7 @@ public class GoodsController extends BaseController {
 			s.setAttribute("brands",brandss);
 		}
 
-		List<Supplier> supplierss=(List<Supplier>)s.getAttribute("brands");
+		List<Supplier> supplierss=(List<Supplier>)s.getAttribute("supplierss");
 		if(supplierss==null){
 			supplierss= supplierService.findList(new Supplier());
 			s.setAttribute("supplierss",supplierss);

@@ -157,6 +157,15 @@
 
 			</div>
 		</div>
+        <div class="control-group">
+            <label class="control-label">图片(多图):</label>
+            <div class="controls">
+                <form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
+                <sys:ckfinder input="imgs" type="images" uploadPath="/goods/main" selectMultiple="true"  attrno="artno" />
+
+
+            </div>
+        </div>
 		<div class="control-group">
 			<label class="control-label">序号：</label>
 			<div class="controls">
@@ -188,22 +197,7 @@
 				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 			</div>
 		</div>
-		<shiro:hasPermission name="goods:goods:pass">
-		<div class="control-group">
-			<label class="control-label">审核状态：</label>
-			<div class="controls">
-				<form:radiobuttons path="pass" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-			</div>
-		</div>
-		</shiro:hasPermission>
-		<shiro:lacksPermission name="goods:goods:pass">
-			<div class="control-group">
-				<label class="control-label">审核状态：</label>
-				<div class="controls">
-					<form:radiobutton path="pass"  value="0" label="否" htmlEscape="false" class="required"/>
-				</div>
-			</div>
-		</shiro:lacksPermission>
+
 
 		<div class="control-group">
 			<label class="control-label">备注信息：</label>
@@ -219,21 +213,14 @@
 				<sys:ueditor replace="details"   />
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">图片(多图):</label>
-			<div class="controls">
-				<form:hidden id="imgs" path="imgs" htmlEscape="false" maxlength="200" class="input-xlarge"/>
-				<sys:ckfinder input="imgs" type="images" uploadPath="/goods/main" selectMultiple="true"  attrno="artno" />
 
-
-			</div>
-		</div>
 		<div class="control-group">
 			<label class="control-label">本店销量：</label>
 			<div class="controls">
 				<form:input path="sales" htmlEscape="false" class="input-xlarge required"/>
 			</div>
 		</div>
+
 		<div class="control-group">
 			<label class="control-label">规格1：</label>
 			<div class="controls">
@@ -246,9 +233,22 @@
 				<input id="gg2" class="input-xlarge " type="text">以英文逗号隔开(S,M,L)<input   class="btn btn-primary" type="button" value="生成sku" onclick="generateSku()">
 			</div>
 		</div>
-			<div class="control-group">
-
-		</div>
+        <shiro:hasPermission name="goods:goods:pass">
+            <div class="control-group">
+                <label class="control-label">审核状态：</label>
+                <div class="controls">
+                    <form:radiobuttons path="pass" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+                </div>
+            </div>
+        </shiro:hasPermission>
+        <shiro:lacksPermission name="goods:goods:pass">
+            <div class="control-group">
+                <label class="control-label">审核状态：</label>
+                <div class="controls">
+                    <form:radiobutton path="pass"  value="0" label="否" htmlEscape="false" class="required"/>
+                </div>
+            </div>
+        </shiro:lacksPermission>
 
 			<div class="control-group">
 				<label class="control-label">商品sku：</label>

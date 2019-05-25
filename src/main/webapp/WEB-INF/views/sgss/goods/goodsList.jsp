@@ -150,7 +150,7 @@
 				<a href="javascript:void(0)" onclick="checkpass()" class="btn btn-primary">通过</a>
 				<a href="javascript:void(0)" onclick="checknopass()" class="btn btn-primary">不通过</a>
 				</shiro:hasPermission>
-				<a href="/悠氧添加商品.docx"   class="btn btn-warning">下载文档</a>
+				<a href="/doc.docx"   class="btn btn-warning">下载文档</a>
 			</li>
 
 			<li class="clearfix"></li>
@@ -226,7 +226,9 @@
 					${goods.remarks}
 				</td>
 				<td><shiro:hasPermission name="goods:goods:edit"><a href="${ctx}/goods/goods/form?id=${goods.id}">修改</a></shiro:hasPermission>
-					<shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/view?id=${goods.id}">查看</a></shiro:hasPermission>
+                    <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/form?id=${goods.id}">审核</a></shiro:hasPermission>
+
+                    <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/view?id=${goods.id}">查看</a></shiro:hasPermission>
 					 <a href="${ctx}/goods/goods/copy?id=${goods.id}" onclick="return confirmx('确认要复制该商品管理吗？', this.href)">复制</a>
 			 	</td>
 			</tr>

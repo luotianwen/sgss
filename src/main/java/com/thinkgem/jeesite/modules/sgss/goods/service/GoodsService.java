@@ -194,13 +194,10 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 		for (GoodsSku goodsSku : goods.getGoodsSkuList()){
 			goods.setMarketPrice(goodsSku.getMarketPrice());
 			goods.setPrice(goodsSku.getPrice());
-			if (goodsSku.getId() == null){
-				continue;
-			}
 			goodsSku.setProfit(goodsSku.getPrice()-goodsSku.getSettlementPrice());
-			goodsSku.setDiscount(goodsSku.getSettlementPrice()/goodsSku.getMarketPrice()*10);
-			goodsSku.setSettlementDiscount(goodsSku.getSettlementPrice()/goodsSku.getPrice()*10);
-			goodsSku.setProfitDiscount(goodsSku.getProfit()/goodsSku.getPrice()*100);
+			goodsSku.setDiscount((goodsSku.getSettlementPrice()/goodsSku.getMarketPrice())*10);
+			goodsSku.setSettlementDiscount((goodsSku.getSettlementPrice()/goodsSku.getPrice())*10);
+			goodsSku.setProfitDiscount((goodsSku.getProfit()/goodsSku.getPrice())*100);
 			if (GoodsSku.DEL_FLAG_NORMAL.equals(goodsSku.getDelFlag())){
 				if (StringUtils.isBlank(goodsSku.getId())){
 					goodsSku.setGoods(goods);
