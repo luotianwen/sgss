@@ -83,8 +83,9 @@
                 top.$.jBox.tip("结算价格必填","erroe",{persistent:true,opacity:0});
                 return false;
             }
+                var _price=$("#goodsSkuList"+i+"_price").val();
                 var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
-                $("#goodsSkuList"+i+"_discount").val(price/_marketPrice*10);
+                $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice*10);
 
         }
         function generatesettlementPrices() {
@@ -97,7 +98,7 @@
                 var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
                 var _price=$("#goodsSkuList"+i+"_price").val();
                 $("#goodsSkuList"+i+"_settlementPrice").val(price);
-                $("#goodsSkuList"+i+"_discount").val(price/_marketPrice*10);
+                $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice*10);
             }
 
         }
