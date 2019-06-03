@@ -55,7 +55,7 @@
 					${brand.name}
 				</a></td>
 				<td>
-					<img src="${brand.logo}" width="60px "/>
+					<img src="http://image.yoyound.com/${brand.logo}" width="60px "/>
 				</td>
 				<td>
 					${brand.sort}

@@ -74,18 +74,27 @@
             for (var i=0;i<goodsSkuRowIdx;i++){
                 $("#goodsSkuList"+i+"_marketPrice").val(price);
             }
+            zk();
 
         }
 
+        function changePrice(i) {
+            var price=$("#goodsSkuList"+i+"_price").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("价格必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            zk();
+
+        }
         function changeSettlementPrice(i) {
             var price=$("#goodsSkuList"+i+"_settlementPrice").val();
             if(price.length==0||price==0){
                 top.$.jBox.tip("结算价格必填","erroe",{persistent:true,opacity:0});
                 return false;
             }
-                var _price=$("#goodsSkuList"+i+"_price").val();
-                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
-                $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice*10);
+
+            zk();
 
         }
         function generatesettlementPrices() {
@@ -95,22 +104,27 @@
                 return false;
             }
             for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_settlementPrice").val(price);
+            }
+            zk();
+        }
+        function zk(){
+            for (var i=0;i<goodsSkuRowIdx;i++){
                 var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
                 var _price=$("#goodsSkuList"+i+"_price").val();
-                $("#goodsSkuList"+i+"_settlementPrice").val(price);
                 $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice*10);
             }
-
-        }
+		}
 		function generatePrice() {
 			var price=$("#prices").val();
 			if(price.length==0||price==0){
                 top.$.jBox.tip("价格必填","erroe",{persistent:true,opacity:0});
                 return false;
 			}
-			for (var i=0;i<goodsSkuRowIdx;i++){
-              $("#goodsSkuList"+i+"_price").val(price);
-			}
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_price").val(price);
+            }
+            zk();
 
         }
 	</script>
@@ -290,7 +304,7 @@
 								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}"  onchange="changePrice({{idx}})" class="input-small required"/>
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small required"/>

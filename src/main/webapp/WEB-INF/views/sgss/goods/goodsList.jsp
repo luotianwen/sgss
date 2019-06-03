@@ -198,7 +198,7 @@
 					${goods.artno}
 				</td>
 				<td>
-					<img src="${goods.logo}" width="80px">
+					<img src="http://image.yoyound.com/${goods.logo}" width="80px">
 
 				</td>
 				<td>

@@ -73,7 +73,7 @@
 				{{row.name}}
 			</a></td>
 			<td>
-				<img src="{{row.logo}}" width="60px" />
+				<img src="http://image.yoyound.com/{{row.logo}}" width="60px" />
 			</td>
 			<td>
 				{{row.sort}}
