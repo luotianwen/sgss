@@ -9,8 +9,30 @@
 			//$("#name").focus();
 			$("#inputForm").validate({
 				submitHandler: function(form){
-					loading('正在提交，请稍等...');
-					form.submit();
+                    var tol =$("#logoPreview li img").length;
+                    var itol =$("#imgsPreview li img").length;
+                    var html = detailsue.getContent().length;
+                    var sks =$("#goodsSkuList tr").length;
+
+
+                   if(tol==0){
+                       top.$.jBox.error("主图必填","error",{persistent:true,opacity:0});
+                       return false;
+				   }
+                    if(itol==0){
+                        top.$.jBox.error("多图必填","error",{persistent:true,opacity:0});
+                        return false;
+                    }
+                    if(html==0){
+                        top.$.jBox.error("详情必填","error",{persistent:true,opacity:0});
+                        return false;
+                    }
+                    if(sks==0){
+                        top.$.jBox.error("商品sku必填","error",{persistent:true,opacity:0});
+                        return false;
+                    }
+					 loading('正在提交，请稍等...');
+					 form.submit();
 				},
 				errorContainer: "#messageBox",
 				errorPlacement: function(error, element) {
