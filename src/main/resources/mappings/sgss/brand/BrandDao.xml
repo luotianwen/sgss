@@ -13,6 +13,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.num,
 		a.del_flag AS "delFlag"
 	</sql>
 	
