@@ -46,6 +46,24 @@ public class Goods extends DataEntity<Goods> {
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
 	private String pass;
+	private String sync ;//同步数据
+	private String syncby ;//同步数据
+
+	public String getSyncby() {
+		return syncby;
+	}
+
+	public void setSyncby(String syncby) {
+		this.syncby = syncby;
+	}
+
+	public String getSync() {
+		return sync;
+	}
+
+	public void setSync(String sync) {
+		this.sync = sync;
+	}
 
 	public String getNum() {
 		return num;

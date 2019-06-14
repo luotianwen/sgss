@@ -20,4 +20,8 @@ public interface GoodsDao extends CrudDao<Goods> {
     List<Goods> findByArtno(Goods g);
    void upordown(Goods g);
     void  passornot(Goods g);
+
+    void saveSync(Goods goods);
+
+    void saveSyncby(Goods goods);
 }

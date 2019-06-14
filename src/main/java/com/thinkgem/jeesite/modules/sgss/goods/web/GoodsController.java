@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
@@ -14,6 +15,10 @@ import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsSku;
 import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,6 +130,59 @@ public class GoodsController extends BaseController {
 
 
 	@RequiresPermissions("goods:goods:view")
+	@RequestMapping(value = "syncform")
+	public String syncform(Goods goods, Model model,HttpSession session) {
+		String www="http://image.yoyound.com";
+		Document containerDoc = Jsoup.parse(goods.getDetail().getDetails());
+		Elements e=containerDoc.select("img");
+		List<String> imgs= Lists.newArrayList();
+		for(Element ee:e){
+			imgs.add(ee.attr("src").replaceAll(www,""));
+		}
+		goods.getDetail().setDetails("");
+		model.addAttribute("imgs", imgs);
+		model.addAttribute("goods", goods);
+		return "sgss/goods/goodsSyncform";
+	}
+
+	@RequiresPermissions("goods:goods:edit")
+	@RequestMapping(value = "saveSync")
+	public String saveSync(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) throws Exception {
+		for (GoodsSku goodsSku : goods.getGoodsSkuList()) {
+			goodsSku.setId("");
+		}
+		goodsService.saveSync(goods);
+
+		addMessage(redirectAttributes, "同步商品管理成功");
+		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+	}
+	@RequiresPermissions("goods:goods:view")
+	@RequestMapping(value = "syncbyform")
+	public String syncbyform(Goods goods, Model model,HttpSession session) {
+		String www="http://image.yoyound.com";
+		Document containerDoc = Jsoup.parse(goods.getDetail().getDetails());
+		Elements e=containerDoc.select("img");
+		List<String> imgs= Lists.newArrayList();
+		for(Element ee:e){
+			imgs.add(ee.attr("src").replaceAll(www,""));
+		}
+		goods.getDetail().setDetails("");
+		model.addAttribute("imgs", imgs);
+		model.addAttribute("goods", goods);
+		return "sgss/goods/goodsSyncbyform";
+	}
+	@RequiresPermissions("goods:goods:edit")
+	@RequestMapping(value = "saveSyncby")
+	public String saveSyncby(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) throws Exception {
+		for (GoodsSku goodsSku : goods.getGoodsSkuList()) {
+			goodsSku.setId("");
+		}
+		goodsService.saveSyncby(goods);
+
+		addMessage(redirectAttributes, "同步商品管理成功");
+		return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+	}
+	@RequiresPermissions("goods:goods:view")
     @RequestMapping(value = "form")
     public String form(Goods goods, Model model,HttpSession session) {
 
@@ -177,6 +235,7 @@ public class GoodsController extends BaseController {
         model.addAttribute("goods", goods);
         return "sgss/goods/goodsForm";
     }
+
 	@RequiresPermissions("goods:goods:edit")
 	@RequestMapping(value = "save")
 	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) {

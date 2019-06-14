@@ -54,6 +54,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">小程序序号：</label>
+			<div class="controls">
+				<form:input path="num" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">上级父类:</label>
 			<div class="controls">
 				<sys:treeselect id="parent" name="parent.id" value="${scategory.parent.id}" labelName="parent.name" labelValue="${scategory.parent.name}"

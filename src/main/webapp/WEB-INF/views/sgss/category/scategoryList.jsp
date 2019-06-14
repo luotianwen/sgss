@@ -60,6 +60,7 @@
 				<th>名称</th>
 				<th>主图</th>
 				<th>序号</th>
+				<th  >小程序序号</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="category:scategory:edit"><th>操作</th></shiro:hasPermission>
@@ -77,6 +78,9 @@
 			</td>
 			<td>
 				{{row.sort}}
+			</td>
+			<td>
+				{{row.num}}
 			</td>
 			<td>
 				{{row.updateDate}}

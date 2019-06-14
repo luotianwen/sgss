@@ -12,7 +12,8 @@
 		a.market_price AS "marketPrice",
 		a.price AS "price",
 		a.brand_id AS "brand.id",
-
+		a.sync,
+		a.syncby,
 		a.state AS "state",
 		a.spec1 AS "spec1",
 		a.spec2 AS "spec2",
@@ -188,7 +189,17 @@
 			pass=#{pass}
 		WHERE id = #{id}
 	</update>
-	
+
+	<update id="saveSync">
+		UPDATE s_goods SET
+			sync = #{sync}
+		WHERE id = #{id}
+	</update>
+	<update id="saveSyncby">
+		UPDATE s_goods SET
+			syncby = #{syncby}
+		WHERE id = #{id}
+	</update>
 	<update id="delete">
 		UPDATE s_goods SET 
 			del_flag = #{DEL_FLAG_DELETE}

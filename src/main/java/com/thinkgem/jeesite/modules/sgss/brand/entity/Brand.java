@@ -19,7 +19,16 @@ public class Brand extends DataEntity<Brand> {
 	private String logo;		// 主图
 	private Long sort;		// 序号
 	private String state;		// 状态
-	
+	private Long num;		// 序号
+
+	public Long getNum() {
+		return num;
+	}
+
+	public void setNum(Long num) {
+		this.num = num;
+	}
+
 	public Brand() {
 		super();
 	}

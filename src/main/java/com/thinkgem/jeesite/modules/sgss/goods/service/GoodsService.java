@@ -234,4 +234,19 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 	public void passornot(Goods goods) {
 		dao.passornot(goods);
 	}
+	@Transactional(readOnly = false)
+	public void saveSync(Goods goods) throws Exception {
+		SyncGoods sy=new SyncGoods(goods,"1");
+		 sy.login().saveGoods().saveSku();
+		goods.setSync("1");
+		dao.saveSync(goods);
+	}
+
+	@Transactional(readOnly = false)
+	public void saveSyncby(Goods goods) throws Exception {
+		SyncGoods sy=new SyncGoods(goods,"2");
+		sy.login().saveGoods().saveSku();
+		goods.setSyncby("1");
+		dao.saveSyncby(goods);
+	}
 }

@@ -106,6 +106,7 @@
 			name = #{name},
 			logo = #{logo},
 			sort = #{sort},
+			num = #{num},
 			state = #{state},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},

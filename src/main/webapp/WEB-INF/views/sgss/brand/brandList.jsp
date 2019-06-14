@@ -43,6 +43,7 @@
 				<th>名称</th>
 				<th>主图</th>
 				<th class="sort-column sort">序号</th>
+				<th class="sort-column num">小程序序号</th>
 				<th>状态</th>
 				<th>更新时间</th>
 				<shiro:hasPermission name="brand:brand:edit"><th>操作</th></shiro:hasPermission>
@@ -59,6 +60,9 @@
 				</td>
 				<td>
 					${brand.sort}
+				</td>
+				<td>
+						${brand.num}
 				</td>
 				<td>
 					${fns:getDictLabel(brand.state, 'yes_no', '')}

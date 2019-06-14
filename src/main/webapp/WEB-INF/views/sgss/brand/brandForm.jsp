@@ -53,6 +53,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">小程序序号：</label>
+			<div class="controls">
+				<form:input path="num" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">状态：</label>
 			<div class="controls">
 				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="" />

@@ -14,6 +14,7 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
+		a.num,
 		a.del_flag AS "delFlag"
 	</sql>
 	
@@ -118,6 +119,7 @@
 			parent_ids = #{parentIds},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
+			num = #{num},
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>

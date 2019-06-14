@@ -172,6 +172,8 @@
 				<th class="sort-column price">本店售价</th>
 				<th class="sort-column sales">销量</th>
 				<th class="sort-column state">上架状态</th>
+				<th  >动力</th>
+				<th  >北移</th>
 				<th class="sort-column pass">审核状态</th>
 				<th class="sort-column createDate">添加时间</th>
 				<th>备注信息</th>
@@ -217,6 +219,12 @@
 					${fns:getDictLabel(goods.state, 'yes_no', '')}
 				</td>
 				<td>
+					${fns:getDictLabel(goods.sync, 'yes_no', '')}
+			</td>
+				<td>
+						${fns:getDictLabel(goods.syncby, 'yes_no', '')}
+				</td>
+				<td>
 						${fns:getDictLabel(goods.pass, 'yes_no', '')}
 				</td>
 				<td>
@@ -228,8 +236,19 @@
 				<td><shiro:hasPermission name="goods:goods:edit"><a href="${ctx}/goods/goods/form?id=${goods.id}">修改</a></shiro:hasPermission>
                     <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/form?id=${goods.id}">审核</a></shiro:hasPermission>
 
+
                     <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/view?id=${goods.id}">查看</a></shiro:hasPermission>
 					 <a href="${ctx}/goods/goods/copy?id=${goods.id}" onclick="return confirmx('确认要复制该商品管理吗？', this.href)">复制</a>
+					<shiro:hasPermission name="goods:goods:pass">
+						<c:if test="${goods.sync==0}">
+							<a href="${ctx}/goods/goods/syncform?id=${goods.id}">同步动力</a>
+						</c:if>
+
+						<c:if test="${goods.syncby==0}">
+							<a href="${ctx}/goods/goods/syncbyform?id=${goods.id}">同步北移</a>
+						</c:if>
+					</shiro:hasPermission>
+
 			 	</td>
 			</tr>
 		</c:forEach>

@@ -21,7 +21,15 @@ public class Scategory extends TreeEntity<Scategory> {
 	private Integer sort;		// 序号
 	private Scategory parent;		// 父类
 	private String parentIds;		// 所有父级编号
-	
+	private Long num;		// 序号
+
+	public Long getNum() {
+		return num;
+	}
+
+	public void setNum(Long num) {
+		this.num = num;
+	}
 	public Scategory() {
 		super();
 	}
