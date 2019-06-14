@@ -6,7 +6,7 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-            //$("#name").focus();
+            $("#logo").val("");
             $("#inputForm").validate({
                 submitHandler: function (form) {
 
@@ -253,7 +253,8 @@
     <div class="control-group">
         <label class="control-label">主图：</label>
         <div class="controls">
-            <form:input id="logo" path="logo" htmlEscape="false" maxlength="200" class="input-xxlarge"/>
+            <form:textarea id="logo" path="logo" htmlEscape="false"  rows="2"  class="input-xxlarge required"/>
+
             <a href="http://op.yoyound.com${goods.logo}"   <%--download="logo.jpg" --%> target="_blank"><img src="http://op.yoyound.com${goods.logo}" width="60px"> 下载</a>
             <input type="button"  onclick="addpic('logo',1,'HW',100,100)" class="btn " value="上传" /> <input type="button" class="btn  "  onclick="$('#logo').val('')" value="清空"/>
 
