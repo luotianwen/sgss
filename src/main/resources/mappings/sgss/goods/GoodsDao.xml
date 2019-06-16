@@ -18,6 +18,7 @@
 		a.spec1 AS "spec1",
 		a.spec2 AS "spec2",
 		a.create_by AS "createBy.id",
+		u.name AS "createBy.name",
 		a.create_date AS "createDate",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
@@ -30,7 +31,7 @@
 	</sql>
 	
 	<sql id="goodsJoins">
-
+     left join  sys_user u on u.id=a.create_by
 	</sql>
     
 	<select id="get" resultType="Goods">
@@ -85,6 +86,10 @@
 			<if test="supplier != null and supplier.id != null and supplier.id != ''">
 				AND a.supplier_id = #{supplier.id}
 			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+
 			<if test="state != null and state != ''">
 				AND a.state = #{state}
 			</if>

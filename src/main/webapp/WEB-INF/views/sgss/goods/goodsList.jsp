@@ -114,12 +114,20 @@
 					<form:options items="${brands}" itemLabel="name" itemValue="id"  htmlEscape="false"/>
 				</form:select>
 			</li>
+
+            <shiro:hasPermission name="goods:goods:viewsup">
 			<li><label>供应商：</label>
 				<form:select path="supplier.id" class="input-medium">
 					<form:option value="" label="全部"/>
 					<form:options items="${suppliers}" itemLabel="name" itemValue="id"   htmlEscape="false"/>
 				</form:select>
 			</li>
+
+                <li><label>创建者：</label>
+                    <sys:treeselect id="createBy" name="createBy.id" value="${goods.createBy.id}" labelName="createBy.name" labelValue="${goods.createBy.name}"
+                                    title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true"/></li>
+
+            </shiro:hasPermission>
 			<li><label>上架状态：</label>
 				<form:select path="state" class="input-medium">
 					<form:option value="" label="全部"/>
@@ -132,6 +140,7 @@
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+
 			<li><label>创建时间：</label>
 				<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value="<fmt:formatDate value="${goods.beginCreateDate}" pattern="yyyy-MM-dd"/>"
@@ -162,7 +171,9 @@
 			<tr>
 				<th><input type=checkbox name="checkId" id="checkId">选择</th>
 				<th  class="sort-column b.name">品牌</th>
+                <shiro:hasPermission name="goods:goods:viewsup">
 				<th  class="sort-column s.name">供应商</th>
+                </shiro:hasPermission>
 				<th   >分类</th>
 				<th>名称</th>
 				<th class="sort-column artno">货号</th>
@@ -175,7 +186,9 @@
 				<th  >动力</th>
 				<th  >北移</th>
 				<th class="sort-column pass">审核状态</th>
+                <th  >上传者</th>
 				<th class="sort-column createDate">添加时间</th>
+
 				<th>备注信息</th>
 				<shiro:hasPermission name="goods:goods:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -187,9 +200,11 @@
 				<td>
 						${goods.brand.name}
 				</td>
+                <shiro:hasPermission name="goods:goods:viewsup">
 				<td>
 						${goods.supplier.name}
 				</td>
+                </shiro:hasPermission>
 				<td>
 						${goods.categoryName}
 				</td>
@@ -227,6 +242,9 @@
 				<td>
 						${fns:getDictLabel(goods.pass, 'yes_no', '')}
 				</td>
+                <td>
+                        ${goods.createBy.name}
+                </td>
 				<td>
 					<fmt:formatDate value="${goods.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

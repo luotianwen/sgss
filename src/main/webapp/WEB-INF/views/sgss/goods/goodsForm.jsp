@@ -159,6 +159,7 @@
 	<form:form id="inputForm" modelAttribute="goods" action="${ctx}/goods/goods/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
+		<shiro:hasPermission name="goods:goods:viewsup">
 		<div class="control-group">
 			<label class="control-label">供应商：</label>
 			<div class="controls">
@@ -166,6 +167,10 @@
 
 			 	</div>
 		</div>
+	   </shiro:hasPermission>
+	<shiro:lacksPermission name="goods:goods:viewsup">
+		<form:hidden path="supplier.id"/>
+	</shiro:lacksPermission>
 		 <div class="control-group">
 			<label class="control-label">分类：</label>
 			<div class="controls">
@@ -282,7 +287,7 @@
             <div class="control-group">
                 <label class="control-label">审核状态：</label>
                 <div class="controls">
-                    <form:radiobutton path="pass"  value="0" label="否" htmlEscape="false" class="required"/>
+                    <form:radiobutton path="pass"  value="0"   label="否" htmlEscape="false" class="required"/>
                 </div>
             </div>
         </shiro:lacksPermission>

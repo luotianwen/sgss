@@ -6,7 +6,7 @@ package com.thinkgem.jeesite.modules.sgss.goods.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
 import com.thinkgem.jeesite.modules.sgss.brand.service.BrandService;
@@ -14,6 +14,8 @@ import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsCategory;
 import com.thinkgem.jeesite.modules.sgss.goods.entity.GoodsSku;
 import com.thinkgem.jeesite.modules.sgss.supplier.entity.Supplier;
 import com.thinkgem.jeesite.modules.sgss.supplier.service.SupplierService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -67,9 +69,13 @@ public class GoodsController extends BaseController {
 	@RequiresPermissions("goods:goods:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
-
-
-
+        User user = UserUtils.getUser();
+        for(Role r:user.getRoleList()) {
+            if ("客服".equals(r.getName())) {
+                goods.setCreateBy(user);
+                break;
+            }
+        }
 		Page<Goods> page = goodsService.findPage(new Page<Goods>(request, response), goods);
 		HttpSession s=request.getSession();
 		StringBuffer categoryName=new StringBuffer();
