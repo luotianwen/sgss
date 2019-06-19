@@ -74,6 +74,12 @@
 			<if test="name != null and name != ''">
 				AND a.name LIKE  concat('%',#{name},'%')
 			</if>
+			<if test="sync != null and sync != ''">
+				AND a.sync = #{sync}
+			</if>
+			<if test="syncby != null and syncby != ''">
+				AND a.syncby = #{syncby}
+			</if>
 			<if test="pass != null and pass != ''">
 				AND a.pass = #{pass}
 			</if>

@@ -6,7 +6,7 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#logo").val("");
+
             $("#inputForm").validate({
                 submitHandler: function (form) {
 
@@ -256,8 +256,8 @@
             <form:textarea id="logo" path="logo" htmlEscape="false"  rows="2"  class="input-xxlarge required"/>
 
             <a href="http://op.yoyound.com${goods.logo}"   <%--download="logo.jpg" --%> target="_blank"><img src="http://op.yoyound.com${goods.logo}" width="60px"> 下载</a>
-            <input type="button"  onclick="addpic('logo',1,'HW',100,100)" class="btn " value="上传" /> <input type="button" class="btn  "  onclick="$('#logo').val('')" value="清空"/>
-
+         <%--   <input type="button"  onclick="addpic('logo',1,'HW',100,100)" class="btn " value="上传" /> <input type="button" class="btn  "  onclick="$('#logo').val('')" value="清空"/>
+--%>
         </div>
     </div>
 
@@ -746,7 +746,7 @@
                 <a href="http://op.yoyound.com${item}"  <%-- download="${status.index+1}.jpg"--%> target="_blank" ><img src="http://op.yoyound.com${item}" width="60px"> 下载</a>
              </c:forEach>
             <form:textarea id="details" path="detail.details" htmlEscape="false"  rows="4"  class="input-xxlarge required"/>
-             <input type="button"  onclick="addpic('details',1,'W',0,800)" class="btn " value="上传" />
+           <%--  <input type="button"  onclick="addpic('details',1,'W',0,800)" class="btn " value="上传" />--%>
         </div>
     </div>
 

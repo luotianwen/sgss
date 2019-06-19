@@ -145,7 +145,7 @@ public class GoodsController extends BaseController {
 		for(Element ee:e){
 			imgs.add(ee.attr("src").replaceAll(www,""));
 		}
-		goods.getDetail().setDetails("");
+
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
 		return "sgss/goods/goodsSyncform";
@@ -172,7 +172,7 @@ public class GoodsController extends BaseController {
 		for(Element ee:e){
 			imgs.add(ee.attr("src").replaceAll(www,""));
 		}
-		goods.getDetail().setDetails("");
+
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
 		return "sgss/goods/goodsSyncbyform";
