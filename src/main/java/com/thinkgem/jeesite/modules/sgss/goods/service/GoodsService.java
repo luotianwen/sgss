@@ -192,6 +192,9 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 			}
 		}
 		for (GoodsSku goodsSku : goods.getGoodsSkuList()){
+			if(StringUtils.isBlank(goodsSku.getSpec1())){
+				continue;
+			}
 			goods.setMarketPrice(goodsSku.getMarketPrice());
 			goods.setPrice(goodsSku.getPrice());
 			goodsSku.setProfit(goodsSku.getPrice()-goodsSku.getSettlementPrice());

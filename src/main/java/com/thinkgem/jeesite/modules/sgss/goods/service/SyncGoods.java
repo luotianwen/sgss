@@ -329,8 +329,8 @@ public class SyncGoods {
     private static String encode(String value) throws UnsupportedEncodingException {
         return URLEncoder.encode(value,"UTF-8");
     }
- private InputStream getInput(String url1) throws Exception {
-
+ private InputStream getInput(List<HttpURLConnection>conns,String url1) throws Exception {
+     url1=url1.replace("https://","http://");
      URL url = new URL(url1);
      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
      //设置超时间为3秒
@@ -339,8 +339,9 @@ public class SyncGoods {
      conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
      //得到输入流
      InputStream is = conn.getInputStream();
-     conn.disconnect();
-
+     //inputStreams.add(is);
+     //conn.disconnect();
+     conns.add(conn);
      return is;
  }
   public SyncGoods saveGoods() throws Exception {
@@ -390,6 +391,8 @@ public class SyncGoods {
       Elements e=containerDoc.select("img");
       List<File> imgs= Lists.newArrayList();
       List<InputStream>inputStreams=new ArrayList<>();
+      List<HttpURLConnection>conns=new ArrayList<>();
+
       for(Element ee:e){
           try {
               logo = UriUtils.decode( ee.attr("src").replaceAll(www,""), "UTF-8");
@@ -401,7 +404,8 @@ public class SyncGoods {
               imgs.add(file2);
           }
           else{
-              inputStreams.add(getInput(logo));
+            inputStreams.add(getInput(conns,logo));
+              // getInput(inputStreams,logo);
           }
       }
       if(imgs.size()>0) {
@@ -409,6 +413,10 @@ public class SyncGoods {
       }
       else {
           logo = this.uploadInputStream(inputStreams, "W", "0", "800");
+      }
+      for (HttpURLConnection u:conns
+           ) {
+       u.disconnect();
       }
       loginParams.add(new BasicNameValuePair("picurl4",logo));
 
