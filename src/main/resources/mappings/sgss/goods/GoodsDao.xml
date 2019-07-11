@@ -190,6 +190,7 @@
 			brand_id = #{brand.id},
 			state = #{state},
 			spec1 = #{spec1},
+			spec2 = #{spec2},
 			state = #{state},
 			imgs = #{imgs},
 			sales = #{sales},

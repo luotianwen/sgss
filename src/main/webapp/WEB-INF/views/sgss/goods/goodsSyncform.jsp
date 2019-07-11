@@ -728,6 +728,16 @@
                 <option value="260">鸭嘴兽</option>
                 <option value="103">麦格霍斯</option>
                 <option value="116">黄蚂蚁</option>
+
+                <option value="488">mvp</option>
+                <option value="489">艾美特</option>
+                <option value="490">BOBOT </option>
+                <option value="491">BWT</option>
+                <option value="492">TOMMY </option>
+                <option value="493">DKNY</option>
+                <option value="494">Contigo</option>
+                <option value="495">斯立德</option>
+
             </select>
         </div>
     </div>

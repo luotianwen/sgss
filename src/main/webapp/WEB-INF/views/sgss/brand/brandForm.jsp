@@ -49,13 +49,13 @@
 		<div class="control-group">
 			<label class="control-label">序号：</label>
 			<div class="controls">
-				<form:input path="sort" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
+				<form:input path="sort" htmlEscape="false" maxlength="20" class="input-xlarge  digits required"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">小程序序号：</label>
 			<div class="controls">
-				<form:input path="num" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
+				<form:input path="num" htmlEscape="false" maxlength="20" class="input-xlarge  digits "/>
 			</div>
 		</div>
 		<div class="control-group">

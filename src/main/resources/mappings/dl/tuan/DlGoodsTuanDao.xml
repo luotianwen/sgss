@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.dl.tuan.dao.DlGoodsTuanDao">
+    
+	<sql id="dlGoodsTuanColumns">
+		a.id AS "id",
+		a.num AS "num",
+		a.name AS "name",
+		a.artno AS "artno",
+		a.logo AS "logo",
+		a.sort AS "sort",
+		a.market_price AS "marketPrice",
+		a.price AS "price",
+		a.state AS "state",
+		a.spec1 AS "spec1",
+		a.spec2 AS "spec2",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.imgs AS "imgs",
+		a.cost_price AS "costPrice",
+		a.details AS "details",
+		a.begin_date AS "beginDate",
+		a.end_date AS "endDate"
+	</sql>
+	
+	<sql id="dlGoodsTuanJoins">
+	</sql>
+    
+	<select id="get" resultType="DlGoodsTuan">
+		SELECT 
+			<include refid="dlGoodsTuanColumns"/>
+		FROM dl_goods_tuan a
+		<include refid="dlGoodsTuanJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DlGoodsTuan">
+		SELECT 
+			<include refid="dlGoodsTuanColumns"/>
+		FROM dl_goods_tuan a
+		<include refid="dlGoodsTuanJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="artno != null and artno != ''">
+				AND a.artno = #{artno}
+			</if>
+			<if test="beginBeginDate != null and endBeginDate != null and beginBeginDate != '' and endBeginDate != ''">
+				AND a.begin_date BETWEEN #{beginBeginDate} AND #{endBeginDate}
+			</if>
+			<if test="beginEndDate != null and endEndDate != null and beginEndDate != '' and endEndDate != ''">
+				AND a.end_date BETWEEN #{beginEndDate} AND #{endEndDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DlGoodsTuan">
+		SELECT 
+			<include refid="dlGoodsTuanColumns"/>
+		FROM dl_goods_tuan a
+		<include refid="dlGoodsTuanJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO dl_goods_tuan(
+			id,
+			num,
+			name,
+			artno,
+			logo,
+			sort,
+			market_price,
+			price,
+			state,
+			spec1,
+			spec2,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			imgs,
+			cost_price,
+			details,
+			begin_date,
+			end_date
+		) VALUES (
+			#{id},
+			#{num},
+			#{name},
+			#{artno},
+			#{logo},
+			#{sort},
+			#{marketPrice},
+			#{price},
+			#{state},
+			#{spec1},
+			#{spec2},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag},
+			#{imgs},
+			#{costPrice},
+			#{details},
+			#{beginDate},
+			#{endDate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE dl_goods_tuan SET 	
+			num = #{num},
+			name = #{name},
+			artno = #{artno},
+			logo = #{logo},
+			sort = #{sort},
+			market_price = #{marketPrice},
+			price = #{price},
+			state = #{state},
+			spec1 = #{spec1},
+			spec2 = #{spec2},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks},
+			imgs = #{imgs},
+			cost_price = #{costPrice},
+			details = #{details},
+			begin_date = #{beginDate},
+			end_date = #{endDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE dl_goods_tuan SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

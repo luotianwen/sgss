@@ -268,6 +268,7 @@
 
                     <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/view?id=${goods.id}">查看</a></shiro:hasPermission>
 					 <a href="${ctx}/goods/goods/copy?id=${goods.id}" onclick="return confirmx('确认要复制该商品管理吗？', this.href)">复制</a>
+					<a href="${ctx}/tuan/dlGoodsTuan/copyForm?goodsId=${goods.id}" onclick="return confirmx('确认要团购吗？', this.href)">团购</a>
 					<shiro:hasPermission name="goods:goods:pass">
 						<c:if test="${goods.sync==0}">
 							<a href="${ctx}/goods/goods/syncform?id=${goods.id}">同步动力</a>

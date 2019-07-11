@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.dl.tuan.dao.DlTuanGoodsSkuDao">
+    
+	<sql id="dlTuanGoodsSkuColumns">
+		a.id AS "id",
+		a.goods_id AS "goods.id",
+		a.spec1 AS "spec1",
+		a.spec2 AS "spec2",
+		a.sort AS "sort",
+		a.stock AS "stock",
+		b.name AS "goods.name"
+	</sql>
+	
+	<sql id="dlTuanGoodsSkuJoins">
+		LEFT JOIN dl_goods_tuan b ON b.id = a.goods_id
+	</sql>
+    
+	<select id="get" resultType="DlTuanGoodsSku">
+		SELECT 
+			<include refid="dlTuanGoodsSkuColumns"/>
+		FROM dl_goods_sku_tuan a
+		<include refid="dlTuanGoodsSkuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="DlTuanGoodsSku">
+		SELECT 
+			<include refid="dlTuanGoodsSkuColumns"/>
+		FROM dl_goods_sku_tuan a
+		<include refid="dlTuanGoodsSkuJoins"/>
+		<where>
+			
+			<if test="goods != null and goods.id != null and goods.id != ''">
+				AND a.goods_id = #{goods.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="DlTuanGoodsSku">
+		SELECT 
+			<include refid="dlTuanGoodsSkuColumns"/>
+		FROM dl_goods_sku_tuan a
+		<include refid="dlTuanGoodsSkuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO dl_goods_sku_tuan(
+			id,
+			goods_id,
+			spec1,
+			spec2,
+			sort,
+			stock
+		) VALUES (
+			#{id},
+			#{goods.id},
+			#{spec1},
+			#{spec2},
+			#{sort},
+			#{stock}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE dl_goods_sku_tuan SET 	
+			goods_id = #{goods.id},
+			spec1 = #{spec1},
+			spec2 = #{spec2},
+			sort = #{sort},
+			stock = #{stock}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM dl_goods_sku_tuan
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE goods_id = #{goods.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
