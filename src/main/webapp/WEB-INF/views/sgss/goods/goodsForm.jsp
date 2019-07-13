@@ -168,8 +168,9 @@
 			 	</div>
 		</div>
 	   </shiro:hasPermission>
-	<shiro:lacksPermission name="goods:goods:viewsup">
-		<form:hidden path="supplier.id"/>
+	 <shiro:lacksPermission name="goods:goods:viewsup">
+		<%--<form:hidden path="supplier.id"/>--%>
+		 <input type="hidden" name="supplier.id">
 	</shiro:lacksPermission>
 		 <div class="control-group">
 			<label class="control-label">分类：</label>
