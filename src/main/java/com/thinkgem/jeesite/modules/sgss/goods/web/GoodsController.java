@@ -244,7 +244,7 @@ public class GoodsController extends BaseController {
 
 	@RequiresPermissions("goods:goods:edit")
 	@RequestMapping(value = "save")
-	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) {
+	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes,HttpSession session) throws Exception {
 		if (!beanValidator(model, goods)){
 			return form(goods, model,session);
 		}
@@ -261,8 +261,11 @@ public class GoodsController extends BaseController {
 			addMessage(model, "品牌必须填");
 			return form(goods, model,session);
 		}
-		goodsService.savePass(goods);
-
+		try {
+			goodsService.savePass(goods);
+		}catch (Exception e){
+			throw  new Exception("货号重复或者商品保存失败");
+		}
 		session.setAttribute("saveSupplier",goods.getSupplier());
 		session.setAttribute("saveBrand",goods.getBrand());
 		session.setAttribute("saveCategoryId",goods.getCategoryId());
