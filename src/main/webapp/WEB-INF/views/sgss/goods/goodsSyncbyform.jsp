@@ -295,6 +295,7 @@
                     <th class="hide"></th>
                     <th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
                     <th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
+                    <th>成本</th>
                     <th>北移结算价<input id="prices" class="input-small valid" type="text" value="" maxlength="20"> <input
                             id="btnPrice" class="btn btn-primary" type="button" value="价格"
                             onclick="generatePrice()"> <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%>
@@ -338,6 +339,9 @@
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small"/>
+							</td>
+							<td>
+								 {{row.settlementPrice}}
 							</td>
 							<td>
 								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}"  onchange="changePrice({{idx}})" class="input-small required"/>

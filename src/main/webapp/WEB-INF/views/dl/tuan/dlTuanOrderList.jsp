@@ -45,12 +45,13 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>会员姓名</th>
-				<th>会员电话</th>
+				<th>订单编号</th>
+				<th>会员信息</th>
+				<th>收货信息</th>
 				<th>商品名称</th>
 				<th>货号</th>
 				<th>数量</th>
-				<th>订单编号</th>
+
 				<th>下单时间</th>
 				<th>更新时间</th>
 				<th>备注信息</th>
@@ -60,24 +61,25 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="dlTuanOrder">
 			<tr>
+				<td>
+						${dlTuanOrder.ordernumber}
+				</td>
 				<td><a href="${ctx}/tuan/dlTuanOrder/form?id=${dlTuanOrder.id}">
-					${dlTuanOrder.username}
+					${dlTuanOrder.username}，${dlTuanOrder.mobile}
 				</a></td>
 				<td>
-					${dlTuanOrder.mobile}
+						${dlTuanOrder.consignee}，${dlTuanOrder.phone}，， ${dlTuanOrder.address}
 				</td>
 				<td>
 					${dlTuanOrder.name}
 				</td>
 				<td>
-					${dlTuanOrder.artno}
+					${dlTuanOrder.artno}，${dlTuanOrder.spec1}，${dlTuanOrder.spec2}
 				</td>
 				<td>
 					${dlTuanOrder.number}
 				</td>
-				<td>
-					${dlTuanOrder.ordernumber}
-				</td>
+
 				<td>
 					<fmt:formatDate value="${dlTuanOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

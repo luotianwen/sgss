@@ -33,19 +33,19 @@
 			</li>
 			<li><label>开始日期：</label>
 				<input name="beginBeginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${dlGoodsTuan.beginBeginDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/> -
+					value="<fmt:formatDate value="${dlGoodsTuan.beginBeginDate}" pattern="yyyy-MM-dd  HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
 				<input name="endBeginDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${dlGoodsTuan.endBeginDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					value="<fmt:formatDate value="${dlGoodsTuan.endBeginDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li><label>结束日期：</label>
 				<input name="beginEndDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${dlGoodsTuan.beginEndDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/> -
+					value="<fmt:formatDate value="${dlGoodsTuan.beginEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
 				<input name="endEndDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${dlGoodsTuan.endEndDate}" pattern="yyyy-MM-dd"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+					value="<fmt:formatDate value="${dlGoodsTuan.endEndDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="btns"><a href="${ctx}/tuan/dlGoodsTuan/copyForm" class="btn btn-primary" >商城复制商品</a> </li>
@@ -101,10 +101,10 @@
 					${dlGoodsTuan.costPrice}
 				</td>
 				<td>
-					<fmt:formatDate value="${dlGoodsTuan.beginDate}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate value="${dlGoodsTuan.beginDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					<fmt:formatDate value="${dlGoodsTuan.endDate}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate value="${dlGoodsTuan.endDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td><shiro:hasPermission name="tuan:dlGoodsTuan:edit">
     				<a href="${ctx}/tuan/dlGoodsTuan/form?id=${dlGoodsTuan.id}">修改</a>
