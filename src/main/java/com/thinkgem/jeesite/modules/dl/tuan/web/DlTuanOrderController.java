@@ -6,12 +6,15 @@ package com.thinkgem.jeesite.modules.dl.tuan.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +24,8 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.dl.tuan.entity.DlTuanOrder;
 import com.thinkgem.jeesite.modules.dl.tuan.service.DlTuanOrderService;
+
+import java.util.List;
 
 /**
  * 团购订单Controller
@@ -45,7 +50,25 @@ public class DlTuanOrderController extends BaseController {
 		}
 		return entity;
 	}
-	
+
+	@RequiresPermissions("tuan:dlTuanOrder:view")
+	@RequestMapping(value = "export", method= RequestMethod.POST)
+	public String exportFile(DlTuanOrder dlTuanOrder, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+			String fileName = "团购订单数据"+ DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+
+			if(null==dlTuanOrder){
+				dlTuanOrder=new DlTuanOrder();
+			}
+
+			List<DlTuanOrder> list=dlTuanOrderService.findList(dlTuanOrder);
+			new ExportExcel(null, DlTuanOrder.class).setDataList(list).write(response, fileName).dispose();
+			return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导出失败！失败信息："+e.getMessage());
+		}
+		return "redirect:" + adminPath + "/simpleorder/simpleOrder/list?repage";
+	}
 	@RequiresPermissions("tuan:dlTuanOrder:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(DlTuanOrder dlTuanOrder, HttpServletRequest request, HttpServletResponse response, Model model) {
