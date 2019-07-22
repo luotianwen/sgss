@@ -199,8 +199,8 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 			goods.setPrice(goodsSku.getPrice());
 			goodsSku.setProfit(goodsSku.getPrice()-goodsSku.getSettlementPrice());
 			goodsSku.setDiscount((goodsSku.getPrice()/goodsSku.getMarketPrice()));
-			goodsSku.setSettlementDiscount((goodsSku.getSettlementPrice()/goodsSku.getPrice()));
-			goodsSku.setProfitDiscount((goodsSku.getProfit()/goodsSku.getPrice()));
+			goodsSku.setSettlementDiscount((goodsSku.getSettlementPrice()/goodsSku.getMarketPrice()));
+			goodsSku.setProfitDiscount((goodsSku.getProfit()/goodsSku.getMarketPrice()));
 			if (GoodsSku.DEL_FLAG_NORMAL.equals(goodsSku.getDelFlag())){
 				if (StringUtils.isBlank(goodsSku.getId())){
 					goodsSku.setGoods(goods);
