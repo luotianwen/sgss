@@ -49,6 +49,44 @@ public class Goods extends DataEntity<Goods> {
 	private String sync ;//同步数据
 	private String syncby ;//同步数据
 
+	private double beginMarketPrice;		// 市场售价
+	private double beginPrice;		// 本店售价
+
+	private double endMarketPrice;		// 市场售价
+	private double endPrice;		// 本店售价
+
+	public double getBeginMarketPrice() {
+		return beginMarketPrice;
+	}
+
+	public void setBeginMarketPrice(double beginMarketPrice) {
+		this.beginMarketPrice = beginMarketPrice;
+	}
+
+	public double getBeginPrice() {
+		return beginPrice;
+	}
+
+	public void setBeginPrice(double beginPrice) {
+		this.beginPrice = beginPrice;
+	}
+
+	public double getEndMarketPrice() {
+		return endMarketPrice;
+	}
+
+	public void setEndMarketPrice(double endMarketPrice) {
+		this.endMarketPrice = endMarketPrice;
+	}
+
+	public double getEndPrice() {
+		return endPrice;
+	}
+
+	public void setEndPrice(double endPrice) {
+		this.endPrice = endPrice;
+	}
+
 	public String getSyncby() {
 		return syncby;
 	}

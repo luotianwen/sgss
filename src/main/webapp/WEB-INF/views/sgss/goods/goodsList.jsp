@@ -152,6 +152,14 @@
 					<form:options items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+			<li><label>市场售价：</label>
+				<form:input path="beginMarketPrice" htmlEscape="false" maxlength="100" class="input-mini"/> -
+				<form:input path="endMarketPrice" htmlEscape="false" maxlength="100" class="input-mini"/>
+			</li>
+			<li><label>本店售价：</label>
+				<form:input path="beginPrice" htmlEscape="false" maxlength="100" class="input-mini"/> -
+				<form:input path="endPrice" htmlEscape="false" maxlength="100" class="input-mini"/>
+			</li>
 			<li><label>创建时间：</label>
 				<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					   value="<fmt:formatDate value="${goods.beginCreateDate}" pattern="yyyy-MM-dd"/>"
@@ -160,6 +168,7 @@
 					   value="<fmt:formatDate value="${goods.endCreateDate}" pattern="yyyy-MM-dd"/>"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
+
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 			</li>
 
@@ -263,7 +272,10 @@
 					${goods.remarks}
 				</td>
 				<td><shiro:hasPermission name="goods:goods:edit"><a href="${ctx}/goods/goods/form?id=${goods.id}">修改</a></shiro:hasPermission>
-                    <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/form?id=${goods.id}">审核</a></shiro:hasPermission>
+                    <shiro:hasPermission name="goods:goods:pass">
+						<a href="${ctx}/goods/goods/form?id=${goods.id}">审核</a>
+						<a href="${ctx}/goods/goods/delete?id=${goods.id}" onclick="return confirmx('确认要删除该商品管理吗？', this.href)">删除</a>
+					</shiro:hasPermission>
 
 
                     <shiro:hasPermission name="goods:goods:pass"><a href="${ctx}/goods/goods/view?id=${goods.id}">查看</a></shiro:hasPermission>

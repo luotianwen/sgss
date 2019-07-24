@@ -99,8 +99,14 @@
 			<if test="state != null and state != ''">
 				AND a.state = #{state}
 			</if>
+			<if test="  endMarketPrice != 0">
+				AND a.market_price BETWEEN #{beginMarketPrice} AND #{endMarketPrice}
+			</if>
 			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
 				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="  endPrice != 0">
+				AND a.price BETWEEN #{beginPrice} AND #{endPrice}
 			</if>
 		</where>
 		<choose>
