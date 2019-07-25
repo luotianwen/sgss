@@ -16,6 +16,28 @@ public class HtmlUtils {
      * @param xpath
      * @return
      */
+    public static List getTextByType(TagNode tagNode, String xpath){
+        List<String>pics=new ArrayList<String>();
+        String content = null;
+        Object[] evaluateXPath;
+        try {
+            evaluateXPath = tagNode.evaluateXPath(xpath);
+            for (Object tnode : evaluateXPath) {
+                TagNode node = (TagNode)tnode;
+                pics.add(node.getText().toString());
+            }
+
+        } catch (XPatherException e) {
+            e.printStackTrace();
+        }
+        return pics;
+    }
+    /**
+     * 根据xpath获取对应标签的内容
+     * @param tagNode
+     * @param xpath
+     * @return
+     */
     public static String getText(TagNode tagNode, String xpath){
         String content = null;
         Object[] evaluateXPath;

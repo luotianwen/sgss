@@ -49,6 +49,7 @@ public class SyncGoods {
     private   String SaveGood_URL= "http://m.p-ubit.com/Application/YBCustom/ajaxService/CustomHandler.ashx";
     private   String SaveGoodSKU_URL= "http://m.p-ubit.com/Application/FormCustom/AjaxService/ChargingMgrAjax.aspx";
     private   String SaveGoodPic_URL = "http://m.p-ubit.com/Application/YBCustom/ajaxService/UploadHandler.ashx";
+    private   String QueryGoods_URL = "http://m.p-ubit.com/Config/QueryList.aspx?ModuleCode=1071001&IsAllRight=1&brandid=";
     private CloseableHttpClient httpClient;
     private BasicCookieStore basicCookieStore;
     private String goodId;
@@ -69,6 +70,7 @@ public class SyncGoods {
         SaveGood_URL= "http://"+www+"/Application/YBCustom/ajaxService/CustomHandler.ashx";
         SaveGoodSKU_URL= "http://"+www+"/Application/FormCustom/AjaxService/ChargingMgrAjax.aspx";
         SaveGoodPic_URL= "http://"+www+"/Application/YBCustom/ajaxService/UploadHandler.ashx";
+        QueryGoods_URL= "http://"+www+"/Config/QueryList.aspx?ModuleCode=1071001&IsAllRight=1&brandid=";
     }
 
    public String Encrypt(String theText) throws ScriptException, NoSuchMethodException {
@@ -92,9 +94,9 @@ public class SyncGoods {
                "    }");
        if (engine instanceof Invocable) {
            Invocable in = (Invocable) engine;
-           // ÷¥––js∫Ø ˝
+           // ÊâßË°åjsÂáΩÊï∞
            output = (String) in.invokeFunction( "Encrypt",theText);
-           //System. out.println("‘ÀÀ„Ω·π˚ «£∫" + output);
+           //System. out.println("ËøêÁÆóÁªìÊûúÊòØÔºö" + output);
        }
        return output;
    }
@@ -333,11 +335,11 @@ public class SyncGoods {
      url1=url1.replace("https://","http://");
      URL url = new URL(url1);
      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-     //…Ë÷√≥¨ ±º‰Œ™3√Î
+     //ËÆæÁΩÆË∂ÖÊó∂Èó¥‰∏∫3Áßí
      conn.setConnectTimeout(5*1000);
-     //∑¿÷π∆¡±Œ≥Ã–Ú◊•»°∂¯∑µªÿ403¥ÌŒÛ
+     //Èò≤Ê≠¢Â±èËîΩÁ®ãÂ∫èÊäìÂèñËÄåËøîÂõû403ÈîôËØØ
      conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
-     //µ√µΩ ‰»Î¡˜
+     //ÂæóÂà∞ËæìÂÖ•ÊµÅ
      InputStream is = conn.getInputStream();
      //inputStreams.add(is);
      //conn.disconnect();
@@ -345,6 +347,9 @@ public class SyncGoods {
      return is;
  }
   public SyncGoods saveGoods() throws Exception {
+
+      queryGoodsByno(goods.getBrand().getId(),goods.getArtno());
+
       HttpPost loginHttpPost=new HttpPost(SaveGood_URL);
       loginHttpPost.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
       loginHttpPost.setHeader("Accept-Encoding","gzip, deflate");
@@ -435,76 +440,68 @@ public class SyncGoods {
 
       return this;
   }
-   public void test(){
-      /* File file = new File("D:\\yoyound\\29703812347\\a1.jpg");
-       HttpPost post = new HttpPost("http://echo.200please.com");
-       FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
-       StringBody stringBody1 = new StringBody("Message 1", ContentType.MULTIPART_FORM_DATA);
-       StringBody stringBody2 = new StringBody("Message 2", ContentType.MULTIPART_FORM_DATA);
-//
-       MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-       builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-       builder.addPart("upfile", fileBody);
-       builder.addPart("text1", stringBody1);
-       builder.addPart("text2", stringBody2);
-       HttpEntity entity = builder.build();
-//
-       post.setEntity(entity);
-
-       try {
-           HttpResponse response = httpClient.execute(post);
-           HttpEntity entity2 = response.getEntity();
-           String result = EntityUtils.toString(entity2, "UTF-8");
-           //JSON.
-           JSONObject j=new JSONObject(result);
-
-           System.out.println("result"+result);
-       } catch (IOException e) {
-           e.printStackTrace();
-       }*/
-   }
-/*
-    public void saveGoodspic(){
-        HttpPost loginHttpPost=new HttpPost(SaveGoodPic_URL);
-
-         loginHttpPost.setHeader("Accept-Encoding","gzip, deflate");
-         loginHttpPost.setHeader("Accept-Language","zh-CN,zh;q=0.9");
-         loginHttpPost.setHeader("Cache-Control","private");
-         loginHttpPost.setHeader("Connection","keep-alive");
-        loginHttpPost.setHeader("Content-Type","multipart/form-data;");
-        loginHttpPost.setHeader("Host","m.p-ubit.com");
-        loginHttpPost.setHeader("Origin","http://m.p-ubit.com");
-        loginHttpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36");
-        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-         multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
-        multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        File file = new File("D:\\yoyound\\29703812347\\a1.jpg");
-        FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
-        multipartEntityBuilder.addPart("file", fileBody);
-        multipartEntityBuilder.addTextBody("IsThumbnail", "1");
-        multipartEntityBuilder.addTextBody("ThumbnailMode","HW");
-        multipartEntityBuilder.addTextBody("ThumbnailHeight","100");
-        multipartEntityBuilder.addTextBody("ThumbnailWidth","100");
-        multipartEntityBuilder.addTextBody("paramType","ajaxFileUpload");
-
-        HttpEntity httpEntity = multipartEntityBuilder.build();
-        loginHttpPost.setEntity(httpEntity);
-        CloseableHttpResponse loginResponse=null;
+    public void queryGoodsByno(String brindid,String artno)throws Exception{
+        HttpPost loginHttpPost = new HttpPost(QueryGoods_URL+brindid);
+        loginHttpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+        loginHttpPost.setHeader("Accept-Encoding", "gzip, deflate");
+        loginHttpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+        loginHttpPost.setHeader("Cache-Control", "max-age=0");
+        loginHttpPost.setHeader("Connection", "keep-alive");
+        loginHttpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        loginHttpPost.setHeader("Host", www);
+        loginHttpPost.setHeader("Origin", "http://"+www);
+        loginHttpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
+        List<NameValuePair> loginParams = new ArrayList<NameValuePair>();
+        loginParams.add(new BasicNameValuePair("ipx_proname", ""));
+        loginParams.add(new BasicNameValuePair("f_artno", artno));
+        loginParams.add(new BasicNameValuePair("sel_grounding", "0"));
+        loginParams.add(new BasicNameValuePair("hdnsel_grounding", ""));
+        loginParams.add(new BasicNameValuePair("hdn_value_sel_grounding", "0"));
+        loginParams.add(new BasicNameValuePair("sel_f_hassupplierpri", "-1"));
+        loginParams.add(new BasicNameValuePair("hdnsel_f_hassupplierpri", ""));
+        loginParams.add(new BasicNameValuePair("hdn_value_sel_f_hassupplierpri", ""));
+        loginParams.add(new BasicNameValuePair("time_add1", ""));
+        loginParams.add(new BasicNameValuePair("time_add2", ""));
+        loginParams.add(new BasicNameValuePair("radioPage", "1"));
+        loginParams.add(new BasicNameValuePair("sNo", ""));
+        loginParams.add(new BasicNameValuePair("eNo", ""));
+        loginParams.add(new BasicNameValuePair("buttonType", "3"));
+        loginParams.add(new BasicNameValuePair("isKeepSign", "0"));
+        loginParams.add(new BasicNameValuePair("itemId", "0"));
+        loginParams.add(new BasicNameValuePair("keepSQL", ""));
+        loginParams.add(new BasicNameValuePair("rowsOfPage", "150"));
+        loginParams.add(new BasicNameValuePair("intPageNo", "1"));
+        loginParams.add(new BasicNameValuePair("intRecordsCount", ""));
+        loginParams.add(new BasicNameValuePair("layoutType", "Classic"));
+        CloseableHttpResponse loginResponse = null;
+        List<String> ids=null;
         try {
+            loginHttpPost.setEntity(new UrlEncodedFormEntity(loginParams, "utf8"));
             loginResponse = httpClient.execute(loginHttpPost);
 
-           HttpEntity entity = loginResponse.getEntity();
-             String result = EntityUtils.toString(entity, "UTF-8");
-            System.out.println("result"+result);
-        }catch (Exception e){
+            HttpEntity entity = loginResponse.getEntity();
+            String content = EntityUtils.toString(entity);
+
+            HtmlCleaner htmlCleaner = new HtmlCleaner();
+            TagNode rootNode = htmlCleaner.clean(content);
+
+             ids = HtmlUtils.getTextByType(rootNode, "//div[@id='div_List_DataLeftIn']/table/tbody/tr/td[1]/a");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+           if(ids!=null&&ids.size()>0){
+               throw new Exception("Ë¥ßÂè∑Â∑≤Â≠òÂú®");
+           }
+           // System.out.println(artno+"---"+ ids.size());
 
+
+
+
+    }
 
 
     /**
- * ƒ£ƒ‚µ«¬º
+ * Ê®°ÊãüÁôªÂΩï
 
  * @return
  */
