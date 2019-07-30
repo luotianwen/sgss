@@ -187,7 +187,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">货号(先填货号在选图)：</label>
+			<label class="control-label">货号(先填货号再选图)：</label>
 			<div class="controls">
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
 			</div>

@@ -9,9 +9,18 @@
 
             $("#inputForm").validate({
                 submitHandler: function (form) {
-
-                    loading('正在提交，请稍等...');
-                    form.submit();
+                     var f=false;
+                    for (var i = 0; i < goodsSkuRowIdx; i++) {
+                       var d= $("#goodsSkuList" + i + "_discount").val();
+                       if(d<0.3){
+                           f=true;
+                           top.$.jBox.tip("折扣太低", "erroe", {persistent: true, opacity: 0});
+                       }
+                    }
+                    if(!f){
+                        loading('正在提交，请稍等...');
+                        form.submit();
+                    }
                 },
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
@@ -118,7 +127,7 @@
             for (var i = 0; i < goodsSkuRowIdx; i++) {
                 var _marketPrice = $("#goodsSkuList" + i + "_marketPrice").val();
                 var _price = $("#goodsSkuList" + i + "_price").val();
-                $("#goodsSkuList" + i + "_discount").val(_price / _marketPrice * 10);
+                $("#goodsSkuList" + i + "_discount").val(_price / _marketPrice );
             }
         }
 
@@ -754,7 +763,38 @@
                 <option value="510">最生活</option>
                 <option value="511">乐克尔</option>
                 <option value="512">鱼跃</option>
+                <option value="513">IBX</option>
+                <option value="514">霍尼韦尔</option>
+                <option value="515">八瑞祥</option>
+                <option value="517">宫颐府</option>
+                <option value="518">倍思</option>
+                <option value="519">现代</option>
+                <option value="520">香港美诚</option>
+                <option value="521">法蒂欧 </option>
+                <option value="522">香港帝皇 </option>
 
+                <option value="523">凯威 </option>
+                <option value="524"> tourmark </option>
+                <option value="525">福旺稻稼 </option>
+                <option value="526">金号 </option>
+                <option value="527"> 大迈</option>
+                <option value="528"> hello Kitty </option>
+                <option value="529"> 奔富酒园 </option>
+                <option value="530"> 纳尔斯伯爵  </option>
+                <option value="531">皇家塞尔塔   </option>
+                <option value="532"> 塞上优果 </option>
+                <option value="533"> 良泡</option>
+                <option value="534"> 馨海渔港</option>
+                <option value="535"> 偕牌牧场 </option>
+                <option value="536"> 古渡茯茶  </option>
+                <option value="537">福臻夷萃 </option>
+                <option value="538">绿伯爵 </option>
+                <option value="539">生机绿源 </option>
+                <option value="540">哥利斯 </option>
+                <option value="541">香港美心 </option>
+                <option value="542">林氏渔夫 </option>
+                <option value="543">活海鲜 </option>
+                <option value="544">星巴克 </option>
 
             </select>
         </div>

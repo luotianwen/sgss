@@ -119,7 +119,11 @@ public class SyncGoods {
        List<NameValuePair> loginParams=new ArrayList<NameValuePair>();
 
        JSONArray jsonArray=new JSONArray();
-       for (GoodsSku goodsSku : goods.getGoodsSkuList()) {
+       List<GoodsSku>ss=goods.getGoodsSkuList();
+       for (GoodsSku goodsSku : ss) {
+           if(goodsSku.getDelFlag().equals("1")||goodsSku.getStock()==0){
+               continue;
+           }
                JSONObject jo = new JSONObject();
                jo.put("F_ID", "");
                jo.put("F_GOODSID", goodId);

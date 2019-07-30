@@ -9,9 +9,18 @@
 
             $("#inputForm").validate({
                 submitHandler: function (form) {
-
-                    loading('正在提交，请稍等...');
-                    form.submit();
+                    var f=false;
+                    for (var i = 0; i < goodsSkuRowIdx; i++) {
+                        var d= $("#goodsSkuList" + i + "_discount").val();
+                        if(d<0.3){
+                            f=true;
+                            top.$.jBox.tip("折扣太低", "erroe", {persistent: true, opacity: 0});
+                        }
+                    }
+                    if(!f) {
+                        loading('正在提交，请稍等...');
+                        form.submit();
+                    }
                 },
                 errorContainer: "#messageBox",
                 errorPlacement: function (error, element) {
@@ -120,7 +129,7 @@
             for (var i = 0; i < goodsSkuRowIdx; i++) {
                 var _marketPrice = $("#goodsSkuList" + i + "_marketPrice").val();
                 var _price = $("#goodsSkuList" + i + "_price").val();
-                $("#goodsSkuList" + i + "_discount").val(_price / _marketPrice * 10);
+                $("#goodsSkuList" + i + "_discount").val(_price / _marketPrice );
             }
         }
 
