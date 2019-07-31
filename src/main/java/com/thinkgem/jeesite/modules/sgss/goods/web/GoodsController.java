@@ -148,6 +148,7 @@ public class GoodsController extends BaseController {
         for(GoodsSku s: goods.getGoodsSkuList()){
             //
             s.setPrice(((s.getSettlementDiscount()+0.08)*1.13)*s.getMarketPrice());
+            s.setDiscount(((s.getSettlementDiscount()+0.08)*1.13));
         }
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
@@ -178,6 +179,7 @@ public class GoodsController extends BaseController {
         for(GoodsSku s: goods.getGoodsSkuList()){
             //
             s.setPrice(((s.getSettlementDiscount()+0.06)*1.13)*s.getMarketPrice());
+			s.setDiscount(((s.getSettlementDiscount()+0.06)*1.13));
         }
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
