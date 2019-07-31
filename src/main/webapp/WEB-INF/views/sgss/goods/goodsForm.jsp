@@ -134,7 +134,9 @@
             for (var i=0;i<goodsSkuRowIdx;i++){
                 var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
                 var _price=$("#goodsSkuList"+i+"_price").val();
-                $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice*10);
+                $("#goodsSkuList"+i+"_discount").val(_price/_marketPrice);
+                var _settlementPrice=$("#goodsSkuList"+i+"_settlementPrice").val();
+                $("#goodsSkuList"+i+"_settlementDiscount").val(_settlementPrice/_marketPrice);
             }
 		}
 		function generatePrice() {
@@ -306,8 +308,8 @@
 								<th>市场价<input id="marketprices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<shiro:hasPermission name="goods:goods:settlement">
 								<th>结算价<input id="settlementPrices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-
-								<th>折扣</th>
+                                 <th>折扣</th>
+                                   <th>结算折扣</th>
 								</shiro:hasPermission>
 								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
@@ -344,6 +346,9 @@
 
 							<td>
 								<input id="goodsSkuList{{idx}}_discount" name="goodsSkuList[{{idx}}].discount" type="text" value="{{row.discount}}" class="input-small required"/>
+							</td>
+							<td>
+								<input id="goodsSkuList{{idx}}_settlementDiscount" name="goodsSkuList[{{idx}}].settlementDiscount" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementDiscount}}" class="input-small" readonly />
 							</td>
 							</shiro:hasPermission>
 

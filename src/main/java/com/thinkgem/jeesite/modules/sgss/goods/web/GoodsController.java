@@ -145,7 +145,10 @@ public class GoodsController extends BaseController {
 		for(Element ee:e){
 			imgs.add(ee.attr("src").replaceAll(www,""));
 		}
-
+        for(GoodsSku s: goods.getGoodsSkuList()){
+            //
+            s.setPrice(((s.getSettlementDiscount()+0.08)*1.13)*s.getMarketPrice());
+        }
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
 		return "sgss/goods/goodsSyncform";
@@ -172,7 +175,10 @@ public class GoodsController extends BaseController {
 		for(Element ee:e){
 			imgs.add(ee.attr("src").replaceAll(www,""));
 		}
-
+        for(GoodsSku s: goods.getGoodsSkuList()){
+            //
+            s.setPrice(((s.getSettlementDiscount()+0.06)*1.13)*s.getMarketPrice());
+        }
 		model.addAttribute("imgs", imgs);
 		model.addAttribute("goods", goods);
 		return "sgss/goods/goodsSyncbyform";
