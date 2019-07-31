@@ -128,7 +128,12 @@ public class SyncGoods {
                jo.put("F_ID", "");
                jo.put("F_GOODSID", goodId);
                jo.put("F_SPECIFICATION1",goodsSku.getSpec1());
-               jo.put("F_SPECIFICATION2", goodsSku.getSpec2());
+               if(StringUtils.isNotEmpty(goods.getSpec2())) {
+                   jo.put("F_SPECIFICATION2", goodsSku.getSpec2());
+               }
+               else{
+                   jo.put("F_SPECIFICATION2", "");
+               }
                jo.put("F_SPECIFICATION3", "");
                jo.put("F_ORIGINALPRICE", goodsSku.getMarketPrice());
                jo.put("F_SUPPLIERPRICE", goodsSku.getPrice());
