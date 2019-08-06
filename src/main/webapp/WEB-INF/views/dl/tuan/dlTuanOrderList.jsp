@@ -47,6 +47,14 @@
 			<li><label>货号：</label>
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-medium"/>
 			</li>
+			<li><label>下单时间：</label>
+				<input name="beginCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="<fmt:formatDate value="${dlTuanOrder.beginCreateDate}" pattern="yyyy-MM-dd"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/> -
+				<input name="endCreateDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="<fmt:formatDate value="${dlTuanOrder.endCreateDate}" pattern="yyyy-MM-dd"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
                 <input id="btnExport" class="btn btn-primary" type="button" value="导出"/></li>
 			<li class="clearfix"></li>

@@ -208,7 +208,7 @@
 				<th class="sort-column pass">审核状态</th>
                 <th  >上传者</th>
 				<th class="sort-column createDate">添加时间</th>
-
+				<th class="sort-column updateDate">更新时间</th>
 				<th>备注信息</th>
 				<shiro:hasPermission name="goods:goods:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -267,6 +267,9 @@
                 </td>
 				<td>
 					<fmt:formatDate value="${goods.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+				</td>
+				<td>
+					<fmt:formatDate value="${goods.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
 					${goods.remarks}

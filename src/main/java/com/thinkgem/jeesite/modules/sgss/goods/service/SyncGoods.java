@@ -392,8 +392,20 @@ public class SyncGoods {
       }
       File file = new File(Global.getUserfilesBaseDir() + logo);
       List<File>files=new ArrayList<>();
-      files.add(file);
-      logo=this.uploadFile(files,"HW","100","100");
+      List<InputStream>inputStreams2=new ArrayList<>();
+      List<HttpURLConnection>conns=new ArrayList<>();
+      if(file.exists()){
+              files.add(file);
+          }
+    else{
+          inputStreams2.add(getInput(conns,"http://image.yoyound.com" + logo));
+      }
+      if(files.size()>0) {
+          logo = this.uploadFile(files, "HW", "100", "100");
+      }
+      else{
+          logo = this.uploadInputStream(inputStreams2, "HW", "100", "100");
+      }
       loginParams.add(new BasicNameValuePair("picurl1",logo));
       loginParams.add(new BasicNameValuePair("picurl2",logo));
       loginParams.add(new BasicNameValuePair("picurl3",logo));
@@ -405,7 +417,7 @@ public class SyncGoods {
       Elements e=containerDoc.select("img");
       List<File> imgs= Lists.newArrayList();
       List<InputStream>inputStreams=new ArrayList<>();
-      List<HttpURLConnection>conns=new ArrayList<>();
+
 
       for(Element ee:e){
           try {
@@ -413,12 +425,12 @@ public class SyncGoods {
           } catch (UnsupportedEncodingException e1) {
 
           }
-          if(logo.indexOf("http")<0) {
-              File file2 = new File(Global.getUserfilesBaseDir() + logo);
+          File file2 = new File(Global.getUserfilesBaseDir() + logo);
+          if(logo.indexOf("http")<0&&file2.exists()) {
               imgs.add(file2);
           }
           else{
-            inputStreams.add(getInput(conns,logo));
+            inputStreams.add(getInput(conns,www+logo));
               // getInput(inputStreams,logo);
           }
       }

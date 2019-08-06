@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
+import java.util.Date;
+
 /**
  * 团购订单Entity
  * @author martins
@@ -28,7 +30,25 @@ public class DlTuanOrder extends DataEntity<DlTuanOrder> {
 	private String consignee;		// 收货人
 	private String address;		// 收货地址
 	private String goodsId;		// 商品id
-	
+	private Date beginCreateDate;		// 开始 创建时间
+	private Date endCreateDate;		// 结束 创建时间
+
+	public Date getBeginCreateDate() {
+		return beginCreateDate;
+	}
+
+	public void setBeginCreateDate(Date beginCreateDate) {
+		this.beginCreateDate = beginCreateDate;
+	}
+
+	public Date getEndCreateDate() {
+		return endCreateDate;
+	}
+
+	public void setEndCreateDate(Date endCreateDate) {
+		this.endCreateDate = endCreateDate;
+	}
+
 	public DlTuanOrder() {
 		super();
 	}
