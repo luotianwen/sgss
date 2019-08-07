@@ -21,10 +21,13 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
+		b.price AS "price",
+		b.cost_price AS "costPrice",
 		a.goods_id AS "goodsId"
 	</sql>
 	
 	<sql id="dlTuanOrderJoins">
+		left join dl_goods_tuan b on a.goods_id=b.id
 	</sql>
     
 	<select id="get" resultType="DlTuanOrder">
@@ -44,24 +47,26 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="username != null and username != ''">
 				AND a.username LIKE 
-					<if test="dbName == 'oracle'">'%'||#{username}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{username}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{username},'%')</if>
+					 concat('%',#{username},'%')
 			</if>
 			<if test="mobile != null and mobile != ''">
 				AND a.mobile = #{mobile}
 			</if>
 			<if test="name != null and name != ''">
-				AND a.name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+				AND a.name LIKE  concat('%',#{name},'%')
 			</if>
 			<if test="artno != null and artno != ''">
 				AND a.artno = #{artno}
 			</if>
-			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
-				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			<if test="beginCreateDate != null and   beginCreateDate != ''  ">
+				<![CDATA[
+				AND a.create_date >= #{beginCreateDate}
+				]]>
+			</if>
+			<if test="  endCreateDate != null   and endCreateDate != ''">
+				<![CDATA[
+				AND a.create_date <= #{endCreateDate}
+				]]>
 			</if>
 		</where>
 		<choose>

@@ -737,7 +737,6 @@
                 <option value="260">鸭嘴兽</option>
                 <option value="103">麦格霍斯</option>
                 <option value="116">黄蚂蚁</option>
-
                 <option value="488">mvp</option>
                 <option value="489">艾美特</option>
                 <option value="490">BOBOT </option>
@@ -746,7 +745,6 @@
                 <option value="493">DKNY</option>
                 <option value="494">Contigo</option>
                 <option value="495">斯立德</option>
-
                 <option value="497">雪狼</option>
                 <option value="498">厨夫人</option>
                 <option value="499">绿盾</option>
@@ -772,7 +770,6 @@
                 <option value="520">香港美诚</option>
                 <option value="521">法蒂欧 </option>
                 <option value="522">香港帝皇 </option>
-
                 <option value="523">凯威 </option>
                 <option value="524"> tourmark </option>
                 <option value="525">福旺稻稼 </option>
@@ -795,6 +792,34 @@
                 <option value="542">林氏渔夫 </option>
                 <option value="543">活海鲜 </option>
                 <option value="544">星巴克 </option>
+
+
+                <option value="545"> 科沃斯   </option>
+                <option value="546">诺伊曼 </option>
+
+                <option value="548">  强生</option>
+                <option value="549">  华帝 </option>
+                <option value="550">  ELLE   </option>
+                <option value="551">都市太太   </option>
+                <option value="552"> 斯阁睿  </option>
+                <option value="553"> WMF  </option>
+                <option value="554"> 伯尔尼斯</option>
+                <option value="555">  小鸭</option>
+                <option value="556">  伊莱特   </option>
+                <option value="557">Targus </option>
+                <option value="558">WRC </option>
+                <option value="559">LEXON  </option>
+                <option value="560">HDST  </option>
+                <option value="561">DALEN  </option>
+                <option value="562">五月树  </option>
+                <option value="563">堂皇 </option>
+                <option value="564"> LUFTRUM  </option>
+                <option value="565">  AICHEN爱妻   </option>
+                <option value="566"> LotusGrill  </option>
+                <option value="567"> Marna </option>
+                <option value="568">  美居苹果</option>
+
+
 
             </select>
         </div>

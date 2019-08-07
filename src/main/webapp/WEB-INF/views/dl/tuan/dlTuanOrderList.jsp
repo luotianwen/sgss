@@ -70,9 +70,10 @@
 				<th>商品名称</th>
 				<th>货号</th>
 				<th>数量</th>
-
+				<th>单价</th>
+				<th>结算价</th>
 				<th>下单时间</th>
-				<th>更新时间</th>
+
 				<th>备注信息</th>
 				<shiro:hasPermission name="tuan:dlTuanOrder:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
@@ -98,13 +99,16 @@
 				<td>
 					${dlTuanOrder.number}
 				</td>
-
+				<td>
+						${dlTuanOrder.price}
+				</td>
+				<td>
+						${dlTuanOrder.costPrice}
+				</td>
 				<td>
 					<fmt:formatDate value="${dlTuanOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
-				<td>
-					<fmt:formatDate value="${dlTuanOrder.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td>
+
 				<td>
 					${dlTuanOrder.remarks}
 				</td>

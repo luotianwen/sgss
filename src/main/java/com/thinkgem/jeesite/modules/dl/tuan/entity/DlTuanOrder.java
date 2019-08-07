@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.dl.tuan.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,6 +33,25 @@ public class DlTuanOrder extends DataEntity<DlTuanOrder> {
 	private String goodsId;		// 商品id
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
+
+	private double costPrice;		// 结算价
+	private double price;		// 单价
+	@ExcelField(title="结算价", align=1, sort=13)
+	public double getCostPrice() {
+		return costPrice;
+	}
+
+	public void setCostPrice(double costPrice) {
+		this.costPrice = costPrice;
+	}
+	@ExcelField(title="单价", align=1, sort=12)
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	public Date getBeginCreateDate() {
 		return beginCreateDate;
@@ -160,7 +180,15 @@ public class DlTuanOrder extends DataEntity<DlTuanOrder> {
 	public String getGoodsId() {
 		return goodsId;
 	}
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@ExcelField(title="下单时间", align=1, sort=20)
+	public Date getCreateDate() {
+		return createDate;
+	}
 
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
 	}
