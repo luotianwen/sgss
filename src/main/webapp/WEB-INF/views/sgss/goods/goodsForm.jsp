@@ -139,6 +139,42 @@
                 $("#goodsSkuList"+i+"_settlementDiscount").val(_settlementPrice/_marketPrice);
             }
 		}
+        function generatediscount(){
+            var price=$("#discount1").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("折扣必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_discount").val(price);
+            }
+            discountprice();
+		}
+        function generatesettlementDiscount(){
+            var price=$("#settlementDiscount1").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("结算折扣必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_settlementDiscount").val(price);
+            }
+            settlementDiscountprice();
+        }
+        function settlementDiscountprice(){
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
+                var _discount= $("#goodsSkuList"+i+"_settlementDiscount").val();
+                $("#goodsSkuList"+i+"_settlementPrice").val(_marketPrice*_discount);
+            }
+        }
+        function discountprice(){
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
+                var _discount= $("#goodsSkuList"+i+"_discount").val();
+                $("#goodsSkuList"+i+"_price").val(_marketPrice*_discount);
+            }
+        }
 		function generatePrice() {
 			var price=$("#prices").val();
 			if(price.length==0||price==0){
@@ -307,9 +343,9 @@
 								<th>本店售价<input id="prices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<th>市场价<input id="marketprices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<shiro:hasPermission name="goods:goods:settlement">
-								<th>结算价<input id="settlementPrices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-                                 <th>折扣</th>
-                                   <th>结算折扣</th>
+								<th>结算价<input id="settlementPrices"   class="input-small valid" type="text" value=""  > <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+                                 <th>折扣<input id="discount1"   class="input-small valid" type="text" value="" maxlength="20"> <input   class="btn btn-primary" type="button" value="折扣" onclick="generatediscount()"> </th>
+                                  <th>结算折扣<input id="settlementDiscount1"   class="input-small valid" type="text" value="" maxlength="20"><input  class="btn btn-primary" type="button" value="结算折扣" onclick="generatesettlementDiscount()"> </th>
 								</shiro:hasPermission>
 								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
