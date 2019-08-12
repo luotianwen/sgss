@@ -398,7 +398,11 @@ public class SyncGoods {
               files.add(file);
           }
     else{
-          inputStreams2.add(getInput(conns,"http://image.yoyound.com" + logo));
+          if(logo.indexOf("http")<0) {
+              inputStreams2.add(getInput(conns, "http://image.yoyound.com" + logo));
+          }else{
+              inputStreams2.add(getInput(conns,  logo));
+          }
       }
       if(files.size()>0) {
           logo = this.uploadFile(files, "HW", "100", "100");
@@ -426,11 +430,15 @@ public class SyncGoods {
 
           }
           File file2 = new File(Global.getUserfilesBaseDir() + logo);
-          if(logo.indexOf("http")<0&&file2.exists()) {
+          if( file2.exists()) {
               imgs.add(file2);
           }
           else{
-            inputStreams.add(getInput(conns,www+logo));
+              if(  logo.indexOf("http")<0) {
+                   inputStreams.add(getInput(conns,www+logo));
+              }else{
+                  inputStreams.add(getInput(conns, logo));
+              }
               // getInput(inputStreams,logo);
           }
       }
