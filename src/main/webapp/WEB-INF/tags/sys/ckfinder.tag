@@ -14,7 +14,7 @@
 		var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
 		var _artno="";
         //<c:if test="${not empty attrno}">
-           _artno=$("#${attrno}").val().trim();
+           _artno=$("#${attrno}").val().trim().replace(/\s+/g,"");
            if(_artno.length>0) {
                month = month + "/" + _artno;
            }

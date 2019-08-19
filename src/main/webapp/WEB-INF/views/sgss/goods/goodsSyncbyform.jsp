@@ -132,7 +132,24 @@
                 $("#goodsSkuList" + i + "_discount").val(_price / _marketPrice );
             }
         }
-
+        function generatediscount(){
+            var price=$("#discount1").val();
+            if(price.length==0||price==0){
+                top.$.jBox.tip("折扣必填","erroe",{persistent:true,opacity:0});
+                return false;
+            }
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                $("#goodsSkuList"+i+"_discount").val(price);
+            }
+            discountprice();
+        }
+        function discountprice(){
+            for (var i=0;i<goodsSkuRowIdx;i++){
+                var _marketPrice=$("#goodsSkuList"+i+"_marketPrice").val();
+                var _discount= $("#goodsSkuList"+i+"_discount").val();
+                $("#goodsSkuList"+i+"_price").val(_marketPrice*_discount);
+            }
+        }
         function generatePrice() {
             var price = $("#prices").val();
             if (price.length == 0 || price == 0) {
@@ -304,7 +321,7 @@
                     </th>
                     <shiro:hasPermission name="goods:goods:settlement">
 
-                        <th>折扣</th>
+                        <th>折扣<input id="discount1"   class="input-small valid" type="text" value="" maxlength="20"> <input   class="btn btn-primary" type="button" value="折扣" onclick="generatediscount()"> </th>
                     </shiro:hasPermission>
                     <th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value=""
                                  maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存"
