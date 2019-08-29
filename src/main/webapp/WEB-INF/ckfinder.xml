@@ -6,7 +6,7 @@
 	<licenseName></licenseName>
 	<imgWidth>1024</imgWidth>
 	<imgHeight>768</imgHeight>
-	<imgQuality>80</imgQuality>
+	<imgQuality>100</imgQuality>
 	<uriEncoding>UTF-8</uriEncoding>
 	<forceASCII>false</forceASCII>
     <disallowUnsafeCharacters>false</disallowUnsafeCharacters>
@@ -63,12 +63,12 @@
 	</accessControls>
 	<thumbs>
 		<enabled>true</enabled>
-		<url>%BASE_URL%_thumbs/</url>
-		<directory>%BASE_DIR%_thumbs</directory>
+		<url>%BASE_URL%thumbs/</url>
+		<directory>%BASE_DIR%thumbs</directory>
 		<directAccess>true</directAccess>
-		<maxWidth>320</maxWidth>
-		<maxHeight>240</maxHeight>
-		<quality>80</quality>
+		<maxWidth>350</maxWidth>
+		<maxHeight>350</maxHeight>
+		<quality>100</quality>
 	</thumbs>
 	<plugins>
 		<plugin>

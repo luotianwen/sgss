@@ -40,6 +40,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SyncGoods {
     private Cookie acookie;
@@ -342,6 +344,16 @@ public class SyncGoods {
     }
  private InputStream getInput(List<HttpURLConnection>conns,String url1) throws Exception {
      url1=url1.replace("https://","http://");
+     String fileUrl = url1.substring(0,url1.lastIndexOf("."));
+     String str[] = fileUrl.split("/");
+     for(int i = 9;i<str.length;i++){
+         //Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+         //Matcher m = p.matcher(str[i]);
+        // if (m.find()) {
+             url1 = url1.replace(str[i], URLEncoder.encode(str[i],"UTF-8"));
+         //}
+
+     }
      URL url = new URL(url1);
      HttpURLConnection conn = (HttpURLConnection)url.openConnection();
      //设置超时间为3秒
@@ -393,16 +405,26 @@ public class SyncGoods {
       File file = new File(Global.getUserfilesBaseDir() + logo);
       List<File>files=new ArrayList<>();
       List<InputStream>inputStreams2=new ArrayList<>();
+      List<InputStream>inputStreams3=new ArrayList<>();
+      List<InputStream>inputStreams4=new ArrayList<>();
       List<HttpURLConnection>conns=new ArrayList<>();
       if(file.exists()){
               files.add(file);
           }
     else{
+          InputStream fim=null,fim2=null,fim3=null;
           if(logo.indexOf("http")<0) {
-              inputStreams2.add(getInput(conns, "http://image.yoyound.com" + logo));
+              fim=getInput(conns, "http://image.yoyound.com" + logo);
+              fim2=getInput(conns, "http://image.yoyound.com" + logo);
+              fim3=getInput(conns, "http://image.yoyound.com" + logo);
           }else{
-              inputStreams2.add(getInput(conns,  logo));
+              fim=getInput(conns,  logo);
+              fim2=getInput(conns,  logo);
+              fim3=getInput(conns,  logo);
           }
+          inputStreams2.add(fim);
+          inputStreams3.add(fim2);
+          inputStreams4.add(fim3);
       }
       if(files.size()>0) {
           logo = this.uploadFile(files, "HW", "100", "100");
@@ -411,7 +433,23 @@ public class SyncGoods {
           logo = this.uploadInputStream(inputStreams2, "HW", "100", "100");
       }
       loginParams.add(new BasicNameValuePair("picurl1",logo));
+
+
+
+      if(files.size()>0) {
+          logo = this.uploadFile(files, "HW", "350", "350");
+      }
+      else{
+          logo = this.uploadInputStream(inputStreams3, "HW", "350", "350");
+      }
       loginParams.add(new BasicNameValuePair("picurl2",logo));
+
+      if(files.size()>0) {
+          logo = this.uploadFile(files, "W", "0", "800");
+      }
+      else{
+          logo = this.uploadInputStream(inputStreams4, "W", "0", "800");
+      }
       loginParams.add(new BasicNameValuePair("picurl3",logo));
 
 
