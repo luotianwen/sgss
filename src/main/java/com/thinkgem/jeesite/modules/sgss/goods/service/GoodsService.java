@@ -252,4 +252,14 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 		goods.setSyncby("1");
 		dao.saveSyncby(goods);
 	}
+	@Transactional(readOnly = false)
+    public void passsync(Goods goods) {
+		if(goods.getPass().equals("1")){
+			dao.passsync(goods);
+		}
+		else if(goods.getPass().equals("2")){
+			dao.passbysync(goods);
+		}
+
+	}
 }

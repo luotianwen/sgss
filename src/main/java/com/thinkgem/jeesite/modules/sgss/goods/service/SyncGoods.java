@@ -565,7 +565,64 @@ public class SyncGoods {
 
 
     }
+    public void queryGoodsByno(String artno)throws Exception{
+        HttpPost loginHttpPost = new HttpPost(QueryGoods_URL);
+        loginHttpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+        loginHttpPost.setHeader("Accept-Encoding", "gzip, deflate");
+        loginHttpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+        loginHttpPost.setHeader("Cache-Control", "max-age=0");
+        loginHttpPost.setHeader("Connection", "keep-alive");
+        loginHttpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        loginHttpPost.setHeader("Host", www);
+        loginHttpPost.setHeader("Origin", "http://"+www);
+        loginHttpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
+        List<NameValuePair> loginParams = new ArrayList<NameValuePair>();
+        loginParams.add(new BasicNameValuePair("ipx_proname", ""));
+        loginParams.add(new BasicNameValuePair("f_artno", artno));
+        loginParams.add(new BasicNameValuePair("sel_grounding", "0"));
+        loginParams.add(new BasicNameValuePair("hdnsel_grounding", ""));
+        loginParams.add(new BasicNameValuePair("hdn_value_sel_grounding", "0"));
+        loginParams.add(new BasicNameValuePair("sel_f_hassupplierpri", "-1"));
+        loginParams.add(new BasicNameValuePair("hdnsel_f_hassupplierpri", ""));
+        loginParams.add(new BasicNameValuePair("hdn_value_sel_f_hassupplierpri", ""));
+        loginParams.add(new BasicNameValuePair("time_add1", ""));
+        loginParams.add(new BasicNameValuePair("time_add2", ""));
+        loginParams.add(new BasicNameValuePair("radioPage", "1"));
+        loginParams.add(new BasicNameValuePair("sNo", ""));
+        loginParams.add(new BasicNameValuePair("eNo", ""));
+        loginParams.add(new BasicNameValuePair("buttonType", "3"));
+        loginParams.add(new BasicNameValuePair("isKeepSign", "0"));
+        loginParams.add(new BasicNameValuePair("itemId", "0"));
+        loginParams.add(new BasicNameValuePair("keepSQL", ""));
+        loginParams.add(new BasicNameValuePair("rowsOfPage", "150"));
+        loginParams.add(new BasicNameValuePair("intPageNo", "1"));
+        loginParams.add(new BasicNameValuePair("intRecordsCount", ""));
+        loginParams.add(new BasicNameValuePair("layoutType", "Classic"));
+        CloseableHttpResponse loginResponse = null;
+        List<String> ids=null;
+        try {
+            loginHttpPost.setEntity(new UrlEncodedFormEntity(loginParams, "utf8"));
+            loginResponse = httpClient.execute(loginHttpPost);
 
+            HttpEntity entity = loginResponse.getEntity();
+            String content = EntityUtils.toString(entity);
+
+            HtmlCleaner htmlCleaner = new HtmlCleaner();
+            TagNode rootNode = htmlCleaner.clean(content);
+
+            ids = HtmlUtils.getTextByType(rootNode, "//div[@id='div_List_DataLeftIn']/table/tbody/tr/td[1]/a");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(ids!=null&&ids.size()>0){
+            throw new Exception("货号已存在");
+        }
+        // System.out.println(artno+"---"+ ids.size());
+
+
+
+
+    }
 
     /**
  * 模拟登录

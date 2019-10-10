@@ -44,10 +44,23 @@
                 ids.push($(this).val());
             });
             var delIds = ids.join(",");
-            var oldAction = $("#searchForm").attr("action");
-            $("#searchForm").attr("action", "${ctx}/goods/suppliergoods/upordown?remarks=" + delIds+"&tstate="+iiii);
-            $("#searchForm").submit();
-            $("#searchForm").attr("action", oldAction);
+            var url="${ctx}/goods/suppliergoods/upordown?remarks=" + delIds+"&tstate="+iiii;
+            $.ajax({
+                type : "post",
+                async : false,
+                url : url,
+                success : function(msg) {
+                    if(msg=='ok')
+                    {
+                        $("#searchForm").submit();
+                    }
+
+                },
+                error : function(json) {
+
+                    return false;
+                }
+            });
         }
 		function page(n,s){
 			$("#pageNo").val(n);

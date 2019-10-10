@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -176,6 +177,7 @@ public class SupplierGoodsController extends BaseController {
 	}
 	@RequiresPermissions("goods:suppliergoods:edit")
 	@RequestMapping(value = "upordown")
+	@ResponseBody
 	public String upordown(String remarks,String tstate,RedirectAttributes redirectAttributes) throws Exception {
 		User user = UserUtils.getUser();
 		Supplier supplier = supplierService.getUserId(user.getId());
@@ -186,8 +188,7 @@ public class SupplierGoodsController extends BaseController {
 		goods.setRemarks(remarks);
 		goods.setState(tstate);
 		goodsService.upordown(goods);
-		addMessage(redirectAttributes, "操作商品管理成功");
-		return "redirect:"+Global.getAdminPath()+"/goods/suppliergoods/?repage";
+		return "ok";
 	}
 	@RequiresPermissions("goods:suppliergoods:edit")
 	@RequestMapping(value = "save")

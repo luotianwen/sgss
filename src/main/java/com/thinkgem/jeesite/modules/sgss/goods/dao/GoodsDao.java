@@ -24,4 +24,8 @@ public interface GoodsDao extends CrudDao<Goods> {
     void saveSync(Goods goods);
 
     void saveSyncby(Goods goods);
+
+    void passsync(Goods goods);
+
+    void passbysync(Goods goods);
 }

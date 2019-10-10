@@ -223,6 +223,24 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+	<update id="passbysync">
+		UPDATE s_goods SET
+		syncby = 1
+		WHERE id in
+		<foreach collection="remarks.split(',')" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+	</update>
+	<update id="passsync">
+		UPDATE s_goods SET
+		sync = 1
+		WHERE id in
+		<foreach collection="remarks.split(',')" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+
+	</update>
 	<update id="upordown">
 	UPDATE s_goods SET
 	state = #{state}

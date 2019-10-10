@@ -6,6 +6,9 @@ package com.thinkgem.jeesite.modules.sgss.goods.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.thinkgem.jeesite.modules.sgss.goods.service.SyncGoods;
+import com.thinkgem.jeesite.modules.sgss.order.entity.Order;
 import com.thinkgem.jeesite.modules.sys.entity.Role;
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.modules.sgss.brand.entity.Brand;
@@ -27,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -134,10 +138,24 @@ public class GoodsController extends BaseController {
 		return "sgss/goods/goodsView";
 	}
 
+	@RequiresPermissions("goods:goods:view")
+	@RequestMapping(value = "check")
+	@ResponseBody
+	public String check(Goods goods,  Model model, RedirectAttributes redirectAttributes) throws Exception {
+		if (!beanValidator(model, goods)){
+			return "error";
+		}
+		List list=goodsService.findList(goods);
 
+		return list==null||list.size()==0?"ok":"error";
+		//addMessage(redirectAttributes, "保存下单管理成功");
+		//return "redirect:"+Global.getAdminPath()+"/simpleorder/simpleOrder/?repage";
+	}
 	@RequiresPermissions("goods:goods:view")
 	@RequestMapping(value = "syncform")
-	public String syncform(Goods goods, Model model,HttpSession session) {
+	public String syncform(Goods goods, Model model,HttpSession session) throws Exception {
+		SyncGoods sy=new SyncGoods(goods,"1");
+		sy.login().queryGoodsByno(goods.getArtno());
 		String www="http://image.yoyound.com";
 		Document containerDoc = Jsoup.parse(goods.getDetail().getDetails());
 		Elements e=containerDoc.select("img");
@@ -168,7 +186,9 @@ public class GoodsController extends BaseController {
 	}
 	@RequiresPermissions("goods:goods:view")
 	@RequestMapping(value = "syncbyform")
-	public String syncbyform(Goods goods, Model model,HttpSession session) {
+	public String syncbyform(Goods goods, Model model,HttpSession session) throws Exception {
+		SyncGoods sy=new SyncGoods(goods,"2");
+		sy.login().queryGoodsByno(goods.getArtno());
 		String www="http://image.yoyound.com";
 		Document containerDoc = Jsoup.parse(goods.getDetail().getDetails());
 		Elements e=containerDoc.select("img");
@@ -291,22 +311,33 @@ public class GoodsController extends BaseController {
 	}
     @RequiresPermissions("goods:goods:edit")
     @RequestMapping(value = "upordown")
+	@ResponseBody
     public String upordown(String remarks,String tstate,RedirectAttributes redirectAttributes) {
 	    Goods goods=new Goods();
 	    goods.setRemarks(remarks);
         goods.setState(tstate);
         goodsService.upordown(goods);
-        addMessage(redirectAttributes, "操作商品管理成功");
-        return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+		return "ok";
     }
     @RequiresPermissions("goods:goods:edit")
     @RequestMapping(value = "passornot")
+	@ResponseBody
     public String passornot(String remarks,String tpass, RedirectAttributes redirectAttributes) {
         Goods goods=new Goods();
         goods.setRemarks(remarks);
         goods.setPass(tpass);
         goodsService.passornot(goods);
-        addMessage(redirectAttributes, "操作商品管理成功");
-        return "redirect:"+Global.getAdminPath()+"/goods/goods/?repage";
+		return "ok";
     }
+	@RequiresPermissions("goods:goods:edit")
+	@RequestMapping(value = "passsync")
+	@ResponseBody
+	public String passsync(String remarks,String tpass, RedirectAttributes redirectAttributes) {
+		Goods goods=new Goods();
+		goods.setRemarks(remarks);
+		goods.setPass(tpass);
+		goodsService.passsync(goods);
+
+		return "ok";
+	}
 }

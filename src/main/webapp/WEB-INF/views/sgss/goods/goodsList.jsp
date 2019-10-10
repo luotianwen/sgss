@@ -40,12 +40,52 @@
             }
 
         }
+       var dong;
+        function checkdong(val) {
+            var num = $("input[type='checkbox']:checked").length;
+            if (num == 0) {
+                top.$.jBox.alert("请选择你要操作的数据");
+            } else {
+                dong=val;
+                confirmx('确定要通过已选中的数据吗？', repairDong);
+            }
+
+        }
+
+
+        function repairDong() {
+            var ids = [];
+            $("input[name='goodsIds']:checked").each(function () {
+                ids.push($(this).val());
+            });
+            var delIds = ids.join(",");
+            var url="${ctx}/goods/goods/passsync?remarks=" + delIds+"&tpass="+dong;
+            $.ajax({
+                type : "post",
+                async : false,
+                url : url,
+                success : function(msg) {
+                    if(msg=='ok')
+                    {
+                        $("#searchForm").submit();
+                    }
+
+                },
+                error : function(json) {
+
+                    return false;
+                }
+            });
+
+
+
+        }
         function checknopass() {
             var num = $("input[type='checkbox']:checked").length;
             if (num == 0) {
                 top.$.jBox.alert("请选择你要不通过的数据");
             } else {
-                confirmx('确定要不通过已选中的数据吗？', repairNot(0));
+                confirmx('确定要不通过已选中的数据吗？', repairNot);
             }
 
         }
@@ -61,10 +101,24 @@
                 ids.push($(this).val());
             });
             var delIds = ids.join(",");
-            var oldAction = $("#searchForm").attr("action");
-            $("#searchForm").attr("action", "${ctx}/goods/goods/passornot?remarks=" + delIds+"&tpass="+iiii);
-            $("#searchForm").submit();
-            $("#searchForm").attr("action", oldAction);
+            var url="${ctx}/goods/goods/passornot?remarks=" + delIds+"&tpass="+iiii;
+            $.ajax({
+                type : "post",
+                async : false,
+                url : url,
+                success : function(msg) {
+                    if(msg=='ok')
+                    {
+                        $("#searchForm").submit();
+                    }
+
+                },
+                error : function(json) {
+
+                    return false;
+                }
+            });
+
         }
         function repairUp(){
             repairUpOrDown(1);
@@ -79,10 +133,23 @@
                 ids.push($(this).val());
             });
             var delIds = ids.join(",");
-            var oldAction = $("#searchForm").attr("action");
-            $("#searchForm").attr("action", "${ctx}/goods/goods/upordown?remarks=" + delIds+"&tstate="+iiii);
-            $("#searchForm").submit();
-            $("#searchForm").attr("action", oldAction);
+            var url="${ctx}/goods/goods/upordown?remarks=" + delIds+"&tstate="+iiii;
+            $.ajax({
+                type : "post",
+                async : false,
+                url : url,
+                success : function(msg) {
+                    if(msg=='ok')
+                    {
+                        $("#searchForm").submit();
+                    }
+
+                },
+                error : function(json) {
+
+                    return false;
+                }
+            });
         }
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -175,6 +242,8 @@
 			<li class="btns">
 				<a href="javascript:void(0)" onclick="checkdown()" class="btn btn-primary">下架</a>
 				<a href="javascript:void(0)" onclick="checkup()" class="btn btn-primary">上架</a>
+				<a href="javascript:void(0)" onclick="checkdong(1)" class="btn btn-primary">已动力</a>
+				<a href="javascript:void(0)" onclick="checkdong(2)" class="btn btn-primary">已移动</a>
 				<shiro:hasPermission name="goods:goods:pass">
 				<a href="javascript:void(0)" onclick="checkpass()" class="btn btn-primary">通过</a>
 				<a href="javascript:void(0)" onclick="checknopass()" class="btn btn-primary">不通过</a>

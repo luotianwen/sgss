@@ -13,7 +13,10 @@
                     var itol =$("#imgsPreview li img").length;
                     var html = detailsue.getContent().length;
                     var sks =$("#goodsSkuList tr").length;
-
+                   /* if(!checkAno()){
+                        top.$.jBox.error("货号重复","error",{persistent:true,opacity:0});
+                        return false;
+                    }*/
 
                    if(tol==0){
                        top.$.jBox.error("主图必填","error",{persistent:true,opacity:0});
@@ -45,6 +48,50 @@
 				}
 			});
 		});
+        function checkAno() {
+            var rd=false;
+            var artno=$("#artno").val();
+            var brand=$("#brand\\.id").val();
+            if(artno==''){
+				top.$.jBox.error("货号先填","error",{persistent:true,opacity:0});
+				return false;
+            }
+            if(brand==''){
+                top.$.jBox.error("品牌先选择","error",{persistent:true,opacity:0});
+                return false;
+            }
+
+            var url="${ctx}/goods/goods/check?artno="+encodeURIComponent(artno)+"&brand.id="+brand;
+            $.ajax({
+                type : "post",
+                async : false,
+                url : url,
+                success : function(msg) {
+                    if(msg=='ok')
+                    {
+                        rd=true;
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                },
+                error : function(json) {
+                    top.$.jBox.tip("网络异常。", 'error');
+                    return false;
+                }
+            });
+			return rd;
+        }
+		function check() {
+            var c=checkAno();
+			 if(c){
+                 top.$.jBox.tip("没有重复可以上传", 'success');
+			 }
+			 else{
+                 top.$.jBox.error("货号重复","error",{persistent:true,opacity:0});
+			 }
+        }
 		function addRow(list, idx, tpl, row){
 			$(list).append(Mustache.render(tpl, {
 				idx: idx, delBtn: true, row: row
@@ -228,6 +275,7 @@
 			<label class="control-label">货号(先填货号再选图)：</label>
 			<div class="controls">
 				<form:input path="artno" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+				<button type="button" onclick="check()">检查货号</button>
 			</div>
 		</div>
 		<div class="control-group">
