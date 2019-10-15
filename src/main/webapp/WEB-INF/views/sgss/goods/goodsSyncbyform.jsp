@@ -9,17 +9,39 @@
 
             $("#inputForm").validate({
                 submitHandler: function (form) {
+                    var zk=true;
                     var f=false;
+                    var d2= $("#goodsSkuList0_discount").val();
                     for (var i = 0; i < goodsSkuRowIdx; i++) {
                         var d= $("#goodsSkuList" + i + "_discount").val();
                         if(d<0.3){
                             f=true;
-                            top.$.jBox.tip("折扣太低", "erroe", {persistent: true, opacity: 0});
+                            top.$.jBox.tip("折扣太低", "error", {persistent: true, opacity: 0});
+                            break;
                         }
+                        if(d2!=d){
+                            zk=false;
+                            f=true;
+                            break;
+                        }
+
+
                     }
-                    if(!f) {
-                        loading('正在提交，请稍等...');
-                        form.submit();
+                    if(!zk){
+                        top.$.jBox.confirm("折扣不一致,是否继续",'系统提示',function(v,h,a){
+                            if(v=='ok'){
+                                f=false;
+                                loading('正在提交，请稍等...');
+                                form.submit();
+                            }
+                            return true;
+                        } );
+                    }
+                    else{
+                        if(!f){
+                            loading('正在提交，请稍等...');
+                            form.submit();
+                        }
                     }
                 },
                 errorContainer: "#messageBox",
