@@ -266,6 +266,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">品牌：</label>
+			<div class="controls">
+				<form:select path="brand.id" items="${brands}" itemLabel="name" itemValue="id" cssClass="input-xlarge required" />
+
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
@@ -278,6 +285,20 @@
 				<button type="button" onclick="check()">检查货号</button>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">上架状态：</label>
+			<div class="controls">
+				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+			</div>
+		</div>
+		<shiro:hasPermission name="goods:goods:pass">
+			<div class="control-group">
+				<label class="control-label">审核状态：</label>
+				<div class="controls">
+					<form:radiobuttons path="pass" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+				</div>
+			</div>
+		</shiro:hasPermission>
 		<div class="control-group">
 			<label class="control-label">主图：</label>
 			<div class="controls">
@@ -313,19 +334,8 @@
 				<form:input path="price" htmlEscape="false" class="input-xlarge "/>
 			</div>
 		</div>--%>
-		<div class="control-group">
-			<label class="control-label">品牌：</label>
-			<div class="controls">
-            <form:select path="brand.id" items="${brands}" itemLabel="name" itemValue="id" cssClass="input-xlarge required" />
 
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">上架状态：</label>
-			<div class="controls">
-				<form:radiobuttons path="state" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-			</div>
-		</div>
+
 
 
 		<div class="control-group">
@@ -355,21 +365,13 @@
 			<div class="controls">
 				<input id="gg1" class="input-xlarge " type="text">以英文逗号隔开(红色,黑色,白色)
 			</div>
-		</div>
-		<div class="control-group">
+
 			<label class="control-label">规格2：</label>
 			<div class="controls">
 				<input id="gg2" class="input-xlarge " type="text">以英文逗号隔开(S,M,L)<input   class="btn btn-primary" type="button" value="生成sku" onclick="generateSku()">
 			</div>
 		</div>
-        <shiro:hasPermission name="goods:goods:pass">
-            <div class="control-group">
-                <label class="control-label">审核状态：</label>
-                <div class="controls">
-                    <form:radiobuttons path="pass" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
-                </div>
-            </div>
-        </shiro:hasPermission>
+
         <shiro:lacksPermission name="goods:goods:pass">
             <div class="control-group">
                 <label class="control-label">审核状态：</label>
@@ -386,16 +388,16 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
-								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-small "/></th>
-								<th>本店售价<input id="prices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-								<th>市场价<input id="marketprices"   class="input-small valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+								<th><form:input path="spec1" htmlEscape="false" maxlength="20" class="input-mini "/></th>
+								<th><form:input path="spec2" htmlEscape="false" maxlength="20" class="input-mini"/></th>
+								<th>本店售价<input id="prices"   class="input-mini valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="价格" onclick="generatePrice()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+								<th>市场价<input id="marketprices"   class="input-mini valid" type="text" value="" maxlength="20"> <input id="btnPrice" class="btn btn-primary" type="button" value="市场价" onclick="generatemarketprices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
 								<shiro:hasPermission name="goods:goods:settlement">
-								<th>结算价<input id="settlementPrices"   class="input-small valid" type="text" value=""  > <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
-                                 <th>折扣<input id="discount1"   class="input-small valid" type="text" value="" maxlength="20"> <input   class="btn btn-primary" type="button" value="折扣" onclick="generatediscount()"> </th>
-                                  <th>结算折扣<input id="settlementDiscount1"   class="input-small valid" type="text" value="" maxlength="20"><input  class="btn btn-primary" type="button" value="结算折扣" onclick="generatesettlementDiscount()"> </th>
+								<th>结算价<input id="settlementPrices"   class="input-mini valid" type="text" value=""  > <input id="btnPrice" class="btn btn-primary" type="button" value="结算价" onclick="generatesettlementPrices()">  <%--<form:input path="prices" htmlEscape="false" maxlength="5" class="input-small "/> --%></th>
+                                 <th>折扣<input id="discount1"   class="input-min valid" type="text" value="" maxlength="20"> <input   class="btn btn-primary" type="button" value="折扣" onclick="generatediscount()"> </th>
+                                  <th>结算折扣<input id="settlementDiscount1"   class="input-min valid" type="text" value="" maxlength="20"><input  class="btn btn-primary" type="button" value="折扣" onclick="generatesettlementDiscount()"> </th>
 								</shiro:hasPermission>
-								<th>库存<input id="stocks" name="stocks" class="input-small valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
+								<th>库存<input id="stocks" name="stocks" class="input-min valid" type="text" value="" maxlength="20"> <input id="btnStock" class="btn btn-primary" type="button" value="库存" onclick="generatestocks()"> </th>
 								<shiro:hasPermission name="goods:goods:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
@@ -412,32 +414,32 @@
 								<input id="goodsSkuList{{idx}}_delFlag" name="goodsSkuList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_spec1" name="goodsSkuList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_spec1" name="goodsSkuList[{{idx}}].spec1" type="text" value="{{row.spec1}}" maxlength="20" class="input-mini required"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-small"/>
+								<input id="goodsSkuList{{idx}}_spec2" name="goodsSkuList[{{idx}}].spec2" type="text" value="{{row.spec2}}" maxlength="20" class="input-mini"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}"  onchange="changePrice({{idx}})" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_price" name="goodsSkuList[{{idx}}].price" type="text" value="{{row.price}}"  onchange="changePrice({{idx}})" class="input-mini required"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_marketPrice" name="goodsSkuList[{{idx}}].marketPrice" type="text" value="{{row.marketPrice}}" class="input-mini required"/>
 							</td>
 							<shiro:hasPermission name="goods:goods:settlement">
 							<td>
-								<input id="goodsSkuList{{idx}}_settlementPrice" name="goodsSkuList[{{idx}}].settlementPrice" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementPrice}}" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_settlementPrice" name="goodsSkuList[{{idx}}].settlementPrice" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementPrice}}" class="input-mini required"/>
 							</td>
 
 							<td>
-								<input id="goodsSkuList{{idx}}_discount" name="goodsSkuList[{{idx}}].discount" type="text" value="{{row.discount}}" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_discount" name="goodsSkuList[{{idx}}].discount" type="text" value="{{row.discount}}" class="input-mini required"/>
 							</td>
 							<td>
-								<input id="goodsSkuList{{idx}}_settlementDiscount" name="goodsSkuList[{{idx}}].settlementDiscount" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementDiscount}}" class="input-small" readonly />
+								<input id="goodsSkuList{{idx}}_settlementDiscount" name="goodsSkuList[{{idx}}].settlementDiscount" onchange="changeSettlementPrice({{idx}})" type="text" value="{{row.settlementDiscount}}" class="input-mini" readonly />
 							</td>
 							</shiro:hasPermission>
 
 							<td>
-								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-small required"/>
+								<input id="goodsSkuList{{idx}}_stock" name="goodsSkuList[{{idx}}].stock" type="text" value="{{row.stock}}" maxlength="11" class="input-mini required"/>
 							</td>
 							<shiro:hasPermission name="goods:goods:edit"><td class="text-center" width="10">
 								{{#delBtn}}<span class="close" onclick="delRow(this, '#goodsSkuList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
