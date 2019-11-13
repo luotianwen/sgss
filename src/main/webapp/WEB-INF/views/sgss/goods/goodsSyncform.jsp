@@ -217,7 +217,10 @@
             }
 
         }
+        function opentm(articleno){
+            window.open("http://www.tianmasport.com/ms/order/quickOrder.shtml?articleno="+articleno,'tmopen');
 
+        }
 
     </script>
 </head>
@@ -299,6 +302,7 @@
         <label class="control-label">货号：</label>
         <div class="controls">
             <form:input path="artno" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
+            <a style="cursor: pointer" onclick="opentm('${goods.artno}')">查询价格</a>
         </div>
     </div>
     <div class="control-group">
