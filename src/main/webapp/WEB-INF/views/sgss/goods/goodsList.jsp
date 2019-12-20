@@ -157,6 +157,9 @@
 			$("#searchForm").submit();
         	return false;
         }
+        function pagesize(a) {
+            $("#pageSize").val(a);
+        }
 	</script>
 </head>
 <body>
@@ -235,7 +238,15 @@
 					   value="<fmt:formatDate value="${goods.endCreateDate}" pattern="yyyy-MM-dd"/>"
 					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</li>
+			<li><label>每页条数：</label>
+				<form:select path="page.pageSize" class="input-medium" onchange="pagesize(this.value)">
+					<form:option value="10" label="10"/>
+					<form:option value="20" label="20"/>
+					<form:option value="30" label="30"/>
+					<form:option value="50" label="50"/>
 
+				</form:select>
+			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 			</li>
 
