@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.goods.dao.SdgDao">
+    
+	<sql id="sdgColumns">
+		a.id AS "id",
+		a.artno AS "artno",
+		a.price AS "price",
+		a.discount AS "discount"
+	</sql>
+	
+	<sql id="sdgJoins">
+	</sql>
+    
+	<select id="get" resultType="Sdg">
+		SELECT 
+			<include refid="sdgColumns"/>
+		FROM s_d_g a
+		<include refid="sdgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Sdg">
+		SELECT 
+			<include refid="sdgColumns"/>
+		FROM s_d_g a
+		<include refid="sdgJoins"/>
+		<where>
+			
+			<if test="artno != null and artno != ''">
+				AND a.artno = #{artno}
+			</if>
+			<if test="beginDiscount != null and endDiscount != null and beginDiscount != '' and endDiscount != ''">
+				AND a.discount BETWEEN #{beginDiscount} AND #{endDiscount}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Sdg">
+		SELECT 
+			<include refid="sdgColumns"/>
+		FROM s_d_g a
+		<include refid="sdgJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_d_g(
+			id,
+			artno,
+			discount
+		) VALUES (
+			#{id},
+			#{artno},
+			#{discount}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE s_d_g SET 	
+			artno = #{artno},
+			discount = #{discount}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_d_g
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
