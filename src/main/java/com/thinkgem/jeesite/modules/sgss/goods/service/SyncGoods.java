@@ -102,9 +102,46 @@ public class SyncGoods {
        }
        return output;
    }
-   public  void saveSku() throws Exception {
+
+    public SyncGoods CommitGoods(){
+        if(StringUtils.isEmpty(goodId)){
+            return this;
+        }
+        HttpPost loginHttpPost = new HttpPost(SaveGood_URL);
+        loginHttpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
+        loginHttpPost.setHeader("Accept-Encoding", "gzip, deflate");
+        loginHttpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+        loginHttpPost.setHeader("Cache-Control", "max-age=0");
+        loginHttpPost.setHeader("Connection", "keep-alive");
+        loginHttpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        loginHttpPost.setHeader("Host", "m.p-ubit.com");
+        loginHttpPost.setHeader("Origin", "http://m.p-ubit.com");
+        loginHttpPost.setHeader("Upgrade-Insecure-Requests", "1");
+        //loginHttpPost.setHeader("Cookie",acookie.getName()+"="+acookie.getValue());
+        loginHttpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36");
+        List<NameValuePair> loginParams = new ArrayList<NameValuePair>();
+
+        loginParams.add(new BasicNameValuePair("goodsid", goodId));
+        loginParams.add(new BasicNameValuePair("status", "0"));
+        loginParams.add(new BasicNameValuePair("tostatus", "1"));
+        loginParams.add(new BasicNameValuePair("paramType", "AuditingGoods"));
+
+        CloseableHttpResponse loginResponse = null;
+        try {
+            loginHttpPost.setEntity(new UrlEncodedFormEntity(loginParams, "utf8"));
+            loginResponse = httpClient.execute(loginHttpPost);
+
+            HttpEntity entity = loginResponse.getEntity();
+
+            System.out.println(EntityUtils.toString(entity));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+return this;
+    }
+   public  SyncGoods saveSku() throws Exception {
       if(StringUtils.isEmpty(goodId)){
-          return ;
+          return this;
       }
        HttpPost loginHttpPost=new HttpPost(SaveGoodSKU_URL);
        loginHttpPost.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3");
@@ -138,8 +175,9 @@ public class SyncGoods {
                }
                jo.put("F_SPECIFICATION3", "");
                jo.put("F_ORIGINALPRICE", goodsSku.getMarketPrice());
+               jo.put("F_PRESENTPRICE", goodsSku.getPrice());
                jo.put("F_SUPPLIERPRICE", goodsSku.getPrice());
-               jo.put("F_INTEGRALPRICE",goodsSku.getMarketPrice());
+              /* jo.put("F_INTEGRALPRICE",goodsSku.getMarketPrice());*/
                jo.put("F_STOCK",goodsSku.getStock());
                jo.put("F_SORT", "1");
                jsonArray.put(jo);
@@ -163,7 +201,7 @@ public class SyncGoods {
            HttpEntity entity = loginResponse.getEntity();
 
            System.out.println(EntityUtils.toString(entity));
-
+return this;
    }
 
 

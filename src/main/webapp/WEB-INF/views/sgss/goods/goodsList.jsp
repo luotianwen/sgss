@@ -365,9 +365,9 @@
 					 <a href="${ctx}/goods/goods/copy?id=${goods.id}" onclick="return confirmx('确认要复制该商品管理吗？', this.href)">复制</a>
 					<%--<a href="${ctx}/tuan/dlGoodsTuan/copyForm?goodsId=${goods.id}" onclick="return confirmx('确认要团购吗？', this.href)">团购</a>--%>
 					<shiro:hasPermission name="goods:goods:pass">
-						<c:if test="${goods.sync==0}">
-							<a href="${ctx}/goods/goods/syncform?id=${goods.id}">同步动力</a>
-						</c:if>
+						<%--<c:if test="${goods.sync==0}">--%>
+							<a href="${ctx}/goods/goods/syncform?id=${goods.id}" target="_blank">同步动力</a>
+						<%--</c:if>--%>
 
 					<%--	<c:if test="${goods.syncby==0}">
 							<a href="${ctx}/goods/goods/syncbyform?id=${goods.id}">同步北移</a>

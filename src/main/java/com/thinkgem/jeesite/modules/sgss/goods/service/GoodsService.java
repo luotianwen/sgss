@@ -240,7 +240,7 @@ public class GoodsService extends CrudService<GoodsDao, Goods> {
 	@Transactional(readOnly = false)
 	public void saveSync(Goods goods) throws Exception {
 		SyncGoods sy=new SyncGoods(goods,"1");
-		 sy.login().saveGoods().saveSku();
+		 sy.login().saveGoods().saveSku().CommitGoods();
 		goods.setSync("1");
 		dao.saveSync(goods);
 	}

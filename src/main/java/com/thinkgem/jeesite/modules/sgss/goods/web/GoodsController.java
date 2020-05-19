@@ -155,7 +155,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(value = "syncform")
 	public String syncform(Goods goods, Model model,HttpSession session) throws Exception {
 		SyncGoods sy=new SyncGoods(goods,"1");
-		sy.login().queryGoodsByno(goods.getArtno());
+		//sy.login().queryGoodsByno(goods.getArtno());
 		String www="http://image.yoyound.com";
 		Document containerDoc = Jsoup.parse(goods.getDetail().getDetails());
 		Elements e=containerDoc.select("img");
