@@ -44,10 +44,9 @@
 		
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
-		<mssql.driver.version>1.3.1</mssql.driver.version>
-	    
+
 		<!-- environment setting -->
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
 		<jetty.version>7.6.14.v20131031</jetty.version>
 		<webserver.port>8181</webserver.port>
@@ -219,12 +218,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
 		</dependency>-->
-		<dependency>
-			<groupId>net.sourceforge.jtds</groupId>
-			<artifactId>jtds</artifactId>
-			<version>${mssql.driver.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+
 		<!-- PERSISTENCE end -->
 		
 		<!-- WEB begin -->
@@ -480,7 +474,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20160212</version>
+			<version>20200518</version>
 		</dependency>
 		<!-- fastjson json
 		<dependency>
@@ -635,16 +629,5 @@
 
 	
 
-	
-	<!-- 开发者信息 -->
-	<developers>  
-		<developer>
-			<id>sgss</id>
-			<name>martins</name>
-			<email>luotianwen456123 at 163.com</email>
-			<roles><role>Project lead</role></roles>
-			<timezone>+8</timezone>
-		</developer>
-	</developers>
 	
 </project>

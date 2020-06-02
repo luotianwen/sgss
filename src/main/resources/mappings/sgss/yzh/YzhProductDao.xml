@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sgss.yzh.dao.YzhProductDao">
+    
+	<sql id="yzhProductColumns">
+		a.sync,
+		a.id AS "id",
+		a.productid AS "productid",
+		a.name AS "name",
+		a.thumbnailimage AS "thumbnailimage",
+		a.brand AS "brand",
+		a.productcate AS "productcate",
+		a.productcode AS "productcode",
+		a.status AS "status",
+		a.marketprice AS "marketprice",
+		a.retailprice AS "retailprice",
+		a.productplace AS "productplace",
+		a.features AS "features",
+		a.hot AS "hot",
+		a.createtime AS "createtime",
+		a.is7toreturn AS "is7toreturn",
+		a.tax AS "tax",
+		a.product_description AS "productDescription",
+		a.mobile_product_description AS "mobileProductDescription",
+		a.update_date AS "updateDate"
+	</sql>
+	
+	<sql id="yzhProductJoins">
+	</sql>
+    
+	<select id="get" resultType="YzhProduct">
+		SELECT 
+			<include refid="yzhProductColumns"/>
+		FROM s_yzh_product a
+		<include refid="yzhProductJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="YzhProduct">
+		SELECT 
+			<include refid="yzhProductColumns"/>
+		FROM s_yzh_product a
+		<include refid="yzhProductJoins"/>
+		<where>
+			
+			<if test="productid != null and productid != ''">
+				AND a.productid = #{productid}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="beginCreatetime != null and endCreatetime != null and beginCreatetime != '' and endCreatetime != ''">
+				AND a.createtime BETWEEN #{beginCreatetime} AND #{endCreatetime}
+			</if>
+			<if test="beginUpdateDate != null and endUpdateDate != null and beginUpdateDate != '' and endUpdateDate != ''">
+				AND a.update_date BETWEEN #{beginUpdateDate} AND #{endUpdateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="YzhProduct">
+		SELECT 
+			<include refid="yzhProductColumns"/>
+		FROM s_yzh_product a
+		<include refid="yzhProductJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO s_yzh_product(
+			id,
+			productid,
+			name,
+			thumbnailimage,
+			brand,
+			productcate,
+			productcode,
+			status,
+			marketprice,
+			retailprice,
+			productplace,
+			features,
+			hot,
+			createtime,
+			is7toreturn,
+			tax,
+			product_description,
+			mobile_product_description,
+			update_date
+		) VALUES (
+			#{id},
+			#{productid},
+			#{name},
+			#{thumbnailimage},
+			#{brand},
+			#{productcate},
+			#{productcode},
+			#{status},
+			#{marketprice},
+			#{retailprice},
+			#{productplace},
+			#{features},
+			#{hot},
+			#{createtime},
+			#{is7toreturn},
+			#{tax},
+			#{productDescription},
+			#{mobileProductDescription},
+			#{updateDate}
+		)
+	</insert>
+	<update id="saveSync">
+		UPDATE s_yzh_product SET
+			sync = #{sync}
+		WHERE id = #{id}
+	</update>
+	<update id="update">
+		UPDATE s_yzh_product SET 	
+			productid = #{productid},
+			name = #{name},
+			thumbnailimage = #{thumbnailimage},
+			brand = #{brand},
+			productcate = #{productcate},
+			productcode = #{productcode},
+			status = #{status},
+			marketprice = #{marketprice},
+			retailprice = #{retailprice},
+			productplace = #{productplace},
+			features = #{features},
+			hot = #{hot},
+			createtime = #{createtime},
+			is7toreturn = #{is7toreturn},
+			tax = #{tax},
+			product_description = #{productDescription},
+			mobile_product_description = #{mobileProductDescription},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM s_yzh_product
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

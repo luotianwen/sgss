@@ -234,7 +234,7 @@
     <li class="active">同步商品</li>
 </ul>
 <br/>
-<form:form id="inputForm" modelAttribute="goods" action="${ctx}/goods/goods/saveSync" method="post" class="form-horizontal">
+<form:form id="inputForm" modelAttribute="goods" action="${ctx}/yzh/yzhProduct/saveSync" method="post" class="form-horizontal">
     <form:hidden path="id"/>
     <sys:message content="${message}"/>
 
@@ -305,7 +305,6 @@
         <label class="control-label">货号：</label>
         <div class="controls">
             <form:input path="artno" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
-            <a style="cursor: pointer" onclick="opentm('${goods.artno}')">查询价格</a>
             <a style="cursor: pointer"  target="_blank" href="http://www.b1bj.com/s.aspx?key=${goods.artno}">比价网</a>
         </div>
     </div>
@@ -313,12 +312,7 @@
         <label class="control-label">主图：</label>
         <div class="controls">
             <form:textarea id="logo" path="logo" htmlEscape="false"  rows="2"  class="input-xxlarge required"/>
-            <c:if test="${fn:startsWith(goods.logo,'http')}">
-            <img src="${goods.logo}" width="60px">
-            </c:if>
-            <c:if test="${!fn:startsWith(goods.logo,'http')}">
-                <img src="http://op.yoyound.com${goods.logo}" width="60px">
-            </c:if>
+           <img src="${goods.logo}" width="60px">
         </div>
     </div>
 
@@ -344,14 +338,15 @@
         <label class="control-label">详情:</label>
         <div class="controls">
 
-            <form:textarea id="details" path="detail.details" htmlEscape="false"  rows="4"   cssStyle="width:55%;height:400px;" class="input-xxlarge required"/>
+            <form:textarea id="details" path="detail.details" htmlEscape="false"  rows="20"  cssStyle="width:55%;height:400px;"/>
             <sys:ueditor replace="details"   />
+           <%--  <input type="button"  onclick="addpic('details',1,'W',0,800)" class="btn " value="上传" />--%>
         </div>
     </div>
 
     <div class="form-actions">
-        <shiro:hasPermission name="goods:goods:edit"><input id="btnSubmit" class="btn btn-primary" type="submit"
-                                                            value="保 存"/>&nbsp;</shiro:hasPermission>
+        <input id="btnSubmit" class="btn btn-primary" type="submit"
+                                                            value="保 存"/>&nbsp;
         <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
     </div>
     <div class="control-group">

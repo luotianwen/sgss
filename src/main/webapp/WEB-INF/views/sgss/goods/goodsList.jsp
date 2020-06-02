@@ -315,7 +315,14 @@
 					${goods.artno}
 				</td>
 				<td>
-					<img src="http://image.yoyound.com/${goods.logo}" width="80px">
+
+					<c:if test="${fn:startsWith(goods.logo,'http')}">
+						<img src="${goods.logo}" width="60px">
+					</c:if>
+					<c:if test="${!fn:startsWith(goods.logo,'http')}">
+						<img src="http://image.yoyound.com${goods.logo}" width="60px">
+					</c:if>
+
 
 				</td>
 				<td>
@@ -354,9 +361,9 @@
 				<%--<td>
 					${goods.remarks}
 				</td>--%>
-				<td><shiro:hasPermission name="goods:goods:edit"><a href="${ctx}/goods/goods/form?id=${goods.id}">修改</a></shiro:hasPermission>
+				<td><shiro:hasPermission name="goods:goods:edit"><a href="${ctx}/goods/goods/form?id=${goods.id}" target="_blank">修改</a></shiro:hasPermission>
                     <shiro:hasPermission name="goods:goods:pass">
-						<a href="${ctx}/goods/goods/form?id=${goods.id}">审核</a>
+						<a href="${ctx}/goods/goods/form?id=${goods.id}" target="_blank">审核</a>
 						<a href="${ctx}/goods/goods/delete?id=${goods.id}" onclick="return confirmx('确认要删除该商品管理吗？', this.href)">删除</a>
 					</shiro:hasPermission>
 
